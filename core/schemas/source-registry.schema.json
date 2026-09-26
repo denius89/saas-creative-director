@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "source-registry.schema.json",
+  "title": "Source registry",
+  "type": "object",
+  "required": ["sources"],
+  "properties": {
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "title", "location", "authority", "captured_at"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^SRC-[0-9]{3,}$"},
+          "kind": {"enum": ["client_brief", "product", "customer", "case_study", "competitor", "reference", "interview", "analytics", "other"]},
+          "title": {"type": "string"},
+          "location": {"type": "string"},
+          "authority": {"enum": ["primary", "secondary", "observational"]},
+          "captured_at": {"type": "string"},
+          "notes": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

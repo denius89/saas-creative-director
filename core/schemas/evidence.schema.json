@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence.schema.json",
+  "title": "Evidence registry",
+  "type": "object",
+  "required": ["evidence"],
+  "properties": {
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim", "status", "source_ids", "reasoning"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^EV-[0-9]{3,}$"},
+          "claim": {"type": "string", "minLength": 1},
+          "status": {"enum": ["CONFIRMED", "SUPPORTED", "HYPOTHESIS"]},
+          "source_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "reasoning": {"type": "string"},
+          "limitations": {"type": "string"},
+          "usable_for": {"type": "array", "items": {"type": "string"}}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"status": {"const": "CONFIRMED"}}},
+            "then": {"properties": {"source_ids": {"minItems": 1}}}
+          }
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

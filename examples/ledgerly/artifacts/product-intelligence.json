@@ -1,0 +1,10 @@
+{
+  "category": {"name": "payout reconciliation software", "evidence_ids": ["EV-001"]},
+  "icp": [{"segment": "multi-channel finance operations", "buyer": "finance operations lead", "user": "accountant", "evidence_ids": ["EV-002"]}],
+  "jtbd": [{"statement": "Reconcile payouts with transactions while preserving visibility into exceptions.", "evidence_ids": ["EV-001", "EV-004"]}],
+  "pains": [{"statement": "Fragmented reconciliation may make exceptions hard to audit.", "status": "HYPOTHESIS", "evidence_ids": ["EV-004"]}],
+  "value": [{"statement": "One workflow brings matching and exceptions together.", "mechanism": "Import and reconciliation workflow", "evidence_ids": ["EV-001"]}],
+  "differentiators": [{"statement": "Potential emphasis on control and exception visibility.", "status": "SUPPORTED", "evidence_ids": ["EV-003"]}],
+  "video_moments": [{"rank": 1, "moment": "Many transaction rows converge, match, and leave a small exception queue.", "evidence_ids": ["EV-001"]}]
+}
+

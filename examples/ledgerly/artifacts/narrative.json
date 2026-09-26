@@ -1,0 +1,8 @@
+{
+  "recommended_direction": "A",
+  "directions": [
+    {"id": "A", "name": "Flow with control", "premise": "Automation is valuable when exceptions remain visible.", "beats": ["inputs arrive", "matches resolve", "exceptions remain", "review completes"], "visual_narrative": "Rows converge through one persistent workspace.", "risk": "May feel technical without restrained pacing.", "evidence_ids": ["EV-001", "EV-003"], "reference_ids": ["REF-002"]},
+    {"id": "B", "name": "From scattered to settled", "premise": "A fragmented process becomes one understandable state.", "beats": ["sources split", "workspace forms", "status clarifies", "CTA"], "visual_narrative": "Separate panels assemble into one UI.", "risk": "Fragmentation pain remains a hypothesis.", "evidence_ids": ["EV-001", "EV-004"], "reference_ids": ["REF-001"]}
+  ]
+}
+

@@ -1,0 +1,9 @@
+{
+  "evidence": [
+    {"id": "EV-001", "claim": "Ledgerly imports payout and transaction data into one reconciliation workflow.", "status": "CONFIRMED", "source_ids": ["SRC-001", "SRC-002"], "reasoning": "Shown in the supplied product walkthrough.", "limitations": "Synthetic fixture.", "usable_for": ["product", "script", "storyboard"]},
+    {"id": "EV-002", "claim": "The intended buyer is a finance operations lead at a multi-channel business.", "status": "CONFIRMED", "source_ids": ["SRC-001"], "reasoning": "Named by the fictional brief.", "limitations": "No interview validation in the example.", "usable_for": ["audience", "strategy"]},
+    {"id": "EV-003", "claim": "The category commonly emphasizes automation, leaving control and exception visibility as a possible narrative gap.", "status": "SUPPORTED", "source_ids": ["SRC-003"], "reasoning": "Repeated in the anonymized category sample.", "limitations": "A real project needs a broader competitor sample.", "usable_for": ["competitors", "strategy"]},
+    {"id": "EV-004", "claim": "Finance teams may experience reconciliation as fragmented and difficult to audit.", "status": "HYPOTHESIS", "source_ids": ["SRC-001"], "reasoning": "Inferred from the workflow and must be validated with users.", "limitations": "Do not state as customer fact.", "usable_for": ["open_question", "direction"]}
+  ]
+}
+

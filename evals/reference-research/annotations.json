@@ -1,0 +1,92 @@
+{
+  "schema_version": "0.5",
+  "annotation_policy": "Provisional human labels from canonical portfolio metadata and visible browser frames. They test disciplined uncertainty: fields that require full playback stay unknown. Promote to gold only after two reviewers inspect the complete video and timestamp disagreements.",
+  "annotations": [
+    {
+      "id": "BENCH-ANY-001", "industry": "AI software", "project_video_type": "feature launch",
+      "narrative_structure": ["feature context", "capability reveal", "product examples", "launch close"],
+      "composition_patterns": ["product-first showcase"], "hierarchy_focal_point": "new design capability",
+      "ui_usage": "Expected central product evidence; full playback verification required", "illustration_usage": "unknown",
+      "motion_patterns": ["unknown — do not infer from portfolio still"], "transition_patterns": ["unknown"], "pacing": "unknown", "text_density": "unknown",
+      "strengths": ["Portfolio framing ties the work to one named product update"], "weaknesses": ["Scene mechanics are not exposed by portfolio metadata"],
+      "reusable_visual_principles": ["Anchor a feature launch around the changed capability rather than a general brand overview"],
+      "risks_non_copy": ["Do not reuse Lovable's interface, brand language, colors, or launch sequence"],
+      "inspection": {"status": "provisional", "method": "page_metadata", "inspected_at": "2026-09-26", "confidence": "low", "gold": false}
+    },
+    {
+      "id": "BENCH-ANY-002", "industry": "AI software", "project_video_type": "rebrand/product launch",
+      "narrative_structure": ["identity shift", "major update framing", "product/brand reveal"],
+      "composition_patterns": ["brand-to-product bridge"], "hierarchy_focal_point": "version and identity change",
+      "ui_usage": "unknown", "illustration_usage": "unknown", "motion_patterns": ["unknown"], "transition_patterns": ["unknown"], "pacing": "unknown", "text_density": "unknown",
+      "strengths": ["Clear single-event framing"], "weaknesses": ["Cannot separate brand craft from product explanation without playback"],
+      "reusable_visual_principles": ["When brand and product change together, make the relationship explicit rather than alternating unrelated brand and UI scenes"],
+      "risks_non_copy": ["Do not imitate the rebrand identity or reveal choreography"],
+      "inspection": {"status": "provisional", "method": "page_metadata", "inspected_at": "2026-09-26", "confidence": "low", "gold": false}
+    },
+    {
+      "id": "BENCH-TIM-001", "industry": "marketing analytics", "project_video_type": "SaaS promo",
+      "narrative_structure": ["analysis action", "pattern discovery", "result statement"],
+      "composition_patterns": ["single centered analysis result", "generous negative space"], "hierarchy_focal_point": "plain-language finding",
+      "ui_usage": "A visible inspected frame presents an assistant-style analysis result rather than a full dashboard", "illustration_usage": "minimal in inspected frame",
+      "motion_patterns": ["unknown — video playback unavailable in inspection"], "transition_patterns": ["unknown"], "pacing": "unknown", "text_density": "medium",
+      "strengths": ["Finding is readable as the focal point", "Negative space reduces competition"], "weaknesses": ["A single frame cannot establish the complete narrative"],
+      "reusable_visual_principles": ["For an analysis product, elevate the discovered finding above the surrounding interface chrome"],
+      "risks_non_copy": ["Do not copy typography, monochrome treatment, wording, or exact centered layout"],
+      "inspection": {"status": "provisional", "method": "browser_visual", "inspected_at": "2026-09-26", "confidence": "medium", "gold": false}
+    },
+    {
+      "id": "BENCH-TIM-002", "industry": "video AI", "project_video_type": "SaaS promo",
+      "narrative_structure": ["product capability framing", "workflow or output evidence", "promo close"],
+      "composition_patterns": ["unknown"], "hierarchy_focal_point": "video understanding capability",
+      "ui_usage": "unknown", "illustration_usage": "unknown", "motion_patterns": ["unknown"], "transition_patterns": ["unknown"], "pacing": "unknown", "text_density": "unknown",
+      "strengths": ["Candidate is relevant when explaining multimodal/video mechanisms"], "weaknesses": ["Only project title and type were available"],
+      "reusable_visual_principles": ["Select references by matching the mechanism to explain, not merely the AI category"],
+      "risks_non_copy": ["Do not treat a portfolio title as evidence of scene execution"],
+      "inspection": {"status": "provisional", "method": "browser_metadata", "inspected_at": "2026-09-26", "confidence": "low", "gold": false}
+    },
+    {
+      "id": "BENCH-FLA-001", "industry": "presentation software", "project_video_type": "38-second feature announcement",
+      "narrative_structure": ["feature announcement", "canvas editing", "reordering", "live drawing", "launch close"],
+      "composition_patterns": ["feature sequence around one product surface"], "hierarchy_focal_point": "editable presentation canvas",
+      "ui_usage": "Core evidence; portfolio copy names three visible product actions", "illustration_usage": "unknown",
+      "motion_patterns": ["UI state changes expected; full playback verification required"], "transition_patterns": ["likely action-to-action continuity; unverified"], "pacing": "short-form", "text_density": "unknown",
+      "strengths": ["Tight scope and declared duration", "Actions are concrete and demonstrable"], "weaknesses": ["Portfolio metadata does not reveal attention order"],
+      "reusable_visual_principles": ["In a short feature launch, group actions around one persistent product surface"],
+      "risks_non_copy": ["Do not copy Bolt's interface, wording, or feature order"],
+      "inspection": {"status": "provisional", "method": "page_metadata", "inspected_at": "2026-09-26", "confidence": "medium", "gold": false}
+    },
+    {
+      "id": "BENCH-FLA-002", "industry": "AI workflow automation", "project_video_type": "35-second product feature video",
+      "narrative_structure": ["creation", "customization", "deployment", "automation outcome"],
+      "composition_patterns": ["progressive workflow reveal"], "hierarchy_focal_point": "workflow moving from configuration to deployment",
+      "ui_usage": "Core workflow evidence", "illustration_usage": "unknown", "motion_patterns": ["stage progression; playback verification required"],
+      "transition_patterns": ["semantic step continuation; unverified"], "pacing": "compressed short-form", "text_density": "unknown",
+      "strengths": ["Portfolio description exposes a causal product sequence"], "weaknesses": ["Visual execution remains unverified"],
+      "reusable_visual_principles": ["Preserve the same workflow object across create, customize, and deploy states"],
+      "risks_non_copy": ["Do not reuse Bleu AI's node design, palette, or exact sequence"],
+      "inspection": {"status": "provisional", "method": "page_metadata", "inspected_at": "2026-09-26", "confidence": "medium", "gold": false}
+    },
+    {
+      "id": "BENCH-SKA-001", "industry": "work management / AI", "project_video_type": "AI feature launch",
+      "narrative_structure": ["named feature reveal", "product capability demonstration", "launch amplification"],
+      "composition_patterns": ["product-first launch"], "hierarchy_focal_point": "BrainMax feature",
+      "ui_usage": "Case study confirms storyboard in Figma and a feature-launch purpose; scene use requires playback", "illustration_usage": "unknown",
+      "motion_patterns": ["unknown"], "transition_patterns": ["unknown"], "pacing": "unknown", "text_density": "unknown",
+      "strengths": ["Feature and launch objective are explicit"], "weaknesses": ["Studio performance claims do not explain visual causality"],
+      "reusable_visual_principles": ["Keep launch success metrics separate from evidence that a visual mechanism communicates clearly"],
+      "risks_non_copy": ["Do not reuse ClickUp brand assets or treat claimed reach as transferable proof"],
+      "inspection": {"status": "provisional", "method": "case_study_metadata", "inspected_at": "2026-09-26", "confidence": "low", "gold": false}
+    },
+    {
+      "id": "BENCH-SKA-002", "industry": "AI design tools", "project_video_type": "startup launch video",
+      "narrative_structure": ["new-product introduction", "capability/experience reveal", "waitlist or launch response"],
+      "composition_patterns": ["social-first launch hook"], "hierarchy_focal_point": "new design tool promise",
+      "ui_usage": "unknown", "illustration_usage": "unknown", "motion_patterns": ["unknown"], "transition_patterns": ["unknown"], "pacing": "social launch; exact cadence unknown", "text_density": "unknown",
+      "strengths": ["Useful candidate for launch/distribution analysis"], "weaknesses": ["Case study emphasizes reach more than scene mechanics"],
+      "reusable_visual_principles": ["Evaluate the opening hook separately from the mechanism explanation and from distribution outcomes"],
+      "risks_non_copy": ["Do not copy the hook, identity, sequence, or use view counts as causal evidence"],
+      "inspection": {"status": "provisional", "method": "case_study_metadata", "inspected_at": "2026-09-26", "confidence": "low", "gold": false}
+    }
+  ]
+}
+

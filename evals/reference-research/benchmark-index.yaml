@@ -1,0 +1,29 @@
+schema_version: "0.5"
+updated_at: "2026-09-26"
+purpose: "24-work Tier A benchmark sample. Eight records have provisional manual labels in annotations.json; the rest form the review queue."
+works:
+  - {id: BENCH-ANY-001, studio: Anyway Studio, title: Lovable Aesthetic Design, url: "https://www.anywaystudio.com/works", declared_type: feature launch, review: annotated}
+  - {id: BENCH-ANY-002, studio: Anyway Studio, title: Lovable 2.0 Rebrand Video, url: "https://www.anywaystudio.com/works", declared_type: rebrand launch, review: annotated}
+  - {id: BENCH-ANY-003, studio: Anyway Studio, title: Lovable x Google, url: "https://www.anywaystudio.com/works", declared_type: integration feature launch, review: queued}
+  - {id: BENCH-ANY-004, studio: Anyway Studio, title: Synaps, url: "https://www.anywaystudio.com/works", declared_type: product launch, review: queued}
+  - {id: BENCH-ANY-005, studio: Anyway Studio, title: Lindy, url: "https://www.anywaystudio.com/works", declared_type: social product launch, review: queued}
+  - {id: BENCH-ANY-006, studio: Anyway Studio, title: incident.io, url: "https://www.anywaystudio.com/works", declared_type: feature launch, review: queued}
+  - {id: BENCH-TIM-001, studio: Timeframe, title: Jockey, url: "https://timeframe.myportfolio.com/jockey-saas-promo", declared_type: SaaS promo, review: annotated}
+  - {id: BENCH-TIM-002, studio: Timeframe, title: TwelveLabs, url: "https://timeframe.myportfolio.com/twelvelabs-saas-promo", declared_type: SaaS promo, review: annotated}
+  - {id: BENCH-TIM-003, studio: Timeframe, title: StaffToday.ai, url: "https://timeframe.myportfolio.com/stafftodayai-saas", declared_type: SaaS promo, review: queued}
+  - {id: BENCH-TIM-004, studio: Timeframe, title: MakeX, url: "https://timeframe.myportfolio.com/makex-saas-promo", declared_type: SaaS promo, review: queued}
+  - {id: BENCH-TIM-005, studio: Timeframe, title: Rodeo, url: "https://timeframe.myportfolio.com/rodeo-saas-promo", declared_type: SaaS explainer, review: queued}
+  - {id: BENCH-TIM-006, studio: Timeframe, title: MarvelX, url: "https://timeframe.myportfolio.com/marvelx-promo", declared_type: SaaS demo, review: queued}
+  - {id: BENCH-FLA-001, studio: Flash Motion, title: Bolt Slides V2 Launch, url: "https://flashmotion.io/portfolio", declared_type: feature announcement, review: annotated}
+  - {id: BENCH-FLA-002, studio: Flash Motion, title: Bleu AI — Create AI Workflows, url: "https://flashmotion.io/portfolio", declared_type: product video, review: annotated}
+  - {id: BENCH-FLA-003, studio: Flash Motion, title: NextSlide — AI Presentation Builder, url: "https://flashmotion.io/portfolio", declared_type: product video, review: queued}
+  - {id: BENCH-FLA-004, studio: Flash Motion, title: Code Sa — Automated QA, url: "https://flashmotion.io/portfolio", declared_type: explainer, review: queued}
+  - {id: BENCH-FLA-005, studio: Flash Motion, title: Cervo — AI for Customs Brokers, url: "https://flashmotion.io/portfolio", declared_type: explainer, review: queued}
+  - {id: BENCH-FLA-006, studio: Flash Motion, title: Secureframe — Compliance Automation, url: "https://flashmotion.io/portfolio", declared_type: launch animation, review: queued}
+  - {id: BENCH-SKA-001, studio: Skale, title: ClickUp BrainMax, url: "https://skale.solutions/case-study/clickup", declared_type: AI feature launch, review: annotated}
+  - {id: BENCH-SKA-002, studio: Skale, title: Wonder, url: "https://skale.solutions/case-study/wonder", declared_type: design-tool launch, review: annotated}
+  - {id: BENCH-SKA-003, studio: Skale, title: TypeSafe, url: "https://skale.solutions/portfolio", declared_type: launch video, review: queued}
+  - {id: BENCH-SKA-004, studio: Skale, title: Cognition — Devin Voice, url: "https://skale.solutions/portfolio", declared_type: feature launch, review: queued}
+  - {id: BENCH-SKA-005, studio: Skale, title: BrowserBase, url: "https://skale.solutions/portfolio", declared_type: founder/IRL brand video, review: queued}
+  - {id: BENCH-SKA-006, studio: Skale, title: Bolt.new, url: "https://skale.solutions/portfolio", declared_type: product launch, review: queued}
+

@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+dist/
+build/
+*.egg-info/
+.venv/
+.DS_Store
+AGENTS.md
+.scd/
+config/local.json
+overrides/*.md
+!overrides/README.md
+knowledge/custom/*
+!knowledge/custom/README.md
+
+# Client material and generated working data can be sensitive.
+projects/*/inputs/*
+!projects/*/inputs/.gitkeep
+projects/*/artifacts/*
+!projects/*/artifacts/.gitkeep

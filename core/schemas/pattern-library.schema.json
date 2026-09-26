@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "pattern-library.schema.json",
+  "title": "Reusable visual pattern library", "type": "object", "required": ["patterns"],
+  "properties": {"patterns": {"type": "array", "items": {"type": "object",
+    "required": ["id", "family", "name", "problem_solved", "mechanism", "when_to_use", "avoid_when", "source_reference_ids", "confidence", "non_copy_rule"],
+    "properties": {
+      "id": {"type": "string", "pattern": "^PAT-[A-Z]+-[0-9]{3,}$"},
+      "family": {"enum": ["composition", "narrative", "motion", "transition", "visual_mechanism"]},
+      "name": {"type": "string"}, "problem_solved": {"type": "string"}, "mechanism": {"type": "string"},
+      "when_to_use": {"type": "array", "items": {"type": "string"}}, "avoid_when": {"type": "array", "items": {"type": "string"}},
+      "source_reference_ids": {"type": "array", "items": {"type": "string"}},
+      "confidence": {"enum": ["benchmark", "supported", "experimental"]}, "non_copy_rule": {"type": "string"}
+    }, "additionalProperties": false}}}, "additionalProperties": false
+}

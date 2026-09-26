@@ -1,0 +1,10 @@
+{
+  "name": "SaaS Creative Director Importer",
+  "id": "saas-creative-director-importer-dev",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {"allowedDomains": ["none"]}
+}
+

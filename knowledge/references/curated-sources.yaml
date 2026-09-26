@@ -1,0 +1,32 @@
+schema_version: "0.5"
+updated_at: "2026-09-26"
+purpose: "Tier A seed library for SaaS and technology motion/video analysis; never the only research source."
+sources:
+  - id: CUR-A-ANYWAY
+    tier: A
+    name: Anyway Studio
+    url: https://www.anywaystudio.com/#our-works-section
+    portfolio_url: https://www.anywaystudio.com/works
+    focus: motion-led product launches, demos, explainers, ads, and onboarding for technology companies
+    access_notes: portfolio metadata is browser-readable; embedded video still requires scene inspection
+  - id: CUR-A-TIMEFRAME
+    tier: A
+    name: Timeframe
+    url: https://timeframe.myportfolio.com/
+    portfolio_url: https://timeframe.myportfolio.com/work
+    focus: SaaS promos, demos, explainers, crypto, showreels, and 3D work
+    access_notes: automated text fetch may return 403; use browser visual inspection and preserve page URLs
+  - id: CUR-A-FLASH
+    tier: A
+    name: Flash Motion
+    url: https://flashmotion.io/portfolio
+    portfolio_url: https://flashmotion.io/portfolio
+    focus: motion-led and founder-led SaaS, AI, and technology product videos
+    access_notes: portfolio provides type, industry, and duration metadata; inspect embedded video for pattern claims
+  - id: CUR-A-SKALE
+    tier: A
+    name: Skale
+    url: https://skale.solutions/portfolio
+    portfolio_url: https://skale.solutions/portfolio
+    focus: startup launch videos, product launches, founder/IRL concepts, and social distribution
+    access_notes: many case-study links lead to X; capture provenance and mark inaccessible scenes unknown

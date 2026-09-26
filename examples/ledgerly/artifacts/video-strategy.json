@@ -1,0 +1,11 @@
+{
+  "client_request": {"format": "90-second explainer", "duration_seconds": 90},
+  "recommendation": {
+    "id": "A", "format": "feature-led product demo", "objective": "Make reconciliation control immediately legible", "audience": "Warm finance-operations leads", "viewer_before": "Understands the category but not Ledgerly's mechanism", "viewer_after": "Can explain how imports become matched payouts and reviewable exceptions", "primary_message": "Automate the matching without losing sight of exceptions", "duration_seconds": {"min": 35, "max": 45}, "structure": ["fragmented inputs", "workflow reveal", "matching", "exception control", "outcome", "CTA"], "visual_strategy": "UI-first continuous data flow", "required_proof": ["Show the actual import and exception workflow"], "avoid": ["Unsupported time-saved claims", "Generic company history"], "success_criteria": ["Viewer can retell the mechanism after one viewing"], "evidence_ids": ["EV-001", "EV-002", "EV-003"]
+  },
+  "alternatives": [
+    {"id": "B", "format": "60-second hybrid explainer/demo", "objective": "Add category context before showing the workflow", "audience": "Colder finance audience", "viewer_before": "May not recognize the reconciliation problem", "viewer_after": "Understands the problem and Ledgerly mechanism", "primary_message": "Bring payout reconciliation into one visible workflow", "duration_seconds": {"min": 55, "max": 65}, "structure": ["context", "problem", "mechanism", "proof", "CTA"], "visual_strategy": "Conceptual opening into product UI", "required_proof": ["Product workflow"], "avoid": ["Presenting hypothesized pain as research fact"], "success_criteria": ["Category and mechanism both remain clear"], "evidence_ids": ["EV-001", "EV-004"]}
+  ],
+  "approval_prompt": "Approve A, choose B, or specify a correction before reference research."
+}
+

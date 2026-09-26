@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {"id": "SRC-001", "kind": "client_brief", "title": "Fictional Ledgerly brief", "location": "inputs/brief.md", "authority": "primary", "captured_at": "2026-09-26", "notes": "Synthetic fixture, not a real company"},
+    {"id": "SRC-002", "kind": "product", "title": "Fictional workflow walkthrough", "location": "inputs/workflow.md", "authority": "primary", "captured_at": "2026-09-26", "notes": "Synthetic fixture"},
+    {"id": "SRC-003", "kind": "competitor", "title": "Anonymized category observation", "location": "research://category-sample", "authority": "observational", "captured_at": "2026-09-26", "notes": "No real competitor claim"},
+    {"id": "SRC-004", "kind": "reference", "title": "Abstract flow reference", "location": "reference://flow", "authority": "observational", "captured_at": "2026-09-26", "notes": "Synthetic reference"}
+  ]
+}
+

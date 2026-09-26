@@ -1,0 +1,7 @@
+{
+  "competitors": [{"name": "Anonymized category set", "message": "Automation-first", "proof": "Product UI", "video_pattern": "Dashboard montage", "source_ids": ["SRC-003"]}],
+  "patterns": [{"observation": "Automation is common category language.", "evidence_ids": ["EV-003"]}],
+  "opportunity_gaps": [{"hypothesis": "Show control through visible exceptions rather than claim automation abstractly.", "status": "SUPPORTED", "evidence_ids": ["EV-003"]}],
+  "non_copy_constraints": ["Do not reuse a competitor's wording, identity, or shot design."]
+}
+

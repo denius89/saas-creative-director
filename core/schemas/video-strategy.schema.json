@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video-strategy.schema.json",
+  "title": "SaaS video strategy",
+  "type": "object",
+  "required": ["client_request", "recommendation", "alternatives", "approval_prompt"],
+  "properties": {
+    "client_request": {"type": "object"},
+    "recommendation": {"$ref": "#/$defs/option"},
+    "alternatives": {"type": "array", "items": {"$ref": "#/$defs/option"}, "minItems": 1, "maxItems": 2},
+    "approval_prompt": {"type": "string"}
+  },
+  "$defs": {
+    "option": {
+      "type": "object",
+      "required": ["id", "format", "objective", "audience", "viewer_before", "viewer_after", "primary_message", "duration_seconds", "structure", "visual_strategy", "required_proof", "avoid", "success_criteria", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string"},
+        "format": {"type": "string"},
+        "objective": {"type": "string"},
+        "audience": {"type": "string"},
+        "viewer_before": {"type": "string"},
+        "viewer_after": {"type": "string"},
+        "primary_message": {"type": "string"},
+        "duration_seconds": {"type": "object", "required": ["min", "max"]},
+        "structure": {"type": "array", "items": {"type": "string"}},
+        "visual_strategy": {"type": "string"},
+        "required_proof": {"type": "array", "items": {"type": "string"}},
+        "avoid": {"type": "array", "items": {"type": "string"}},
+        "success_criteria": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

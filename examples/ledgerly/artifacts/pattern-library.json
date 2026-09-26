@@ -1,0 +1,5 @@
+{
+  "patterns": [
+    {"id": "PAT-COMP-001", "family": "composition", "name": "Persistent cause/result", "problem_solved": "Connect an input to the exception it creates.", "mechanism": "Keep input and result regions visible during the state change.", "when_to_use": ["matching", "routing", "reconciliation"], "avoid_when": ["too many branches make one frame unreadable"], "source_reference_ids": ["REF-002"], "confidence": "experimental", "non_copy_rule": "Use the relationship, not the source layout or style."}
+  ]
+}

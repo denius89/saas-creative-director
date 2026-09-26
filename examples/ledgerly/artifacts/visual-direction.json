@@ -1,0 +1,9 @@
+{
+  "visual_grammar": {"objects": ["transaction row", "source badge", "match state", "exception flag", "product panel"], "ui_treatment": "neutral structural wireframe", "metaphor_boundary": "data flow only"},
+  "composition_grammar": ["C01 multi-source", "C02 horizontal-flow", "C03 hero-ui", "C04 result-lockup"],
+  "motion_grammar": ["object continuation", "state change", "persistent exception"],
+  "tokens": {"frame": {"width": 1920, "height": 1080}, "grid_columns": 12, "spacing": 8, "palette": "neutral-wireframe"},
+  "locked": ["message hierarchy", "attention order", "product mechanism"],
+  "creative_freedom": ["palette", "shape language", "texture", "lighting", "illustration detail"]
+}
+
