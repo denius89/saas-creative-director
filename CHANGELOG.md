@@ -23,5 +23,5 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 - V0.4: visual grammar, storyboard composition, and Figma scaffold.
 - V0.5: production review, evals, example, onboarding, and lifecycle management.
 
-[Unreleased]: https://github.com/OWNER/REPOSITORY/compare/v0.5.0...HEAD
-[0.5.0]: https://github.com/OWNER/REPOSITORY/releases/tag/v0.5.0
+[Unreleased]: https://github.com/denius89/saas-creative-director/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/denius89/saas-creative-director/releases/tag/v0.5.0

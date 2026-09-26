@@ -5,7 +5,7 @@ SaaS Creative Director is a versioned pre-production workspace, not a prompt bun
 ## Install
 
 ```bash
-git clone <your-github-repository-url> saas-creative-director
+git clone https://github.com/denius89/saas-creative-director.git
 cd saas-creative-director
 ./scd install
 ```
@@ -31,4 +31,3 @@ Put the client brief, screenshots, exports, and notes into `projects/acme/inputs
 An update replaces only the allowlisted product files. It does not replace `config/`, `overrides/`, `knowledge/custom/`, or `projects/`. A backup is created before every update and rollback.
 
 Read [`docs/INSTALLATION.md`](docs/INSTALLATION.md) for first setup and [`docs/UPGRADING.md`](docs/UPGRADING.md) before changing major versions.
-

@@ -11,7 +11,7 @@
 ## Recommended installation
 
 ```bash
-git clone <repository-url> saas-creative-director
+git clone https://github.com/denius89/saas-creative-director.git
 cd saas-creative-director
 ./scd install
 ```
