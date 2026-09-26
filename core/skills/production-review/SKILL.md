@@ -5,7 +5,7 @@ description: Review evidence, strategy alignment, narrative continuity, storyboa
 
 # Production review
 
-Run `scd validate <project>` and use `evals/rubric.md`. Inspect the actual Figma frames when available. Create `reviews/production-review.md` with blocking issues, important issues, optional polish, and a pass/fail per rubric dimension.
+Validate the project against core schemas and use `evals/rubric.md`; run the CLI validator only when already available. Inspect the actual Figma frames when available. Create `reviews/production-review.md` with blocking issues, important issues, optional polish, and a pass/fail per rubric dimension.
 
 Reject the handoff if any external claim lacks evidence, hypotheses read as facts, frame timing disagrees with the storyboard, important layers are flattened/uneditable, or the illustrator cannot distinguish locked decisions from creative freedom.
 

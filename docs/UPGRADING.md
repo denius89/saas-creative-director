@@ -1,5 +1,7 @@
 # Upgrading and rollback
 
+For a plain-language Russian workflow, see [`docs/ru/UPDATING.md`](ru/UPDATING.md). The commands below are the maintainer interface used by Claude when requested.
+
 ## Normal update
 
 ```bash
@@ -47,4 +49,3 @@ Rollback itself makes a backup of the current core first. It restores managed pr
 ## Failed health check
 
 Do not continue client work after a failed update. Run `./scd health-check` again, inspect the failed line, and either correct the environment or run `./scd rollback`. The updater never deletes its pre-update backup after failure.
-

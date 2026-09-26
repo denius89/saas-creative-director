@@ -42,6 +42,7 @@ def initialize_project(root: Path, name: str) -> None:
 
     project = {
         "schema_version": "0.5",
+        "language": "ru",
         "name": name,
         "created_at": utc_now(),
         "stage": "intake",

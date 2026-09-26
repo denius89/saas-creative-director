@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Iterable
 
 
-INSTALLER_VERSION = "0.5.0"
+INSTALLER_VERSION = "0.6.0"
 PROTECTED = ("config", "overrides", "knowledge/custom", "projects")
 MANAGED = (
     "core",
@@ -30,6 +30,7 @@ MANAGED = (
     "figma-plugin",
     "evals",
     "examples",
+    "INBOX",
     "knowledge/references",
     "knowledge/patterns",
     "pyproject.toml",

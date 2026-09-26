@@ -1,5 +1,7 @@
 # Installation
 
+This page is for the technical maintainer. A creative user should start with the Russian no-code guide in [`START_HERE.md`](../START_HERE.md); Python and Git are not required for that workflow.
+
 ## Requirements
 
 - macOS or Linux;

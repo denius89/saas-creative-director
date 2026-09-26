@@ -3,11 +3,15 @@ __pycache__/
 .pytest_cache/
 .coverage
 dist/
+!figma-plugin/dist/
+!figma-plugin/dist/code.js
 build/
 *.egg-info/
 .venv/
 .DS_Store
 AGENTS.md
+INBOX/*
+!INBOX/README.md
 .scd/
 config/local.json
 overrides/*.md

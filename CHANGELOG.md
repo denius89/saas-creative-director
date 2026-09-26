@@ -4,6 +4,21 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-09-26
+
+### Added
+
+- Russian-first, non-technical onboarding through `START_HERE.md` and a ready-to-send friend test guide.
+- A top-level Claude skill that starts and advances projects from plain-language requests.
+- `INBOX/` as the simple drop zone for client materials.
+- Prebuilt Figma plugin code and Russian import instructions; npm is no longer required for ordinary use.
+- Russian onboarding and updating documentation.
+
+### Changed
+
+- New projects default to Russian user-facing output.
+- CLI and Python remain available for maintainers, but are optional for the normal creative workflow.
+
 ## [0.5.0] - 2026-09-26
 
 ### Added
@@ -23,5 +38,6 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 - V0.4: visual grammar, storyboard composition, and Figma scaffold.
 - V0.5: production review, evals, example, onboarding, and lifecycle management.
 
-[Unreleased]: https://github.com/denius89/saas-creative-director/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/denius89/saas-creative-director/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/denius89/saas-creative-director/releases/tag/v0.6.0
 [0.5.0]: https://github.com/denius89/saas-creative-director/releases/tag/v0.5.0

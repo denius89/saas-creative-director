@@ -1,33 +1,39 @@
-# Start here
+# Начать здесь — без терминала и без Python
 
-SaaS Creative Director is a versioned pre-production workspace, not a prompt bundle. It researches and plans an evidence-backed SaaS video through editable Figma wireframes. It stops before final illustration, animation, and video generation.
+Для обычной работы ничего программировать и устанавливать через командную строку не нужно. Русский язык используется по умолчанию.
 
-## Install
+## Первый запуск
 
-```bash
-git clone https://github.com/denius89/saas-creative-director.git
-cd saas-creative-director
-./scd install
-```
+1. На странице GitHub нажмите **Code → Download ZIP**.
+2. Распакуйте архив в обычную папку.
+3. Откройте эту папку в Claude Code.
+4. Перетащите сайт, brief, PDF, скриншоты и заметки клиента в папку `INBOX`.
+5. Напишите Claude одну фразу:
 
-The installer checks Python and creates protected local areas. Then create a project:
+> Начни новый проект для «Название клиента». Материалы лежат в INBOX. Веди меня по шагам на русском языке.
 
-```bash
-./scd init projects/acme --name "Acme"
-```
+Claude сам:
 
-Put the client brief, screenshots, exports, and notes into `projects/acme/inputs/`. Open the repository in Claude Code and say:
+- проверит структуру проекта;
+- создаст рабочую папку клиента;
+- зарегистрирует источники и отделит факты от гипотез;
+- проведёт продуктовый и конкурентный анализ;
+- предложит video strategy и остановится для вашего решения;
+- после подтверждения подготовит references, creative directions, narrative и storyboard;
+- соберёт manifest для редактируемых Figma wireframes.
 
-> Start the SaaS Creative Director workflow for `projects/acme`. Run status, use the skill for the current stage, cite every strategic claim through the evidence registry, validate the artifacts, and stop at each approval gate.
+Вам нужно отвечать обычными фразами: «утверждаю стратегию», «выбираю направление B», «здесь слишком корпоративно», «продолжай».
 
-## Update and recover
+## Быстрый тест без клиентских материалов
 
-```bash
-./scd update
-./scd health-check
-./scd rollback
-```
+Откройте папку в Claude Code и напишите:
 
-An update replaces only the allowlisted product files. It does not replace `config/`, `overrides/`, `knowledge/custom/`, or `projects/`. A backup is created before every update and rollback.
+> Покажи мне готовый пример Ledgerly, объясни результат простыми словами и проведи health-check без установки дополнительных программ.
 
-Read [`docs/INSTALLATION.md`](docs/INSTALLATION.md) for first setup and [`docs/UPGRADING.md`](docs/UPGRADING.md) before changing major versions.
+## Figma
+
+Инструкция без сборки и npm находится в [`figma-plugin/README_RU.md`](figma-plugin/README_RU.md). Готовый файл плагина уже лежит в репозитории.
+
+## Для технического администратора
+
+CLI, automated tests, обновления и rollback описаны в [`docs/INSTALLATION.md`](docs/INSTALLATION.md). Они не нужны креативщику для первого теста.

@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 
 
-MANAGED = ("core", ".claude/skills", "CLAUDE.md", "README.md", "START_HERE.md", "CHANGELOG.md", "LICENSE", "docs", "figma-plugin", "evals", "examples", "knowledge/references", "knowledge/patterns", "pyproject.toml", "scd", "scripts/test.sh")
+MANAGED = ("core", ".claude/skills", "CLAUDE.md", "README.md", "START_HERE.md", "CHANGELOG.md", "LICENSE", "docs", "figma-plugin", "evals", "examples", "INBOX", "knowledge/references", "knowledge/patterns", "pyproject.toml", "scd", "scripts/test.sh")
 
 
 def digest(path: Path) -> str:

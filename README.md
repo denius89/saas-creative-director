@@ -1,34 +1,36 @@
-# SaaS Creative Director
+# SaaS Creative Director / Креативный директор для SaaS
 
-An evidence-backed creative pre-production system for SaaS video. It turns a client brief, product material, market research, and references into an approved strategy, narrative, storyboard, and editable Figma wireframe specification.
+Система креативного препродакшена для SaaS-видео с опорой на проверяемые источники. Она превращает бриф, материалы продукта, исследование рынка и референсы в согласованную стратегию, нарратив, storyboard и редактируемые wireframes в Figma.
+
+Русский — язык по умолчанию для общения и пользовательских материалов. Английская терминология сохранена там, где она привычна в индустрии.
 
 It deliberately does **not** generate a final video. The system removes repetitive research and production planning while leaving interpretation, taste, final illustration, and motion craft to people.
 
-## What ships in V0.5
+## Что входит в V0.6
 
 - one deterministic project orchestrator with three human approval gates;
 - a claim/evidence model that separates confirmed facts, supported interpretations, and hypotheses;
-- nine composable Claude Skills for intake through production review;
+- ten composable Claude Skills for intake through production review;
 - schemas and validation for every handoff;
 - competitor and reference intelligence structures;
 - strategy, narrative, visual direction, and storyboard contracts;
 - a Figma import manifest plus a small plugin scaffold for native, editable frames;
 - an end-to-end example, quality rubric, and automated tests.
+- русскоязычный сценарий запуска без Python, терминала, npm и ручного редактирования JSON;
+- готовый Figma-плагин, который не нужно собирать самостоятельно.
 
-## Quick start
+## Самый простой запуск
 
-Requires Python 3.11+. No runtime packages are required.
+Пользователю не нужны Python, терминал или программирование:
 
-```bash
-./scd install
-./scd init projects/my-client --name "My Client"
-./scd status projects/my-client
-./scd validate projects/my-client
-```
+1. Скачать репозиторий как ZIP.
+2. Открыть распакованную папку в Claude Code.
+3. Перетащить материалы клиента в `INBOX`.
+4. Написать: `Начни новый проект. Материалы в INBOX. Веди меня по шагам на русском языке.`
 
-Open the repository in Claude Code and use the prompt in [`docs/ONBOARDING.md`](docs/ONBOARDING.md). Claude reads [`CLAUDE.md`](CLAUDE.md) and loads only the skill needed for the current stage.
+Подробная нетехническая инструкция: [`START_HERE.md`](START_HERE.md). Готовый текст для знакомого: [`docs/QUICK_TEST_FOR_FRIEND.md`](docs/QUICK_TEST_FOR_FRIEND.md).
 
-To try the complete sample:
+Для разработчиков и автоматических проверок CLI остаётся доступным как необязательный слой:
 
 ```bash
 ./scd validate examples/ledgerly
