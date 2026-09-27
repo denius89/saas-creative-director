@@ -106,6 +106,8 @@ Figma output is an editable production wireframe, not final illustration or anim
 
 ## Documentation
 
+[Development roadmap: MVP and full launch](docs/DEVELOPMENT_ROADMAP.md) — proposed priorities, acceptance criteria, and a reusable implementation brief (Russian).
+
 | For creative teams | For technical review | For maintenance |
 |---|---|---|
 | [Start here](START_HERE.md) | [Architecture](docs/ARCHITECTURE.md) | [Installation](docs/INSTALLATION.md) |

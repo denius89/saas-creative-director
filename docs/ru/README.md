@@ -83,6 +83,7 @@ Python, терминал, npm и ручное редактирование JSON 
 
 ## Документация
 
+- [План развития: MVP, полный запуск и шаблон задания](../DEVELOPMENT_ROADMAP.md)
 - [Быстрый старт](../../START_HERE.md)
 - [Первый реальный проект](ONBOARDING.md)
 - [Пример Ledgerly](../../examples/ledgerly/README.md)
