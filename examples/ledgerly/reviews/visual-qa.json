@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "artifact_revision": "ledgerly-static-qa-1",
+  "inspector": {"kind": "mixed", "name": "Example fixture review"},
+  "status": "CONDITIONAL",
+  "correction_cycle": 0,
+  "reviewed_scene_ids": ["S01", "S02", "S03", "S04"],
+  "readback_revision": null,
+  "findings": [
+    {
+      "id": "VQA-001",
+      "scene_id": null,
+      "object_id": null,
+      "criterion": "Live Figma editability and idempotency",
+      "observed_evidence": "Compiler and plugin tests pass, but this repository fixture has not been imported into a live Figma canvas for this release.",
+      "severity": "important",
+      "suggested_repair": "Complete docs/FIGMA_LIVE_VERIFICATION.md before production acceptance.",
+      "status": "open"
+    }
+  ]
+}

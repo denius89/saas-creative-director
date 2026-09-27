@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "visual-qa.schema.json",
+  "title": "Localized visual QA report",
+  "type": "object",
+  "required": ["schema_version", "artifact_revision", "inspector", "status", "correction_cycle", "reviewed_scene_ids", "findings"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "artifact_revision": {"type": "string", "minLength": 1, "maxLength": 200},
+    "inspector": {"type": "object", "required": ["kind", "name"], "properties": {"kind": {"enum": ["human", "agent", "tool", "mixed"]}, "name": {"type": "string", "minLength": 1, "maxLength": 200}}, "additionalProperties": false},
+    "status": {"enum": ["PASS", "BLOCKED", "CONDITIONAL"]},
+    "correction_cycle": {"type": "integer", "minimum": 0, "maximum": 2},
+    "reviewed_scene_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^S[0-9]{2,}$"}},
+    "readback_revision": {"type": ["string", "null"], "maxLength": 200},
+    "findings": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "type": "object",
+        "required": ["id", "criterion", "observed_evidence", "severity", "suggested_repair", "status"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 200},
+          "scene_id": {"type": ["string", "null"], "pattern": "^S[0-9]{2,}$"},
+          "object_id": {"type": ["string", "null"], "maxLength": 200},
+          "criterion": {"type": "string", "minLength": 1, "maxLength": 500},
+          "observed_evidence": {"type": "string", "minLength": 1, "maxLength": 4000},
+          "severity": {"enum": ["blocker", "important", "polish"]},
+          "suggested_repair": {"type": "string", "minLength": 1, "maxLength": 4000},
+          "status": {"enum": ["open", "resolved", "accepted_exception"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -13,8 +13,8 @@
         "properties": {
           "id": {"type": "string", "pattern": "^SRC-[0-9]{3,}$"},
           "kind": {"enum": ["client_brief", "product", "customer", "case_study", "competitor", "reference", "interview", "analytics", "other"]},
-          "title": {"type": "string"},
-          "location": {"type": "string"},
+          "title": {"type": "string", "minLength": 1},
+          "location": {"type": "string", "minLength": 1, "description": "Resolvable URL or project-relative path; labels such as unknown are invalid."},
           "authority": {"enum": ["primary", "secondary", "observational"]},
           "captured_at": {"type": "string"},
           "notes": {"type": "string"}

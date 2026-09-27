@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "usage-event.schema.json",
+  "title": "Privacy-minimal usage event",
+  "type": "object",
+  "required": ["event_id", "project_id", "run_id", "stage", "event_kind", "billing_mode", "usage_source", "estimated", "input_tokens", "output_tokens", "cache_read_tokens", "cache_write_tokens", "tool_calls", "source_reads", "searches", "screenshots", "retries"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "project_id": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "stage": {"type": "string"},
+    "event_kind": {"enum": ["model_usage", "stage_boundary"]},
+    "scene_ids": {"type": "array", "items": {"type": "string"}},
+    "billing_mode": {"enum": ["subscription", "usage_credits", "api", "unknown"]},
+    "usage_source": {"enum": ["provider_reported", "host_reported", "user_reported", "estimated", "unknown"]},
+    "estimated": {"type": "boolean"},
+    "model": {"type": ["string", "null"]},
+    "started_at": {"type": ["string", "null"]},
+    "finished_at": {"type": ["string", "null"]},
+    "input_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "output_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "cache_read_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "cache_write_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "tool_calls": {"type": ["integer", "null"], "minimum": 0},
+    "source_reads": {"type": ["integer", "null"], "minimum": 0},
+    "searches": {"type": ["integer", "null"], "minimum": 0},
+    "screenshots": {"type": ["integer", "null"], "minimum": 0},
+    "retries": {"type": ["integer", "null"], "minimum": 0},
+    "cache_hits": {"type": ["integer", "null"], "minimum": 0},
+    "cache_misses": {"type": ["integer", "null"], "minimum": 0},
+    "elapsed_ms": {"type": ["integer", "null"], "minimum": 0},
+    "estimated_usd": {"type": ["number", "null"], "minimum": 0},
+    "price_snapshot_id": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"billing_mode": {"enum": ["subscription", "unknown"]}}},
+      "then": {"properties": {"estimated_usd": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"estimated_usd": {"type": "number"}}, "required": ["estimated_usd"]},
+      "then": {
+        "properties": {
+          "estimated": {"const": true},
+          "price_snapshot_id": {"type": "string", "minLength": 1}
+        },
+        "required": ["price_snapshot_id"]
+      }
+    }
+  ],
+  "additionalProperties": false
+}

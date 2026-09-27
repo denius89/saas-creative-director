@@ -1,0 +1,26 @@
+# Задание для Astra / Claude Code: Motion Intelligence MVP
+
+> Актуализация: порядок работ и первоначальный scope уточнены в [MASTER_PLAN.md](MASTER_PLAN.md). Для разработки использовать [START_DEVELOPMENT_5_6.md](START_DEVELOPMENT_5_6.md).
+Продолжи существующий SaaS Creative Director 0.6.0. Сначала прочитай `research/motion-intelligence-2026-09-27/PLAN.md` и `RESEARCH_FINDINGS.md`, затем актуальные AGENTS.md, CLAUDE.md и исходники. PLAN — окончательное проектное решение; отдельные исследовательские записки содержат предварительные варианты. Проверь, не изменился ли baseline после исследования.
+
+Цель: устранить разрыв между хорошим сценарием и качественным storyboard через scene-level evidence, motion direction, native composition и visual QA. Продукт заканчивается editable Figma pre-production + handoff. Не создавай final video renderer, постоянную multi-agent систему или обязательную vector database.
+
+Сначала выполни P0/P1: зафиксируй baseline, согласуй versioned storyboard/scene graph/manifest contracts и реализуй вертикальный срез из трёх отличающихся композиций с native UI/text, raster crop с честной маркировкой, состояниями и readback QA. Докажи, что паттерн не теряется при экспорте, длинный copy переносится корректно, повторный import не дублирует frames, ручная правка сохраняется. Не расширяй renderer на десятки паттернов до проверки этого среза.
+
+Затем реализуй этапы P2–P6 по PLAN:
+
+1. Один orchestrator; добавить `motion-design-director` и `visual-qa`. Scene retrieval — режим расширенного `creative-reference-research` плюс deterministic tool. Существующий `visual-direction` временно оставить совместимым alias. Обновить narrative/storyboard/production-review и `.claude/skills` adapters.
+2. Расширить существующие schemas до данных 0.7; добавить typed references/scenes/observations/patterns/anti-patterns/retrieval/direction/manifest/QA/knowledge lock/project contracts. Подключить реальную JSON Schema validation плюс проверку IDs, evidence, timing, continuity и stage prerequisites. Read adapter для 0.5; никакой автоматической выдуманной миграции motion evidence.
+3. Три revision-bound gates: strategy; narrative + direction + representative composition frames; verified Figma + handoff. Изменение зависимых artifacts инвалидирует соответствующие approvals, сохраняя историю. Нельзя self-approve за пользователя.
+4. Curate references от Anyway, Timeframe, Flash Motion, Skale и смежных источников. Цель: 16 просмотренных работ/48 scenes, 12 работ с подтверждённой датой 2025–2026, 16 scenes с независимой двойной разметкой; это release target, не разрешение выдумывать доступ или даты. Недоступное оставить metadata-only, scenes без temporal inspection не использовать как motion evidence.
+5. 12–16 абстрактных patterns, 10 conditional anti-patterns, 8 параметризованных Figma recipes. Сохранять product truth, source provenance и non-copy boundaries. Начать retrieval с tags/lexical search, top-3 с объяснением, rejection trace и abstention; новые infrastructure dependencies только после измеримого улучшения.
+6. Общий native scene graph → manifest → plugin/MCP adapters. Plugin — baseline; MCP только после capability check. Native text/frame/vector/component и raster assets различаются. Добавить asset/font preflight, ownership/revision reconciliation, screenshots и node readback. Не молча превращать неподдерживаемые объекты в прямоугольники.
+7. Core/config/overrides/custom knowledge/projects разделены. Managed knowledge versioned, projects pin snapshots. Обновления не меняют утверждённые проекты. Исправить lifecycle: mandatory manifest, compatibility preflight, recovery, removal старых managed files без затрагивания protected paths, rollback rehearsal. Синхронизировать installer/build allowlists.
+8. Evals: 24 briefs, 60 retrieval queries, failure fixtures, 12-brief × 3-reviewer blind pilot при равной fidelity; отдельно ablation renderer/retrieval/QA и пять production editing tasks. Не объявлять pilot статистическим доказательством. Automated tests не заменяют визуальную инспекцию и человека.
+9. Обновить документацию установки Claude Code, интеграции Figma, upgrade/rollback, compatibility, semver/changelog и migration 0.6→0.7; русский natural-language UX сохранить. Выпустить 0.7.0 только после приёмки.
+
+Работай небольшими reviewable изменениями. Не редактируй `sources/`, private projects, config, overrides или custom knowledge без необходимости/авторизации. Не публикуй чужие видео/кадры без права на распространение. Репозиторий может содержать актуализированные инструкции — соблюдай их.
+
+Definition of done: проходят existing + meaningful new tests; три recipes сначала и восемь к релизу видимо различаются; intent→Figma сохраняет семантику; нет критических evidence/editability ошибок; gates привязаны к revisions; обновление и rollback сохраняют protected hashes; human eval результаты записаны честно. Если нет доступа к Figma, видео или reviewers, заверши независимую инженерную часть, укажи точные непроверенные критерии и не называй релиз production-ready.
+
+В отчёте покажи изменения, проверенные результаты, actual screenshots/readback, отклонения от плана и остаточные ограничения. Не утверждай улучшение visual modernity до сравнения результатов.

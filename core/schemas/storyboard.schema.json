@@ -5,32 +5,134 @@
   "type": "object",
   "required": ["title", "total_duration_seconds", "scenes"],
   "properties": {
-    "title": {"type": "string"},
-    "total_duration_seconds": {"type": "number", "exclusiveMinimum": 0},
-    "scenes": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "required": ["id", "duration_seconds", "purpose", "message", "composition_pattern", "objects", "attention_sequence", "motion", "transition_out", "locked", "creative_freedom", "evidence_ids"],
-        "properties": {
-          "id": {"type": "string", "pattern": "^S[0-9]{2,}$"},
-          "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
-          "purpose": {"type": "string"},
-          "message": {"type": "string"},
-          "voiceover": {"type": "string"},
-          "on_screen_copy": {"type": "string"},
-          "composition_pattern": {"type": "string"},
-          "objects": {"type": "array", "items": {"type": "object"}},
-          "attention_sequence": {"type": "array", "items": {"type": "string"}},
-          "motion": {"type": "array", "items": {"type": "string"}},
-          "transition_out": {"type": "string"},
-          "locked": {"type": "array", "items": {"type": "string"}},
-          "creative_freedom": {"type": "array", "items": {"type": "string"}},
-          "reference_ids": {"type": "array", "items": {"type": "string"}},
-          "evidence_ids": {"type": "array", "items": {"type": "string"}}
-        }
+    "schema_version": {"enum": ["0.5", "1.0"]},
+    "revision": {"type": "string", "minLength": 1, "maxLength": 200},
+    "title": {"type": "string", "minLength": 1, "maxLength": 300},
+    "total_duration_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 3600},
+    "scenes": {"type": "array", "minItems": 1, "maxItems": 120, "items": {"$ref": "#/$defs/scene"}}
+  },
+  "allOf": [
+    {
+      "if": {"required": ["schema_version"], "properties": {"schema_version": {"const": "1.0"}}},
+      "then": {
+        "required": ["revision"],
+        "properties": {"scenes": {"items": {"$ref": "#/$defs/scene-v1"}}}
       }
+    }
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "bounds": {
+      "type": "object",
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": {"type": "number", "minimum": -8192, "maximum": 8192},
+        "y": {"type": "number", "minimum": -8192, "maximum": 8192},
+        "width": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192},
+        "height": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192}
+      },
+      "additionalProperties": false
+    },
+    "object": {
+      "type": "object",
+      "properties": {
+        "semantic_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$"},
+        "name": {"type": "string", "minLength": 1, "maxLength": 300},
+        "type": {"type": "string", "minLength": 1, "maxLength": 100},
+        "role": {"type": "string", "minLength": 1, "maxLength": 100},
+        "bounds": {"$ref": "#/$defs/bounds"},
+        "asset_id": {"type": ["string", "null"], "maxLength": 200},
+        "editable": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "state": {
+      "type": "object",
+      "required": ["id", "at_seconds", "object_ids", "description"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$"},
+        "at_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "object_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "description": {"type": "string", "minLength": 1, "maxLength": 2000}
+      },
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "required": ["id", "at_seconds", "type", "object_ids", "description"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$"},
+        "at_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "duration_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "type": {"enum": ["enter", "exit", "emphasize", "transform", "move", "hold", "state-change", "camera", "other"]},
+        "object_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "from_state_id": {"type": ["string", "null"]},
+        "to_state_id": {"type": ["string", "null"]},
+        "description": {"type": "string", "minLength": 1, "maxLength": 2000}
+      },
+      "additionalProperties": false
+    },
+    "anchor": {
+      "type": "object",
+      "required": ["id", "edge", "at_seconds"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$"},
+        "edge": {"enum": ["in", "out"]},
+        "at_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "object_id": {"type": ["string", "null"]},
+        "state_id": {"type": ["string", "null"]},
+        "carry_to_scene_id": {"type": ["string", "null"]},
+        "description": {"type": "string", "maxLength": 1000}
+      },
+      "additionalProperties": false
+    },
+    "scene": {
+      "type": "object",
+      "required": ["id", "duration_seconds", "purpose", "message", "composition_pattern", "objects", "attention_sequence", "motion", "transition_out", "locked", "creative_freedom", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^S[0-9]{2,}$"},
+        "semantic_id": {"type": "string", "pattern": "^scene/S[0-9]{2,}$"},
+        "revision": {"type": "string", "minLength": 1, "maxLength": 200},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 3600},
+        "purpose": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "message": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "voiceover": {"type": "string", "maxLength": 4000},
+        "on_screen_copy": {"type": "string", "maxLength": 4000},
+        "composition_pattern": {"type": "string", "minLength": 1, "maxLength": 300},
+        "pattern_version": {"type": "string", "minLength": 1, "maxLength": 100},
+        "recipe": {"type": "string", "minLength": 1, "maxLength": 100},
+        "recipe_version": {"type": "string", "minLength": 1, "maxLength": 100},
+        "objects": {"type": "array", "minItems": 1, "maxItems": 200, "items": {"$ref": "#/$defs/object"}},
+        "attention_sequence": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
+        "states": {"type": "array", "maxItems": 24, "items": {"$ref": "#/$defs/state"}},
+        "events": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/event"}},
+        "motion": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
+        "transition_anchors": {"type": "array", "maxItems": 24, "items": {"$ref": "#/$defs/anchor"}},
+        "transition_out": {"type": "string", "maxLength": 1000},
+        "locked": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
+        "creative_freedom": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
+        "reference_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "scene-v1": {
+      "allOf": [
+        {"$ref": "#/$defs/scene"},
+        {
+          "required": ["semantic_id", "revision", "pattern_version", "recipe", "recipe_version", "states", "events", "transition_anchors"],
+          "properties": {
+            "objects": {
+              "items": {
+                "allOf": [
+                  {"$ref": "#/$defs/object"},
+                  {"required": ["semantic_id", "name", "type", "role", "bounds"]}
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

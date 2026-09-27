@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "project.schema.json",
+  "title": "SaaS Creative Director project state (0.5-compatible)",
+  "type": "object",
+  "required": ["schema_version", "name", "stage", "gates"],
+  "properties": {
+    "schema_version": {"enum": ["0.5", "0.6"]},
+    "name": {"type": "string", "minLength": 1},
+    "language": {"type": "string"},
+    "created_at": {"type": "string"},
+    "stage": {"enum": ["intake", "product_intelligence", "competitor_intelligence", "video_strategy", "reference_research", "narrative", "visual_direction", "storyboard", "figma_wireframes", "production_review", "complete"]},
+    "gates": {
+      "type": "object",
+      "required": ["strategy", "creative_direction", "production"],
+      "properties": {
+        "strategy": {"$ref": "#/$defs/gate"},
+        "creative_direction": {"$ref": "#/$defs/gate"},
+        "production": {"$ref": "#/$defs/gate"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "gate": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["PENDING", "APPROVED", "CHANGES_REQUESTED", "STALE"]},
+        "approved_by": {"type": ["string", "null"]},
+        "approved_at": {"type": ["string", "null"]},
+        "notes": {"type": "string"},
+        "stage": {"type": "string"},
+        "revision": {"type": ["string", "null"]},
+        "artifact_digests": {"type": "object", "additionalProperties": {"type": "string"}},
+        "dependency_digests": {"type": "object", "additionalProperties": {"type": "string"}},
+        "dependency_digest": {"type": ["string", "null"]},
+        "provenance": {"type": ["string", "null"]},
+        "stale_reason": {"type": "string"},
+        "current_revision": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

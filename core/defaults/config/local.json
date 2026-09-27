@@ -1,0 +1,22 @@
+{
+  "github_repository": "denius89/saas-creative-director",
+  "default_channel": "",
+  "default_frame": {
+    "width": 1920,
+    "height": 1080
+  },
+  "organization": "",
+  "language": "ru",
+  "execution_policy": {
+    "enforcement_scope": "advisory",
+    "billing_mode": "subscription",
+    "auto_enable_usage_credits": false,
+    "stage_context_target_tokens": 8000,
+    "stage_context_warning_tokens": 12000,
+    "max_tool_retries": 2,
+    "max_repair_passes": 2,
+    "retrieval_top_k": 3,
+    "max_figma_qa_passes": 2,
+    "target_usd": null
+  }
+}

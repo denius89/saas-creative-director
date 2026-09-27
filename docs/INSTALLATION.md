@@ -18,7 +18,7 @@ cd saas-creative-director
 ./scd install
 ```
 
-`install` is idempotent. It creates `config/local.json` only when absent, creates protected directories, records installed state in `.scd/state.json`, and runs the health check. It never modifies an existing local config, override, custom-knowledge file, or project.
+`install` is idempotent. Factory templates come from `core/defaults/`; it creates `config/local.json` and `INBOX/README.md` only when absent, creates protected directories, records installed state in `.scd/state.json`, and runs the health check. It never modifies existing inbox material, local config, overrides, custom knowledge, or projects.
 
 For CLI autocomplete or use outside the repository, optionally install the Python entry point:
 
@@ -51,6 +51,7 @@ All health-check lines should report `PASS`.
 | `core/` | product | yes |
 | `.claude/skills/` | product adapters | yes |
 | `docs/`, `evals/`, `figma-plugin/`, `examples/` | product | yes |
+| `INBOX/` | user/client | no |
 | `config/` | user | no |
 | `overrides/` | user | no |
 | `knowledge/custom/` | user | no |

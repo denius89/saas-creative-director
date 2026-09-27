@@ -7,20 +7,22 @@ dist/
 !figma-plugin/dist/code.js
 build/
 *.egg-info/
+node_modules/
 .venv/
 .DS_Store
+*.log
 AGENTS.md
 INBOX/*
 !INBOX/README.md
 .scd/
-config/local.json
-overrides/*.md
+config/*
+!config/README.md
+!config/local.example.json
+overrides/*
 !overrides/README.md
 knowledge/custom/*
 !knowledge/custom/README.md
 
-# Client material and generated working data can be sensitive.
-projects/*/inputs/*
-!projects/*/inputs/.gitkeep
-projects/*/artifacts/*
-!projects/*/artifacts/.gitkeep
+# The complete client project tree is private by default.
+projects/*
+!projects/.gitkeep

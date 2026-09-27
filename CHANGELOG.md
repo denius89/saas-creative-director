@@ -4,6 +4,26 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+### Added
+
+- Motion Intelligence Layer with `motion-design-director`, representative-frame approval, scene-level retrieval guidance, visual QA, dated current-motion knowledge, conditional anti-patterns, and blind A/B evaluation protocol.
+- Deterministic Figma manifest 1.0 with three composition recipes, stable semantic IDs, native editable nodes, visible handoff notes, raster/unsupported markers, compact readback, safe retries, and page-level operation receipts.
+- Runtime JSON Schema validation, Motion Direction and Visual QA contracts, storyboard states/events/transition anchors, revision-bound approval gates, request-changes flow, context packets, dependency-aware project cache, and privacy-minimal usage ledger.
+- Strict release inventory, protected factory defaults, exact release manifest, bounded safe archive extraction, update lock/journal/recovery, transaction rollback, and private-data canary tests.
+- Russian update guide for a non-technical Pro/Max user plus security, data-handling, usage/billing, Figma workflow, and live-verification documentation.
+- Product-led GitHub homepage with theme-aware visuals, a verifiable Ledgerly outcome path, role-based documentation links, and push/pull-request CI.
+
+### Changed
+
+- Creative Direction approval now occurs after motion direction and representative frames.
+- The default workflow uses Pro/Max included usage, bounded stage context, two directions, top-three retrieval, and targeted repairs; paid Usage credits and API billing remain user-controlled.
+- `INBOX`, projects, configuration, overrides, and custom knowledge are excluded from update and release inventories.
+
+### Pending release acceptance
+
+- Complete the documented live Figma canvas checklist before tagging this work as a stable release.
+- Promote provisional reference annotations to gold only after two full-playback reviewers reconcile timestamped labels.
+
 ## [0.6.0] - 2026-09-26
 
 ### Added

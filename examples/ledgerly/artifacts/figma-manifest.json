@@ -1,0 +1,1218 @@
+{
+  "schema_version": "1.0",
+  "contract": "saas-creative-director/figma-manifest",
+  "project": {
+    "id": "ledgerly-fictional-example",
+    "name": "Ledgerly (fictional example)"
+  },
+  "source_revision": "storyboard-e08d58c9bd3d",
+  "document_pages": [
+    "01 Research",
+    "02 Creative Directions",
+    "03 Visual Grammar",
+    "04 Storyboard",
+    "05 Production Frames",
+    "06 Handoff"
+  ],
+  "target_page": "04 Storyboard",
+  "canvas": {
+    "width": 1920.0,
+    "height": 1080.0,
+    "scene_gap": 160,
+    "annotation_width": 480,
+    "annotation_gap": 32
+  },
+  "typography": {
+    "family": "Inter",
+    "style": "Regular",
+    "fallbacks": [
+      "Inter",
+      "Roboto"
+    ]
+  },
+  "tokens": {
+    "colors": {
+      "canvas": "#F9FAFB",
+      "surface": "#F9FAFB",
+      "raised": "#FFFFFF",
+      "muted": "#F3F4F6",
+      "dark": "#111827",
+      "accent": "#4F46E5",
+      "accent_surface": "#EEF2FF",
+      "success": "#ECFDF5",
+      "warning": "#FFF7ED",
+      "raster": "#FFF1F2",
+      "border": "#D1D5DB",
+      "text_primary": "#111827",
+      "text_secondary": "#4B5563",
+      "text_on_accent": "#FFFFFF"
+    },
+    "spacing": {
+      "base": 8,
+      "corner_radius": 18,
+      "stroke_width": 2
+    },
+    "type_scale": {
+      "headline": 56,
+      "title": 30,
+      "body": 18,
+      "eyebrow": 15
+    }
+  },
+  "recipes": [
+    "source-convergence",
+    "horizontal-flow",
+    "focus-detail"
+  ],
+  "limits": {
+    "max_manifest_bytes": 2000000,
+    "max_scenes": 48,
+    "max_nodes": 2500,
+    "max_nodes_per_scene": 200,
+    "max_text_chars": 4000,
+    "max_total_text_chars": 100000,
+    "max_canvas_dimension": 8192,
+    "max_pages": 12
+  },
+  "scenes": [
+    {
+      "semantic_id": "scene/S01",
+      "id": "S01",
+      "name": "S01 — Establish fragmented inputs",
+      "source_revision": "scene-d31c2416b6eaae4c",
+      "content_hash": "d31c2416b6eaae4c",
+      "duration_seconds": 7,
+      "composition_pattern": "C01 multi-source",
+      "pattern_version": "legacy-0.5",
+      "recipe": "source-convergence",
+      "recipe_version": "1.0",
+      "recipe_selection": "legacy-inferred",
+      "nodes": [
+        {
+          "semantic_id": "S01/copy/headline",
+          "type": "text",
+          "role": "copy",
+          "name": "10_COPY_HEADLINE",
+          "bounds": {
+            "x": 96,
+            "y": 84,
+            "width": 920,
+            "height": 132
+          },
+          "style": "headline",
+          "text": "Every source. One reconciliation flow."
+        },
+        {
+          "semantic_id": "S01/convergence/hub",
+          "type": "ui-card",
+          "role": "primary",
+          "name": "20_UI_CONVERGENCE_HUB",
+          "bounds": {
+            "x": 1200.0,
+            "y": 350,
+            "width": 560,
+            "height": 360
+          },
+          "style": "accent-surface",
+          "children": [
+            {
+              "semantic_id": "S01/convergence/hub/title",
+              "type": "text",
+              "role": "label",
+              "name": "21_HUB_TITLE",
+              "bounds": {
+                "x": 40,
+                "y": 36,
+                "width": 360,
+                "height": 48
+              },
+              "style": "title",
+              "text": "Source cards"
+            },
+            {
+              "semantic_id": "S01/convergence/hub/row/01",
+              "type": "ui-row",
+              "role": "state",
+              "name": "22_READY_ROW_01",
+              "bounds": {
+                "x": 40,
+                "y": 124,
+                "width": 480,
+                "height": 56
+              },
+              "style": "success",
+              "text": "Record 01 · ready"
+            },
+            {
+              "semantic_id": "S01/convergence/hub/row/02",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_READY_ROW_02",
+              "bounds": {
+                "x": 40,
+                "y": 196,
+                "width": 480,
+                "height": 56
+              },
+              "style": "success",
+              "text": "Record 02 · ready"
+            },
+            {
+              "semantic_id": "S01/convergence/hub/status",
+              "type": "pill",
+              "role": "state",
+              "name": "24_STATUS",
+              "bounds": {
+                "x": 40,
+                "y": 276,
+                "width": 152,
+                "height": 36
+              },
+              "style": "accent",
+              "text": "READY"
+            }
+          ]
+        },
+        {
+          "semantic_id": "S01/convergence/source/01",
+          "type": "ui-card",
+          "role": "source",
+          "name": "20_SOURCE_CARD_01",
+          "bounds": {
+            "x": 96.0,
+            "y": 310.0,
+            "width": 320.0,
+            "height": 132.0
+          },
+          "style": "raised",
+          "children": [
+            {
+              "semantic_id": "S01/convergence/source/01/badge",
+              "type": "pill",
+              "role": "label",
+              "name": "21_SOURCE_BADGE_01",
+              "bounds": {
+                "x": 24,
+                "y": 22,
+                "width": 80,
+                "height": 28
+              },
+              "style": "muted",
+              "text": "SOURCE 1"
+            },
+            {
+              "semantic_id": "S01/convergence/source/01/value",
+              "type": "text",
+              "role": "value",
+              "name": "22_SOURCE_VALUE_01",
+              "bounds": {
+                "x": 24,
+                "y": 66,
+                "width": 248,
+                "height": 38
+              },
+              "style": "body",
+              "text": "Input channel 1"
+            }
+          ]
+        },
+        {
+          "semantic_id": "S01/convergence/connector/01",
+          "type": "connector",
+          "role": "flow",
+          "name": "30_FLOW_CONNECTOR_01",
+          "bounds": {
+            "x": 416.0,
+            "y": 376.0,
+            "width": 784.0,
+            "height": 1
+          },
+          "style": "accent"
+        },
+        {
+          "semantic_id": "S01/convergence/source/02",
+          "type": "ui-card",
+          "role": "source",
+          "name": "20_SOURCE_CARD_02",
+          "bounds": {
+            "x": 160.0,
+            "y": 500.0,
+            "width": 320.0,
+            "height": 132.0
+          },
+          "style": "raised",
+          "children": [
+            {
+              "semantic_id": "S01/convergence/source/02/badge",
+              "type": "pill",
+              "role": "label",
+              "name": "21_SOURCE_BADGE_02",
+              "bounds": {
+                "x": 24,
+                "y": 22,
+                "width": 80,
+                "height": 28
+              },
+              "style": "muted",
+              "text": "SOURCE 2"
+            },
+            {
+              "semantic_id": "S01/convergence/source/02/value",
+              "type": "text",
+              "role": "value",
+              "name": "22_SOURCE_VALUE_02",
+              "bounds": {
+                "x": 24,
+                "y": 66,
+                "width": 248,
+                "height": 38
+              },
+              "style": "body",
+              "text": "Input channel 2"
+            }
+          ]
+        },
+        {
+          "semantic_id": "S01/convergence/connector/02",
+          "type": "connector",
+          "role": "flow",
+          "name": "30_FLOW_CONNECTOR_02",
+          "bounds": {
+            "x": 480.0,
+            "y": 566.0,
+            "width": 720.0,
+            "height": 1
+          },
+          "style": "accent"
+        },
+        {
+          "semantic_id": "S01/convergence/source/03",
+          "type": "ui-card",
+          "role": "source",
+          "name": "20_SOURCE_CARD_03",
+          "bounds": {
+            "x": 96.0,
+            "y": 690.0,
+            "width": 320.0,
+            "height": 132.0
+          },
+          "style": "raised",
+          "children": [
+            {
+              "semantic_id": "S01/convergence/source/03/badge",
+              "type": "pill",
+              "role": "label",
+              "name": "21_SOURCE_BADGE_03",
+              "bounds": {
+                "x": 24,
+                "y": 22,
+                "width": 80,
+                "height": 28
+              },
+              "style": "muted",
+              "text": "SOURCE 3"
+            },
+            {
+              "semantic_id": "S01/convergence/source/03/value",
+              "type": "text",
+              "role": "value",
+              "name": "22_SOURCE_VALUE_03",
+              "bounds": {
+                "x": 24,
+                "y": 66,
+                "width": 248,
+                "height": 38
+              },
+              "style": "body",
+              "text": "Input channel 3"
+            }
+          ]
+        },
+        {
+          "semantic_id": "S01/convergence/connector/03",
+          "type": "connector",
+          "role": "flow",
+          "name": "30_FLOW_CONNECTOR_03",
+          "bounds": {
+            "x": 416.0,
+            "y": 756.0,
+            "width": 784.0,
+            "height": 1
+          },
+          "style": "accent"
+        }
+      ],
+      "states": [],
+      "events": [],
+      "transition_anchors": [],
+      "production_semantics": {
+        "objects": [
+          {
+            "semantic_id": "S01/object/01",
+            "name": "Source cards",
+            "type": "cards",
+            "role": "primary",
+            "bounds": {
+              "x": 240.0,
+              "y": 300.0,
+              "width": 1440.0,
+              "height": 420.0
+            },
+            "asset_id": null,
+            "editable": true
+          }
+        ]
+      },
+      "annotations": {
+        "purpose": "Establish fragmented inputs",
+        "message": "Payout data arrives from multiple sources.",
+        "voiceover": "Payout data arrives from everywhere.",
+        "on_screen_copy": "Every source. One reconciliation flow.",
+        "attention_sequence": [
+          "source cards",
+          "headline"
+        ],
+        "motion": [
+          "Sources enter on staggered paths"
+        ],
+        "transition_out": "object-continuation",
+        "reference_ids": [
+          "REF-002"
+        ],
+        "evidence_ids": [
+          "EV-001"
+        ],
+        "locked": [
+          "many-to-one hierarchy"
+        ],
+        "creative_freedom": [
+          "source icon style"
+        ]
+      },
+      "assets": {
+        "raster_semantic_ids": [],
+        "missing": []
+      },
+      "warnings": []
+    },
+    {
+      "semantic_id": "scene/S02",
+      "id": "S02",
+      "name": "S02 — Demonstrate matching mechanism",
+      "source_revision": "scene-985b03d05a194d34",
+      "content_hash": "985b03d05a194d34",
+      "duration_seconds": 12,
+      "composition_pattern": "C02 horizontal-flow",
+      "pattern_version": "legacy-0.5",
+      "recipe": "horizontal-flow",
+      "recipe_version": "1.0",
+      "recipe_selection": "legacy-inferred",
+      "nodes": [
+        {
+          "semantic_id": "S02/copy/headline",
+          "type": "text",
+          "role": "copy",
+          "name": "10_COPY_HEADLINE",
+          "bounds": {
+            "x": 165.0,
+            "y": 72,
+            "width": 1590.0,
+            "height": 112
+          },
+          "style": "headline",
+          "text": "Import. Match. Reconcile."
+        },
+        {
+          "semantic_id": "S02/flow/input",
+          "type": "ui-card",
+          "role": "supporting",
+          "name": "20_FLOW_INPUT",
+          "bounds": {
+            "x": 165.0,
+            "y": 258,
+            "width": 430.0,
+            "height": 486
+          },
+          "style": "raised",
+          "children": [
+            {
+              "semantic_id": "S02/flow/input/eyebrow",
+              "type": "text",
+              "role": "label",
+              "name": "21_INPUT_EYEBROW",
+              "bounds": {
+                "x": 28,
+                "y": 30,
+                "width": 374.0,
+                "height": 28
+              },
+              "style": "eyebrow",
+              "text": "1 · INPUT"
+            },
+            {
+              "semantic_id": "S02/flow/input/title",
+              "type": "text",
+              "role": "title",
+              "name": "22_INPUT_TITLE",
+              "bounds": {
+                "x": 28,
+                "y": 70,
+                "width": 374.0,
+                "height": 48
+              },
+              "style": "title",
+              "text": "Incoming state"
+            },
+            {
+              "semantic_id": "S02/flow/input/row/01",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_INPUT_ROW_01",
+              "bounds": {
+                "x": 28,
+                "y": 138,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "muted",
+              "text": "Incoming state · item 01"
+            },
+            {
+              "semantic_id": "S02/flow/input/row/02",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_INPUT_ROW_02",
+              "bounds": {
+                "x": 28,
+                "y": 220,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "surface",
+              "text": "Incoming state · item 02"
+            },
+            {
+              "semantic_id": "S02/flow/input/row/03",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_INPUT_ROW_03",
+              "bounds": {
+                "x": 28,
+                "y": 302,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "surface",
+              "text": "Incoming state · item 03"
+            }
+          ]
+        },
+        {
+          "semantic_id": "S02/flow/connector/01",
+          "type": "connector",
+          "role": "flow",
+          "name": "30_FLOW_CONNECTOR_01",
+          "bounds": {
+            "x": 619.0,
+            "y": 500,
+            "width": 102.0,
+            "height": 1
+          },
+          "style": "accent"
+        },
+        {
+          "semantic_id": "S02/flow/match",
+          "type": "ui-card",
+          "role": "primary",
+          "name": "20_FLOW_MATCH",
+          "bounds": {
+            "x": 745.0,
+            "y": 258,
+            "width": 430.0,
+            "height": 486
+          },
+          "style": "accent-surface",
+          "children": [
+            {
+              "semantic_id": "S02/flow/match/eyebrow",
+              "type": "text",
+              "role": "label",
+              "name": "21_MATCH_EYEBROW",
+              "bounds": {
+                "x": 28,
+                "y": 30,
+                "width": 374.0,
+                "height": 28
+              },
+              "style": "eyebrow",
+              "text": "2 · ACTION"
+            },
+            {
+              "semantic_id": "S02/flow/match/title",
+              "type": "text",
+              "role": "title",
+              "name": "22_MATCH_TITLE",
+              "bounds": {
+                "x": 28,
+                "y": 70,
+                "width": 374.0,
+                "height": 48
+              },
+              "style": "title",
+              "text": "Product action"
+            },
+            {
+              "semantic_id": "S02/flow/match/row/01",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_MATCH_ROW_01",
+              "bounds": {
+                "x": 28,
+                "y": 138,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "accent",
+              "text": "Product action · item 01"
+            },
+            {
+              "semantic_id": "S02/flow/match/row/02",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_MATCH_ROW_02",
+              "bounds": {
+                "x": 28,
+                "y": 220,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "surface",
+              "text": "Product action · item 02"
+            },
+            {
+              "semantic_id": "S02/flow/match/row/03",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_MATCH_ROW_03",
+              "bounds": {
+                "x": 28,
+                "y": 302,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "surface",
+              "text": "Product action · item 03"
+            }
+          ]
+        },
+        {
+          "semantic_id": "S02/flow/connector/02",
+          "type": "connector",
+          "role": "flow",
+          "name": "30_FLOW_CONNECTOR_02",
+          "bounds": {
+            "x": 1199.0,
+            "y": 500,
+            "width": 102.0,
+            "height": 1
+          },
+          "style": "accent"
+        },
+        {
+          "semantic_id": "S02/flow/result",
+          "type": "ui-card",
+          "role": "supporting",
+          "name": "20_FLOW_RESULT",
+          "bounds": {
+            "x": 1325.0,
+            "y": 258,
+            "width": 430.0,
+            "height": 486
+          },
+          "style": "raised",
+          "children": [
+            {
+              "semantic_id": "S02/flow/result/eyebrow",
+              "type": "text",
+              "role": "label",
+              "name": "21_RESULT_EYEBROW",
+              "bounds": {
+                "x": 28,
+                "y": 30,
+                "width": 374.0,
+                "height": 28
+              },
+              "style": "eyebrow",
+              "text": "3 · RESULT"
+            },
+            {
+              "semantic_id": "S02/flow/result/title",
+              "type": "text",
+              "role": "title",
+              "name": "22_RESULT_TITLE",
+              "bounds": {
+                "x": 28,
+                "y": 70,
+                "width": 374.0,
+                "height": 48
+              },
+              "style": "title",
+              "text": "Result state"
+            },
+            {
+              "semantic_id": "S02/flow/result/row/01",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_RESULT_ROW_01",
+              "bounds": {
+                "x": 28,
+                "y": 138,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "success",
+              "text": "Result state · item 01"
+            },
+            {
+              "semantic_id": "S02/flow/result/row/02",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_RESULT_ROW_02",
+              "bounds": {
+                "x": 28,
+                "y": 220,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "surface",
+              "text": "Result state · item 02"
+            },
+            {
+              "semantic_id": "S02/flow/result/row/03",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_RESULT_ROW_03",
+              "bounds": {
+                "x": 28,
+                "y": 302,
+                "width": 374.0,
+                "height": 62
+              },
+              "style": "surface",
+              "text": "Result state · item 03"
+            }
+          ]
+        }
+      ],
+      "states": [],
+      "events": [],
+      "transition_anchors": [],
+      "production_semantics": {
+        "objects": [
+          {
+            "semantic_id": "S02/object/01",
+            "name": "Matching flow",
+            "type": "ui-flow",
+            "role": "primary",
+            "bounds": {
+              "x": 300.0,
+              "y": 250.0,
+              "width": 1320.0,
+              "height": 560.0
+            },
+            "asset_id": null,
+            "editable": true
+          }
+        ]
+      },
+      "annotations": {
+        "purpose": "Demonstrate matching mechanism",
+        "message": "Ledgerly brings transactions into one matching workflow.",
+        "voiceover": "Ledgerly brings transactions together and matches them in one workflow.",
+        "on_screen_copy": "Import. Match. Reconcile.",
+        "attention_sequence": [
+          "input",
+          "match state",
+          "result"
+        ],
+        "motion": [
+          "Rows travel left to right",
+          "Matched rows resolve"
+        ],
+        "transition_out": "ui-state-change",
+        "reference_ids": [
+          "REF-002"
+        ],
+        "evidence_ids": [
+          "EV-001"
+        ],
+        "locked": [
+          "causal order",
+          "workflow visibility"
+        ],
+        "creative_freedom": [
+          "row styling",
+          "motion easing"
+        ]
+      },
+      "assets": {
+        "raster_semantic_ids": [],
+        "missing": []
+      },
+      "warnings": []
+    },
+    {
+      "semantic_id": "scene/S03",
+      "id": "S03",
+      "name": "S03 — Show control through exceptions",
+      "source_revision": "scene-253a66f5d2f74958",
+      "content_hash": "253a66f5d2f74958",
+      "duration_seconds": 13,
+      "composition_pattern": "C03 hero-ui",
+      "pattern_version": "legacy-0.5",
+      "recipe": "focus-detail",
+      "recipe_version": "1.0",
+      "recipe_selection": "legacy-inferred",
+      "nodes": [
+        {
+          "semantic_id": "S03/copy/headline",
+          "type": "text",
+          "role": "copy",
+          "name": "10_COPY_HEADLINE",
+          "bounds": {
+            "x": 106,
+            "y": 92,
+            "width": 760,
+            "height": 156
+          },
+          "style": "headline",
+          "text": "Automation, with exceptions in view."
+        },
+        {
+          "semantic_id": "S03/focus/hero",
+          "type": "ui-card",
+          "role": "primary",
+          "name": "20_PRODUCT_HERO",
+          "bounds": {
+            "x": 650,
+            "y": 270,
+            "width": 1170,
+            "height": 650
+          },
+          "style": "raised",
+          "children": [
+            {
+              "semantic_id": "S03/focus/hero/chrome",
+              "type": "ui-row",
+              "role": "navigation",
+              "name": "21_PRODUCT_CHROME",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1170,
+                "height": 54
+              },
+              "style": "dark",
+              "text": "PRODUCT UI / PRIMARY VIEW"
+            },
+            {
+              "semantic_id": "S03/focus/hero/title",
+              "type": "text",
+              "role": "title",
+              "name": "22_PANEL_TITLE",
+              "bounds": {
+                "x": 48,
+                "y": 92,
+                "width": 650,
+                "height": 54
+              },
+              "style": "title",
+              "text": "Exception queue"
+            },
+            {
+              "semantic_id": "S03/focus/hero/filter",
+              "type": "pill",
+              "role": "control",
+              "name": "22_FILTER",
+              "bounds": {
+                "x": 900,
+                "y": 96,
+                "width": 190,
+                "height": 36
+              },
+              "style": "muted",
+              "text": "VIEW STATE"
+            },
+            {
+              "semantic_id": "S03/focus/hero/row/01",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_STATE_ROW_01",
+              "bounds": {
+                "x": 48,
+                "y": 186,
+                "width": 1074,
+                "height": 72
+              },
+              "style": "success",
+              "text": "Primary record     READY"
+            },
+            {
+              "semantic_id": "S03/focus/hero/row/02",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_STATE_ROW_02",
+              "bounds": {
+                "x": 48,
+                "y": 278,
+                "width": 1074,
+                "height": 72
+              },
+              "style": "warning",
+              "text": "Selected record     REVIEW"
+            },
+            {
+              "semantic_id": "S03/focus/hero/row/03",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_STATE_ROW_03",
+              "bounds": {
+                "x": 48,
+                "y": 370,
+                "width": 1074,
+                "height": 72
+              },
+              "style": "success",
+              "text": "Supporting record     READY"
+            },
+            {
+              "semantic_id": "S03/focus/hero/action",
+              "type": "pill",
+              "role": "action",
+              "name": "24_PRIMARY_ACTION",
+              "bounds": {
+                "x": 48,
+                "y": 500,
+                "width": 224,
+                "height": 48
+              },
+              "style": "accent",
+              "text": "Review item"
+            }
+          ]
+        },
+        {
+          "semantic_id": "S03/focus/callout",
+          "type": "annotation-card",
+          "role": "callout",
+          "name": "30_STATE_CALLOUT",
+          "bounds": {
+            "x": 106,
+            "y": 340,
+            "width": 430,
+            "height": 250
+          },
+          "style": "accent-surface",
+          "text": "KEY STATE"
+        },
+        {
+          "semantic_id": "S03/focus/connector",
+          "type": "connector",
+          "role": "attention",
+          "name": "31_CALLOUT_CONNECTOR",
+          "bounds": {
+            "x": 536,
+            "y": 464,
+            "width": 114,
+            "height": 1
+          },
+          "style": "accent"
+        }
+      ],
+      "states": [],
+      "events": [],
+      "transition_anchors": [],
+      "production_semantics": {
+        "objects": [
+          {
+            "semantic_id": "S03/object/01",
+            "name": "Exception queue",
+            "type": "ui-panel",
+            "role": "primary",
+            "bounds": {
+              "x": 400.0,
+              "y": 220.0,
+              "width": 1120.0,
+              "height": 640.0
+            },
+            "asset_id": null,
+            "editable": true
+          }
+        ]
+      },
+      "annotations": {
+        "purpose": "Show control through exceptions",
+        "message": "Exceptions remain visible for review.",
+        "voiceover": "What needs attention stays visible, ready to review.",
+        "on_screen_copy": "Automation, with exceptions in view.",
+        "attention_sequence": [
+          "resolved state",
+          "exception flag",
+          "review action"
+        ],
+        "motion": [
+          "Resolved rows fade",
+          "Exception persists"
+        ],
+        "transition_out": "match-cut",
+        "reference_ids": [
+          "REF-002"
+        ],
+        "evidence_ids": [
+          "EV-001",
+          "EV-003"
+        ],
+        "locked": [
+          "exception persistence",
+          "product-first composition"
+        ],
+        "creative_freedom": [
+          "micro-interactions",
+          "accent treatment"
+        ]
+      },
+      "assets": {
+        "raster_semantic_ids": [],
+        "missing": []
+      },
+      "warnings": []
+    },
+    {
+      "semantic_id": "scene/S04",
+      "id": "S04",
+      "name": "S04 — Land outcome and CTA",
+      "source_revision": "scene-870780d47092e35d",
+      "content_hash": "870780d47092e35d",
+      "duration_seconds": 8,
+      "composition_pattern": "C04 result-lockup",
+      "pattern_version": "legacy-0.5",
+      "recipe": "focus-detail",
+      "recipe_version": "1.0",
+      "recipe_selection": "legacy-inferred",
+      "nodes": [
+        {
+          "semantic_id": "S04/copy/headline",
+          "type": "text",
+          "role": "copy",
+          "name": "10_COPY_HEADLINE",
+          "bounds": {
+            "x": 106,
+            "y": 92,
+            "width": 760,
+            "height": 156
+          },
+          "style": "headline",
+          "text": "Reconcile with control."
+        },
+        {
+          "semantic_id": "S04/focus/hero",
+          "type": "ui-card",
+          "role": "primary",
+          "name": "20_PRODUCT_HERO",
+          "bounds": {
+            "x": 650,
+            "y": 270,
+            "width": 1170,
+            "height": 650
+          },
+          "style": "raised",
+          "children": [
+            {
+              "semantic_id": "S04/focus/hero/chrome",
+              "type": "ui-row",
+              "role": "navigation",
+              "name": "21_PRODUCT_CHROME",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1170,
+                "height": 54
+              },
+              "style": "dark",
+              "text": "PRODUCT UI / PRIMARY VIEW"
+            },
+            {
+              "semantic_id": "S04/focus/hero/title",
+              "type": "text",
+              "role": "title",
+              "name": "22_PANEL_TITLE",
+              "bounds": {
+                "x": 48,
+                "y": 92,
+                "width": 650,
+                "height": 54
+              },
+              "style": "title",
+              "text": "Reconciled summary"
+            },
+            {
+              "semantic_id": "S04/focus/hero/filter",
+              "type": "pill",
+              "role": "control",
+              "name": "22_FILTER",
+              "bounds": {
+                "x": 900,
+                "y": 96,
+                "width": 190,
+                "height": 36
+              },
+              "style": "muted",
+              "text": "VIEW STATE"
+            },
+            {
+              "semantic_id": "S04/focus/hero/row/01",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_STATE_ROW_01",
+              "bounds": {
+                "x": 48,
+                "y": 186,
+                "width": 1074,
+                "height": 72
+              },
+              "style": "success",
+              "text": "Primary record     READY"
+            },
+            {
+              "semantic_id": "S04/focus/hero/row/02",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_STATE_ROW_02",
+              "bounds": {
+                "x": 48,
+                "y": 278,
+                "width": 1074,
+                "height": 72
+              },
+              "style": "warning",
+              "text": "Selected record     REVIEW"
+            },
+            {
+              "semantic_id": "S04/focus/hero/row/03",
+              "type": "ui-row",
+              "role": "state",
+              "name": "23_STATE_ROW_03",
+              "bounds": {
+                "x": 48,
+                "y": 370,
+                "width": 1074,
+                "height": 72
+              },
+              "style": "success",
+              "text": "Supporting record     READY"
+            },
+            {
+              "semantic_id": "S04/focus/hero/action",
+              "type": "pill",
+              "role": "action",
+              "name": "24_PRIMARY_ACTION",
+              "bounds": {
+                "x": 48,
+                "y": 500,
+                "width": 224,
+                "height": 48
+              },
+              "style": "accent",
+              "text": "Continue"
+            }
+          ]
+        },
+        {
+          "semantic_id": "S04/focus/callout",
+          "type": "annotation-card",
+          "role": "callout",
+          "name": "30_STATE_CALLOUT",
+          "bounds": {
+            "x": 106,
+            "y": 340,
+            "width": 430,
+            "height": 250
+          },
+          "style": "accent-surface",
+          "text": "OUTCOME"
+        },
+        {
+          "semantic_id": "S04/focus/connector",
+          "type": "connector",
+          "role": "attention",
+          "name": "31_CALLOUT_CONNECTOR",
+          "bounds": {
+            "x": 536,
+            "y": 464,
+            "width": 114,
+            "height": 1
+          },
+          "style": "accent"
+        }
+      ],
+      "states": [],
+      "events": [],
+      "transition_anchors": [],
+      "production_semantics": {
+        "objects": [
+          {
+            "semantic_id": "S04/object/01",
+            "name": "Reconciled summary",
+            "type": "ui-summary",
+            "role": "primary",
+            "bounds": {
+              "x": 460.0,
+              "y": 260.0,
+              "width": 1000.0,
+              "height": 500.0
+            },
+            "asset_id": null,
+            "editable": true
+          }
+        ]
+      },
+      "annotations": {
+        "purpose": "Land outcome and CTA",
+        "message": "Move from payout data to a reviewable reconciled state.",
+        "voiceover": "Reconcile the flow without losing control.",
+        "on_screen_copy": "Reconcile with control.",
+        "attention_sequence": [
+          "summary",
+          "CTA"
+        ],
+        "motion": [
+          "Summary settles",
+          "CTA appears"
+        ],
+        "transition_out": "end",
+        "reference_ids": [],
+        "evidence_ids": [
+          "EV-001"
+        ],
+        "locked": [
+          "outcome before CTA"
+        ],
+        "creative_freedom": [
+          "brand finish",
+          "end-card craft"
+        ]
+      },
+      "assets": {
+        "raster_semantic_ids": [],
+        "missing": []
+      },
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "operation": {
+    "id": "figma-import/ledgerly-fictional-example/83d6fa95537fb5820bc07fd4",
+    "manifest_hash": "83d6fa95537fb5820bc07fd4",
+    "mode": "preserve-human-create-revision"
+  }
+}

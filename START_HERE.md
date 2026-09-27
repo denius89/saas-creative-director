@@ -34,6 +34,13 @@ Claude сам:
 
 Инструкция без сборки и npm находится в [`figma-plugin/README_RU.md`](figma-plugin/README_RU.md). Готовый файл плагина уже лежит в репозитории.
 
+## Обновление и расходы Claude
+
+- Пошаговая инструкция по безопасному обновлению: [`docs/ru/UPDATING.md`](docs/ru/UPDATING.md).
+- Объяснение лимита подписки и дополнительных Usage credits: [`docs/ru/CLAUDE_CREDITS.md`](docs/ru/CLAUDE_CREDITS.md).
+
+SaaS Creative Director не включает дополнительные кредиты, автопополнение или API-ключ. При первом пилоте используйте включённый лимит Pro/Max; решение о дополнительных расходах принимает только владелец аккаунта.
+
 ## Для технического администратора
 
 CLI, automated tests, обновления и rollback описаны в [`docs/INSTALLATION.md`](docs/INSTALLATION.md). Они не нужны креативщику для первого теста.

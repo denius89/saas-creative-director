@@ -1,0 +1,26 @@
+{
+  "title": "Figma edge cases",
+  "total_duration_seconds": 8,
+  "scenes": [
+    {
+      "id": "S01",
+      "duration_seconds": 8,
+      "purpose": "Проверить длинную локализованную строку и честные ограничения ассетов",
+      "message": "Пользователь видит, какие элементы можно редактировать.",
+      "voiceover": "Даже длинный русский текст остаётся нативным текстовым слоем.",
+      "on_screen_copy": "Это длинный русский заголовок для проверки переноса строк, читаемости и отчёта о переполнении без превращения текста в картинку.",
+      "composition_pattern": "hero-ui",
+      "objects": [
+        {"name": "Dashboard capture", "type": "screenshot", "role": "primary"},
+        {"name": "Legacy 3D mesh", "type": "mesh-3d", "role": "supporting"}
+      ],
+      "attention_sequence": ["заголовок", "интерфейс", "ограничение"],
+      "motion": ["Фокус переходит к исключению"],
+      "transition_out": "state-change",
+      "locked": ["смысл", "порядок внимания"],
+      "creative_freedom": ["цвет", "форма карточек"],
+      "reference_ids": ["REF-EDGE"],
+      "evidence_ids": ["EV-EDGE"]
+    }
+  ]
+}

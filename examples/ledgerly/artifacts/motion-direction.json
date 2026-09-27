@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "revision": "ledgerly-motion-direction-1",
+  "based_on": {
+    "strategy_revision": "ledgerly-strategy-example",
+    "narrative_revision": "ledgerly-narrative-example"
+  },
+  "knowledge_snapshot": {
+    "captured_at": "2026-09-27",
+    "current_motion": [
+      {"id": "CM-2026-H2-SAAS", "version": "2026-h2", "observed_at": "2026-09-27", "review_after": "2027-01-15", "status": "provisional"}
+    ],
+    "patterns": [
+      {"id": "PAT-COMP-001", "version": "1.0"},
+      {"id": "PAT-MOTION-001", "version": "1.0"},
+      {"id": "PAT-TRANS-001", "version": "1.0"}
+    ],
+    "anti_patterns": [
+      {"id": "ANTI-GENERIC-AI-STORYBOARD", "version": "1.0", "observed_at": "2026-09-27", "review_after": "2027-01-15", "status": "provisional"}
+    ]
+  },
+  "treatments": [
+    {
+      "id": "MD-A",
+      "name": "Persistent reconciliation flow",
+      "rationale": "Keep the product mechanism visible while fragmented inputs become a reviewable state.",
+      "tradeoffs": ["Requires readable product-like rows", "Uses fewer expressive brand-only beats"],
+      "hierarchy": ["Active transaction or source", "Matching state", "Reviewable result"],
+      "motion_functions": ["Converge inputs", "Persist the active row", "Resolve state visibly"],
+      "tempo": "Measured setup, faster matching action, held result",
+      "reduced_motion": "Use three boundary states with direct cuts and a persistent highlighted row.",
+      "non_copy_boundary": "Use Ledgerly's evidence and neutral wireframe objects; do not reuse a source work's layout, palette, or timing signature."
+    },
+    {
+      "id": "MD-B",
+      "name": "Exception-first control",
+      "rationale": "Lead with the unresolved item to emphasize control before showing automation scale.",
+      "tradeoffs": ["Stronger risk framing", "Needs careful pacing so the opening does not imply product failure"],
+      "hierarchy": ["Visible exception", "Review action", "Resolved surrounding flow"],
+      "motion_functions": ["Hold the exception", "Reduce resolved rows", "Reveal the review action"],
+      "tempo": "Immediate focal hold followed by controlled resolution",
+      "reduced_motion": "Keep the exception fixed while labels and surrounding states update.",
+      "non_copy_boundary": "Derive the sequence from the product claim and evidence, not from a benchmark video's scene order."
+    }
+  ],
+  "recommended_treatment_id": "MD-A",
+  "product_fidelity": {
+    "must_match": ["Many inputs enter one matching workflow", "Exceptions remain visible for review"],
+    "may_simplify": ["Row contents and neutral interface chrome in the fictional example"],
+    "unknowns": ["Final brand system", "Final production UI assets"]
+  },
+  "allowed_recipes": [
+    {"id": "source-convergence", "version": "1.0", "reason": "Shows the many-to-one input relationship."},
+    {"id": "horizontal-flow", "version": "1.0", "reason": "Shows import, match, and reconcile as a causal sequence."},
+    {"id": "focus-detail", "version": "1.0", "reason": "Keeps the exception or final reviewable state readable."}
+  ],
+  "representative_frames": [
+    {"id": "RF-S01", "communication_job": "Establish fragmented inputs and their convergence.", "recipe_id": "source-convergence", "state_ids": ["sources-visible", "flow-ready"]},
+    {"id": "RF-S02", "communication_job": "Explain the matching mechanism through readable boundary states.", "recipe_id": "horizontal-flow", "state_ids": ["imported", "matching", "reconciled"]},
+    {"id": "RF-S03", "communication_job": "Prove that an exception remains visible and actionable.", "recipe_id": "focus-detail", "state_ids": ["resolved-context", "exception-held"]}
+  ],
+  "tokens": {"frame": {"width": 1920, "height": 1080}, "grid_columns": 12, "spacing": 8, "font_family": "Inter"},
+  "asset_gaps": ["Final product screenshots", "Approved brand tokens"],
+  "anti_pattern_checks": [
+    {"id": "ANTI-002", "applies_to": ["S02", "S03"], "reason": "Critical UI evidence must remain readable."},
+    {"id": "ANTI-005", "applies_to": ["S02", "S04"], "reason": "Outcome claims require visible mechanism or proof."}
+  ],
+  "locked": ["Causal order", "Exception persistence", "Outcome before CTA"],
+  "creative_freedom": ["Final palette", "Shape language", "Texture", "Easing after production testing"],
+  "evidence_ids": ["EV-001", "EV-003"],
+  "reference_ids": ["REF-002"]
+}

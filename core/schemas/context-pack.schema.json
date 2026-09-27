@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "context-pack.schema.json",
+  "title": "Deterministic stage context pack",
+  "type": "object",
+  "required": ["schema_version", "project_id", "stage", "revision", "scene_ids", "artifacts", "documents", "evidence", "sources", "omitted", "warnings", "execution_policy"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "project_id": {"type": "string", "minLength": 1},
+    "stage": {"type": "string"},
+    "revision": {"type": "string"},
+    "scene_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "artifacts": {"type": "array", "items": {"type": "object", "required": ["path", "digest"], "properties": {"path": {"type": "string"}, "digest": {"type": "string"}}, "additionalProperties": false}},
+    "documents": {"type": "object"},
+    "evidence": {"type": "array", "items": {"type": "object"}},
+    "sources": {"type": "array", "items": {"type": "object"}},
+    "omitted": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "execution_policy": {
+      "type": "object",
+      "required": ["enforcement_scope", "billing_mode", "auto_enable_usage_credits", "stage_context_target_tokens", "stage_context_warning_tokens", "max_tool_retries", "max_repair_passes", "retrieval_top_k", "max_figma_qa_passes", "target_usd", "chars_per_token_estimate"],
+      "properties": {
+        "enforcement_scope": {"const": "advisory"},
+        "billing_mode": {"enum": ["subscription", "usage_credits", "api", "unknown"]},
+        "auto_enable_usage_credits": {"const": false},
+        "stage_context_target_tokens": {"type": "integer", "minimum": 1},
+        "stage_context_warning_tokens": {"type": "integer", "minimum": 1},
+        "max_tool_retries": {"type": "integer", "minimum": 0},
+        "max_repair_passes": {"type": "integer", "minimum": 0},
+        "retrieval_top_k": {"type": "integer", "minimum": 1},
+        "max_figma_qa_passes": {"type": "integer", "minimum": 0},
+        "target_usd": {"type": ["number", "null"], "minimum": 0},
+        "chars_per_token_estimate": {"const": 4}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

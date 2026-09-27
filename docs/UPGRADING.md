@@ -8,7 +8,9 @@ For a plain-language Russian workflow, see [`docs/ru/UPDATING.md`](ru/UPDATING.m
 ./scd update
 ```
 
-The updater resolves the latest GitHub Release, downloads its `.tar.gz` asset, verifies its manifest when present, checks Python and installer compatibility, compares semantic versions, creates a timestamped backup, and atomically replaces only managed product paths. It then runs the health check.
+The updater resolves the exact versioned `.tar.gz` and checksum assets from the latest GitHub Release. It requires an exact file manifest, checks every file hash and compatibility rule, creates a transaction backup, and replaces only the paths declared in `core/release-policy.json`. A lock prevents concurrent maintenance. If activation or the health check fails, the transaction restores its backup automatically.
+
+The published 0.6 updater used a hard-coded inventory and cannot copy newly introduced top-level knowledge directories during its first pass. The candidate carries those directories inside the already-managed `core` tree; the new `scd` launcher materializes them once, without overwriting an existing destination, before the next command. This bootstrap is covered by the 0.6 migration test and requires no manual file copying.
 
 For an offline or pre-release package:
 
@@ -16,7 +18,7 @@ For an offline or pre-release package:
 ./scd update --from /absolute/path/to/scd-core-v0.6.0.tar.gz
 ```
 
-A checked-out release directory is also accepted by `--from`.
+A checked-out release directory is also accepted by `--from`, but it must contain the same complete verified manifest as a built release.
 
 ## Compatibility rules
 
@@ -44,8 +46,18 @@ Choose a specific backup when necessary:
 ./scd rollback --backup /absolute/path/to/.scd/backups/v0.5.0-TIMESTAMP.tar.gz
 ```
 
+The successful update message also prints its transaction ID. Restore the backup created for that operation with:
+
+```bash
+./scd rollback --transaction TRANSACTION_ID
+```
+
 Rollback itself makes a backup of the current core first. It restores managed product files only, leaving projects, local settings, knowledge, and overrides untouched.
+
+A manifest-free backup produced by the published 0.6 updater is accepted only from the same installation's `.scd/backups` directory, only with the original `vVERSION-UTC.tar.gz` filename, and only through version 0.6.0. It is unpacked with current size/type/path limits and checked against the old allowlist. Its old `INBOX` copy is deliberately ignored, so the live client materials are preserved. A manifest-free archive copied from elsewhere is rejected.
 
 ## Failed health check
 
-Do not continue client work after a failed update. Run `./scd health-check` again, inspect the failed line, and either correct the environment or run `./scd rollback`. The updater never deletes its pre-update backup after failure.
+Do not continue client work after a failed update. The updater first attempts automatic recovery from the transaction backup. Run `./scd health-check` again and inspect `.scd/transactions/` before choosing a manual rollback. The updater never deletes its pre-update backup after failure.
+
+The release manifest and its sibling checksum detect missing, extra, or corrupted files. They do not independently prove who published the release. The trust boundary is the configured GitHub repository over HTTPS; pin and review that repository before using automatic updates.

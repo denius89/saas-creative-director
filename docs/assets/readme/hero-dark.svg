@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720" role="img" aria-labelledby="title desc">
+  <title id="title">SaaS Creative Director workflow</title>
+  <desc id="desc">Product evidence moves through strategy and motion direction into a timed storyboard and editable Figma handoff.</desc>
+  <rect width="1440" height="720" rx="32" fill="#0B1020"/>
+  <path d="M0 512C246 426 402 608 674 530C968 446 1090 262 1440 346V720H0Z" fill="#161B36"/>
+  <circle cx="1290" cy="106" r="190" fill="#171A3A"/>
+  <text x="88" y="102" fill="#A5B4FC" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="2">EVIDENCE-BACKED PRE-PRODUCTION</text>
+  <text x="88" y="174" fill="#F9FAFB" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="750">From product truth</text>
+  <text x="88" y="236" fill="#F9FAFB" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="750">to production clarity.</text>
+  <text x="88" y="286" fill="#AEB6C6" font-family="Inter,Arial,sans-serif" font-size="21">Strategy · Motion direction · Storyboard · Editable Figma</text>
+
+  <g transform="translate(88 360)">
+    <rect width="270" height="214" rx="22" fill="#161B27" stroke="#374151"/>
+    <rect x="24" y="24" width="88" height="26" rx="13" fill="#073B34"/>
+    <text x="42" y="43" fill="#6EE7B7" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700">EVIDENCE</text>
+    <text x="24" y="88" fill="#F9FAFB" font-family="Inter,Arial,sans-serif" font-size="23" font-weight="700">Ground truth</text>
+    <rect x="24" y="110" width="206" height="12" rx="6" fill="#374151"/>
+    <rect x="24" y="136" width="164" height="12" rx="6" fill="#374151"/>
+    <rect x="24" y="170" width="66" height="20" rx="10" fill="#222938"/>
+    <rect x="98" y="170" width="80" height="20" rx="10" fill="#222938"/>
+  </g>
+  <path d="M368 467H404" stroke="#6B7280" stroke-width="2"/><path d="M398 461L406 467L398 473" fill="none" stroke="#6B7280" stroke-width="2"/>
+
+  <g transform="translate(416 334)">
+    <rect width="270" height="240" rx="22" fill="#161B27" stroke="#6366F1" stroke-width="2"/>
+    <rect x="24" y="24" width="94" height="26" rx="13" fill="#252450"/>
+    <text x="42" y="43" fill="#C7D2FE" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700">DIRECTION</text>
+    <text x="24" y="88" fill="#F9FAFB" font-family="Inter,Arial,sans-serif" font-size="23" font-weight="700">Choose the idea</text>
+    <rect x="24" y="112" width="222" height="46" rx="12" fill="#0B1020"/>
+    <circle cx="48" cy="135" r="8" fill="#818CF8"/><rect x="68" y="127" width="132" height="8" rx="4" fill="#F9FAFB" opacity=".9"/><rect x="68" y="141" width="94" height="6" rx="3" fill="#6B7280"/>
+    <rect x="24" y="174" width="222" height="42" rx="12" fill="#222938"/><circle cx="48" cy="195" r="8" fill="#4B5563"/><rect x="68" y="188" width="116" height="7" rx="4" fill="#6B7280"/>
+  </g>
+  <path d="M696 454H732" stroke="#6B7280" stroke-width="2"/><path d="M726 448L734 454L726 460" fill="none" stroke="#6B7280" stroke-width="2"/>
+
+  <g transform="translate(744 306)">
+    <rect width="270" height="268" rx="22" fill="#F9FAFB"/>
+    <rect x="24" y="24" width="100" height="26" rx="13" fill="#E0E7FF"/>
+    <text x="42" y="43" fill="#4338CA" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700">STORYBOARD</text>
+    <text x="24" y="88" fill="#111827" font-family="Inter,Arial,sans-serif" font-size="23" font-weight="700">Design the scene</text>
+    <rect x="24" y="112" width="222" height="118" rx="14" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <rect x="42" y="130" width="112" height="82" rx="10" fill="#EEF2FF"/><rect x="168" y="132" width="58" height="10" rx="5" fill="#4F46E5"/><rect x="168" y="154" width="48" height="7" rx="4" fill="#D1D5DB"/><rect x="168" y="174" width="58" height="26" rx="8" fill="#111827"/>
+    <text x="24" y="252" fill="#6B7280" font-family="Inter,Arial,sans-serif" font-size="13">states · events · timing</text>
+  </g>
+  <path d="M1024 440H1060" stroke="#6B7280" stroke-width="2"/><path d="M1054 434L1062 440L1054 446" fill="none" stroke="#6B7280" stroke-width="2"/>
+
+  <g transform="translate(1072 360)">
+    <rect width="280" height="214" rx="22" fill="#161B27" stroke="#374151"/>
+    <rect x="24" y="24" width="78" height="26" rx="13" fill="#252450"/>
+    <text x="43" y="43" fill="#C7D2FE" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700">FIGMA</text>
+    <text x="24" y="88" fill="#F9FAFB" font-family="Inter,Arial,sans-serif" font-size="23" font-weight="700">Hand off cleanly</text>
+    <rect x="24" y="111" width="54" height="74" rx="10" fill="#222938"/><rect x="92" y="111" width="164" height="74" rx="10" fill="#252450"/><rect x="110" y="129" width="62" height="38" rx="8" fill="#6366F1"/><rect x="184" y="130" width="52" height="8" rx="4" fill="#9CA3AF"/><rect x="184" y="147" width="36" height="7" rx="4" fill="#6366F1"/>
+  </g>
+
+  <g transform="translate(88 624)"><rect width="1264" height="52" rx="16" fill="#161B27" stroke="#374151"/><circle cx="28" cy="26" r="7" fill="#34D399"/><text x="48" y="33" fill="#D1D5DB" font-family="Inter,Arial,sans-serif" font-size="16">Three human approval gates keep strategy, creative direction, and production readiness under control.</text></g>
+</svg>

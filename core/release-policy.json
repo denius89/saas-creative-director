@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "managed_paths": [
+    "core",
+    ".claude/skills",
+    "CLAUDE.md",
+    "README.md",
+    "START_HERE.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "docs",
+    "figma-plugin",
+    "evals",
+    "examples",
+    "knowledge/references",
+    "knowledge/patterns",
+    "knowledge/current-motion",
+    "knowledge/anti-patterns",
+    "pyproject.toml",
+    "scd",
+    "scripts/test.sh"
+  ],
+  "protected_paths": [
+    "INBOX",
+    "projects",
+    "config",
+    "overrides",
+    "knowledge/custom"
+  ],
+  "factory_defaults": {
+    "core/defaults/INBOX/README.md": "INBOX/README.md",
+    "core/defaults/config/local.json": "config/local.json"
+  },
+  "archive_limits": {
+    "maximum_archive_bytes": 268435456,
+    "maximum_files": 20000,
+    "maximum_file_bytes": 67108864,
+    "maximum_expanded_bytes": 536870912
+  }
+}

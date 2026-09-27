@@ -15,12 +15,25 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: figma-plugin/package-lock.json
+      - name: Install test dependencies
+        run: python -m pip install -e ".[dev]"
       - name: Verify version and tests
         run: |
           test "v$(cat core/VERSION)" = "$GITHUB_REF_NAME"
           ./scripts/test.sh
           ./scd health-check
           ./scd validate examples/ledgerly
+      - name: Verify Figma importer source and bundled plugin
+        working-directory: figma-plugin
+        run: |
+          npm ci
+          npm run check-dist
+          npm test
       - name: Build release asset
         run: python scripts/build_release.py dist
       - name: Publish GitHub Release

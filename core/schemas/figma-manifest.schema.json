@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "figma-manifest.schema.json",
+  "title": "SaaS Creative Director Figma import manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contract", "project", "source_revision", "operation", "document_pages", "target_page", "canvas", "typography", "tokens", "recipes", "limits", "scenes", "warnings"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "contract": {"const": "saas-creative-director/figma-manifest"},
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 48},
+        "name": {"type": "string", "minLength": 1, "maxLength": 200}
+      }
+    },
+    "source_revision": {"type": "string", "minLength": 1, "maxLength": 200},
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "manifest_hash", "mode"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "manifest_hash": {"type": "string", "pattern": "^[a-f0-9]{24}$"},
+        "mode": {"const": "preserve-human-create-revision"}
+      }
+    },
+    "document_pages": {"type": "array", "minItems": 1, "maxItems": 12, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 100}},
+    "target_page": {"type": "string", "minLength": 1, "maxLength": 100},
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height", "scene_gap", "annotation_width", "annotation_gap"],
+      "properties": {
+        "width": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192},
+        "height": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192},
+        "scene_gap": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192},
+        "annotation_width": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192},
+        "annotation_gap": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192}
+      }
+    },
+    "typography": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "style", "fallbacks"],
+      "properties": {
+        "family": {"type": "string", "minLength": 1, "maxLength": 100},
+        "style": {"type": "string", "minLength": 1, "maxLength": 100},
+        "fallbacks": {"type": "array", "maxItems": 8, "items": {"type": "string", "minLength": 1, "maxLength": 100}}
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["colors", "spacing", "type_scale"],
+      "properties": {
+        "colors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["canvas", "surface", "raised", "muted", "dark", "accent", "accent_surface", "success", "warning", "raster", "border", "text_primary", "text_secondary", "text_on_accent"],
+          "properties": {
+            "canvas": {"$ref": "#/$defs/color"}, "surface": {"$ref": "#/$defs/color"},
+            "raised": {"$ref": "#/$defs/color"}, "muted": {"$ref": "#/$defs/color"},
+            "dark": {"$ref": "#/$defs/color"}, "accent": {"$ref": "#/$defs/color"},
+            "accent_surface": {"$ref": "#/$defs/color"}, "success": {"$ref": "#/$defs/color"},
+            "warning": {"$ref": "#/$defs/color"}, "raster": {"$ref": "#/$defs/color"},
+            "border": {"$ref": "#/$defs/color"}, "text_primary": {"$ref": "#/$defs/color"},
+            "text_secondary": {"$ref": "#/$defs/color"}, "text_on_accent": {"$ref": "#/$defs/color"}
+          }
+        },
+        "spacing": {
+          "type": "object", "additionalProperties": false,
+          "required": ["base", "corner_radius", "stroke_width"],
+          "properties": {
+            "base": {"type": "number", "exclusiveMinimum": 0, "maximum": 128},
+            "corner_radius": {"type": "number", "exclusiveMinimum": 0, "maximum": 128},
+            "stroke_width": {"type": "number", "exclusiveMinimum": 0, "maximum": 128}
+          }
+        },
+        "type_scale": {
+          "type": "object", "additionalProperties": false,
+          "required": ["headline", "title", "body", "eyebrow"],
+          "properties": {
+            "headline": {"type": "number", "minimum": 8, "maximum": 144},
+            "title": {"type": "number", "minimum": 8, "maximum": 144},
+            "body": {"type": "number", "minimum": 8, "maximum": 144},
+            "eyebrow": {"type": "number", "minimum": 8, "maximum": 144}
+          }
+        }
+      }
+    },
+    "recipes": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"enum": ["source-convergence", "horizontal-flow", "focus-detail"]}},
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_manifest_bytes", "max_scenes", "max_nodes", "max_nodes_per_scene", "max_text_chars", "max_total_text_chars", "max_canvas_dimension", "max_pages"],
+      "properties": {
+        "max_manifest_bytes": {"const": 2000000},
+        "max_scenes": {"const": 48},
+        "max_nodes": {"const": 2500},
+        "max_nodes_per_scene": {"const": 200},
+        "max_text_chars": {"const": 4000},
+        "max_total_text_chars": {"const": 100000},
+        "max_canvas_dimension": {"const": 8192},
+        "max_pages": {"const": 12}
+      }
+    },
+    "scenes": {"type": "array", "minItems": 1, "maxItems": 48, "items": {"$ref": "#/$defs/scene"}},
+    "warnings": {"type": "array", "items": {"type": "string", "maxLength": 1000}}
+  },
+  "$defs": {
+    "color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+    "bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": {"type": "number", "minimum": -8192, "maximum": 8192},
+        "y": {"type": "number", "minimum": -8192, "maximum": 8192},
+        "width": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192},
+        "height": {"type": "number", "exclusiveMinimum": 0, "maximum": 8192}
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["semantic_id", "type", "role", "name", "bounds", "style"],
+      "properties": {
+        "semantic_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "type": {"enum": ["annotation-card", "asset-placeholder", "connector", "frame", "pill", "raster-placeholder", "rectangle", "text", "ui-card", "ui-row"]},
+        "role": {"type": "string", "minLength": 1, "maxLength": 100},
+        "name": {"type": "string", "minLength": 1, "maxLength": 200},
+        "bounds": {"$ref": "#/$defs/bounds"},
+        "style": {"type": "string", "minLength": 1, "maxLength": 100},
+        "text": {"type": "string", "maxLength": 4000},
+        "children": {"type": "array", "maxItems": 200, "items": {"$ref": "#/$defs/node"}},
+        "metadata": {"type": "object"}
+      }
+    },
+    "annotations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "message", "voiceover", "on_screen_copy", "attention_sequence", "motion", "transition_out", "reference_ids", "evidence_ids", "locked", "creative_freedom"],
+      "properties": {
+        "purpose": {"type": "string", "maxLength": 4000},
+        "message": {"type": "string", "maxLength": 4000},
+        "voiceover": {"type": "string", "maxLength": 4000},
+        "on_screen_copy": {"type": "string", "maxLength": 4000},
+        "attention_sequence": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
+        "motion": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
+        "transition_out": {"type": "string", "maxLength": 4000},
+        "reference_ids": {"type": "array", "items": {"type": "string", "maxLength": 200}},
+        "evidence_ids": {"type": "array", "items": {"type": "string", "maxLength": 200}},
+        "locked": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
+        "creative_freedom": {"type": "array", "items": {"type": "string", "maxLength": 1000}}
+      }
+    },
+    "state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "at_seconds", "object_ids", "description"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "at_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "object_ids": {"type": "array", "maxItems": 200, "uniqueItems": true, "items": {"type": "string", "maxLength": 200}},
+        "description": {"type": "string", "minLength": 1, "maxLength": 2000}
+      }
+    },
+    "event": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "at_seconds", "type", "object_ids", "description"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "at_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "duration_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "type": {"enum": ["enter", "exit", "emphasize", "transform", "move", "hold", "state-change", "camera", "other"]},
+        "object_ids": {"type": "array", "maxItems": 200, "uniqueItems": true, "items": {"type": "string", "maxLength": 200}},
+        "from_state_id": {"type": ["string", "null"], "maxLength": 200},
+        "to_state_id": {"type": ["string", "null"], "maxLength": 200},
+        "description": {"type": "string", "minLength": 1, "maxLength": 2000}
+      }
+    },
+    "anchor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "edge", "at_seconds"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "edge": {"enum": ["in", "out"]},
+        "at_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "object_id": {"type": ["string", "null"], "maxLength": 200},
+        "state_id": {"type": ["string", "null"], "maxLength": 200},
+        "carry_to_scene_id": {"type": ["string", "null"], "maxLength": 200},
+        "description": {"type": "string", "maxLength": 1000}
+      }
+    },
+    "production-object": {
+      "type": "object", "additionalProperties": false,
+      "required": ["semantic_id", "name", "type", "role", "bounds", "asset_id", "editable"],
+      "properties": {
+        "semantic_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "name": {"type": "string", "minLength": 1, "maxLength": 300},
+        "type": {"type": "string", "minLength": 1, "maxLength": 100},
+        "role": {"type": "string", "minLength": 1, "maxLength": 100},
+        "bounds": {"$ref": "#/$defs/bounds"},
+        "asset_id": {"type": ["string", "null"], "maxLength": 200},
+        "editable": {"type": "boolean"}
+      }
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["semantic_id", "id", "name", "source_revision", "content_hash", "duration_seconds", "composition_pattern", "pattern_version", "recipe", "recipe_version", "recipe_selection", "nodes", "states", "events", "transition_anchors", "production_semantics", "annotations", "assets", "warnings"],
+      "properties": {
+        "semantic_id": {"type": "string", "pattern": "^scene/S[0-9]{2,}$"},
+        "id": {"type": "string", "pattern": "^S[0-9]{2,}$"},
+        "name": {"type": "string", "minLength": 1, "maxLength": 300},
+        "source_revision": {"type": "string", "minLength": 1, "maxLength": 200},
+        "content_hash": {"type": "string", "pattern": "^[a-f0-9]{16}$"},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "composition_pattern": {"type": "string", "minLength": 1, "maxLength": 300},
+        "pattern_version": {"type": "string", "minLength": 1, "maxLength": 100},
+        "recipe": {"enum": ["source-convergence", "horizontal-flow", "focus-detail"]},
+        "recipe_version": {"const": "1.0"},
+        "recipe_selection": {"enum": ["explicit", "legacy-inferred"]},
+        "nodes": {"type": "array", "minItems": 1, "maxItems": 200, "items": {"$ref": "#/$defs/node"}},
+        "states": {"type": "array", "maxItems": 24, "items": {"$ref": "#/$defs/state"}},
+        "events": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/event"}},
+        "transition_anchors": {"type": "array", "maxItems": 24, "items": {"$ref": "#/$defs/anchor"}},
+        "production_semantics": {
+          "type": "object", "additionalProperties": false, "required": ["objects"],
+          "properties": {"objects": {"type": "array", "minItems": 1, "maxItems": 200, "items": {"$ref": "#/$defs/production-object"}}}
+        },
+        "annotations": {"$ref": "#/$defs/annotations"},
+        "assets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["raster_semantic_ids", "missing"],
+          "properties": {
+            "raster_semantic_ids": {"type": "array", "items": {"type": "string", "maxLength": 200}},
+            "missing": {"type": "array", "items": {"type": "string", "maxLength": 200}}
+          }
+        },
+        "warnings": {"type": "array", "items": {"type": "string", "maxLength": 1000}}
+      }
+    }
+  }
+}

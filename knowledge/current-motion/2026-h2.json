@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "id": "CM-2026-H2-SAAS",
+  "scope": "SaaS and software product pre-production",
+  "observed_at": "2026-09-27",
+  "review_after": "2027-01-15",
+  "status": "provisional",
+  "confidence": "medium",
+  "inspection_method": "synthesis of curated studio portfolio metadata, inspected visible frames, and provisional benchmark annotations; full playback coverage is incomplete",
+  "source_ids": [
+    "CUR-A-ANYWAY",
+    "CUR-A-TIMEFRAME",
+    "CUR-A-FLASH",
+    "CUR-A-SKALE"
+  ],
+  "signals": [
+    {
+      "id": "SIG-PRODUCT-EVIDENCE",
+      "statement": "Product surfaces and real product actions should carry the proof when the product mechanism is central.",
+      "use": "Prefer a readable product state and causal action over a generic dashboard montage.",
+      "limits": "This does not require raw screen capture in every scene; simplify only when disclosed and faithful.",
+      "confidence": "supported"
+    },
+    {
+      "id": "SIG-SELECTIVE-DENSITY",
+      "statement": "Contemporary product storytelling controls density by isolating the relevant action or result instead of showing all interface chrome at once.",
+      "use": "Keep context sufficient for truth, then give the active object a clear hierarchy.",
+      "limits": "A sparse frame is not automatically modern and may hide required context.",
+      "confidence": "supported"
+    },
+    {
+      "id": "SIG-SEMANTIC-CONTINUITY",
+      "statement": "Continuity is strongest when an object, state, or causal relationship persists across scenes.",
+      "use": "Carry a task, row, cursor, node, or result through adjacent states when that improves comprehension.",
+      "limits": "Do not imply a causal link that the product does not have.",
+      "confidence": "supported"
+    },
+    {
+      "id": "SIG-MIXED-MEDIA-WITH-JOB",
+      "statement": "UI, type, illustration, footage, and 3D can coexist when each medium has a defined communication job.",
+      "use": "Assign product proof to UI and reserve other media for context, scale, emotion, or abstraction.",
+      "limits": "The current corpus is too small to claim a universal medium mix or fixed ratio.",
+      "confidence": "hypothesis"
+    }
+  ],
+  "non_claims": [
+    "No fixed percentage of UI makes a storyboard contemporary.",
+    "A studio portfolio claim does not prove a visual mechanism caused campaign performance.",
+    "A visible thumbnail does not establish motion timing, easing, or transition design.",
+    "A fashionable material, gradient, or 3D treatment is not evidence of communication quality."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "execution-policy.schema.json",
+  "title": "Advisory execution policy",
+  "description": "Workflow guidance only. It cannot enforce provider, subscription, account, token, or spending limits.",
+  "type": "object",
+  "required": ["enforcement_scope", "billing_mode", "auto_enable_usage_credits", "stage_context_target_tokens", "stage_context_warning_tokens", "max_tool_retries", "max_repair_passes", "retrieval_top_k", "max_figma_qa_passes"],
+  "properties": {
+    "enforcement_scope": {"const": "advisory"},
+    "billing_mode": {"enum": ["subscription", "usage_credits", "api", "unknown"]},
+    "auto_enable_usage_credits": {"const": false},
+    "stage_context_target_tokens": {"type": "integer", "minimum": 1},
+    "stage_context_warning_tokens": {"type": "integer", "minimum": 1},
+    "max_tool_retries": {"type": "integer", "minimum": 0},
+    "max_repair_passes": {"type": "integer", "minimum": 0},
+    "retrieval_top_k": {"type": "integer", "minimum": 1},
+    "max_figma_qa_passes": {"type": "integer", "minimum": 0},
+    "target_usd": {"type": ["number", "null"], "minimum": 0}
+  },
+  "additionalProperties": false
+}

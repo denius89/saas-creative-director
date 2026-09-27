@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "library_id": "ANTI-GENERIC-AI-STORYBOARD",
+  "updated_at": "2026-09-27",
+  "review_after": "2027-01-15",
+  "items": [
+    {
+      "id": "ANTI-001",
+      "name": "Interchangeable floating-card montage",
+      "trigger": "Several cards float independently without a causal, spatial, or attention relationship.",
+      "why_it_fails": "The frame can fit almost any SaaS product and does not explain how the product creates the result.",
+      "repair": "Choose one persistent object and show a truthful action-to-result relationship.",
+      "exceptions": "A brief category overview may use a montage when the diversity itself is the message.",
+      "severity": "major"
+    },
+    {
+      "id": "ANTI-002",
+      "name": "Dashboard wallpaper",
+      "trigger": "A full interface is shown at a scale where the relevant product evidence cannot be read.",
+      "why_it_fails": "The UI signals software without proving the scene's claim.",
+      "repair": "Crop, stage, or simplify around the relevant state while preserving enough context for truth.",
+      "exceptions": "An establishing shot may show system scale before moving to readable detail.",
+      "severity": "blocking"
+    },
+    {
+      "id": "ANTI-003",
+      "name": "Decorative motion without information change",
+      "trigger": "Objects bounce, orbit, or morph while the viewer learns no new relationship or state.",
+      "why_it_fails": "Motion competes with the message and makes timing feel templated.",
+      "repair": "Tie movement to entry, state change, causality, hierarchy, continuity, or exit.",
+      "exceptions": "A short brand punctuation may be expressive if it does not interrupt comprehension.",
+      "severity": "major"
+    },
+    {
+      "id": "ANTI-004",
+      "name": "Same composition at every beat",
+      "trigger": "Scenes repeat a centered card plus heading even when their communication jobs differ.",
+      "why_it_fails": "The sequence has no visual escalation and makes every claim feel equal.",
+      "repair": "Vary scale, relationship, or state only where the narrative job changes; preserve continuity anchors.",
+      "exceptions": "A deliberate repeated comparison needs stable geometry and visibly changing evidence.",
+      "severity": "major"
+    },
+    {
+      "id": "ANTI-005",
+      "name": "Claim before mechanism",
+      "trigger": "A broad value statement appears without product action, evidence, or a later explicit proof beat.",
+      "why_it_fails": "The sequence feels like generic marketing copy placed over abstract visuals.",
+      "repair": "Show or set up the mechanism as the claim is made and connect it to the result.",
+      "exceptions": "A short opening tension or positioning line may precede proof when the next beat resolves it.",
+      "severity": "blocking"
+    },
+    {
+      "id": "ANTI-006",
+      "name": "Reference collage",
+      "trigger": "A scene combines recognizable composition, palette, typography, or signature choreography from a source work.",
+      "why_it_fails": "It copies expression instead of transferring an abstract communication principle.",
+      "repair": "Return to the source's problem/mechanism, then rebuild with client objects, brand, constraints, and a different sequence.",
+      "exceptions": "None without rights and explicit human direction; even then, provenance must be recorded.",
+      "severity": "blocking"
+    },
+    {
+      "id": "ANTI-007",
+      "name": "Flattened editability",
+      "trigger": "Text, UI, or layout promised as editable is imported as one raster image.",
+      "why_it_fails": "The handoff cannot support normal production changes.",
+      "repair": "Create native nodes or label the raster boundary and provide the source asset.",
+      "exceptions": "A real product screenshot may remain raster when truthful capture matters more than reconstruction.",
+      "severity": "blocking"
+    },
+    {
+      "id": "ANTI-008",
+      "name": "Unreadable state jump",
+      "trigger": "A causal transformation has only a final frame and no visible before/action boundary or transition anchor.",
+      "why_it_fails": "Production must invent the mechanism, and the viewer may miss why the result changed.",
+      "repair": "Add the minimum boundary states and semantic anchor needed to explain the change.",
+      "exceptions": "A result-only scene is valid when causality was established immediately before it.",
+      "severity": "major"
+    }
+  ]
+}

@@ -1,26 +1,75 @@
 <!doctype html>
-<html>
-  <body style="font: 12px Inter, sans-serif; margin: 16px">
-    <h2>Импорт storyboard wireframes</h2>
-    <p>Выберите файл <code>figma-manifest.json</code>, который подготовил Claude.</p>
-    <input id="file" type="file" accept="application/json,.json" />
-    <p id="status"></p>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root { color-scheme: light; font: 12px Inter, sans-serif; color: #111827; }
+      body { margin: 0; padding: 20px; background: #f9fafb; }
+      h1 { margin: 0 0 8px; font-size: 18px; }
+      p { margin: 0 0 14px; line-height: 1.45; color: #4b5563; }
+      .picker { display: block; padding: 14px; border: 1px dashed #9ca3af; border-radius: 10px; background: white; }
+      input { width: 100%; }
+      #status { margin-top: 14px; padding: 12px; border-radius: 8px; background: #eef2ff; color: #312e81; white-space: pre-wrap; }
+      #status.error { background: #fff1f2; color: #9f1239; }
+      #status.success { background: #ecfdf5; color: #065f46; }
+      details { margin-top: 12px; }
+      pre { max-height: 190px; overflow: auto; padding: 10px; border-radius: 8px; background: #111827; color: #e5e7eb; font: 10px ui-monospace, monospace; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h1>Storyboard → Figma</h1>
+    <p>Плагин проверит весь manifest и локальные шрифты до записи. Повторный импорт не создаёт дубликаты; новая ревизия появляется рядом с предыдущей.</p>
+    <label class="picker">
+      <input id="file" type="file" accept="application/json,.json" />
+    </label>
+    <div id="status" role="status">Выберите <strong>figma-manifest.json</strong>.</div>
+    <details id="details" hidden>
+      <summary>Компактный отчёт импорта</summary>
+      <pre id="readback"></pre>
+    </details>
     <script>
-      document.getElementById('file').addEventListener('change', async (event) => {
+      const MAX_BYTES = 2000000;
+      const fileInput = document.getElementById('file');
+      const status = document.getElementById('status');
+      const details = document.getElementById('details');
+      const readback = document.getElementById('readback');
+
+      function setStatus(message, kind) {
+        status.textContent = message;
+        status.className = kind || '';
+      }
+
+      fileInput.addEventListener('change', async (event) => {
         const file = event.target.files[0];
         if (!file) return;
+        details.hidden = true;
+        if (file.size > MAX_BYTES) {
+          setStatus(`Файл слишком большой: ${file.size} байт. Лимит — ${MAX_BYTES}.`, 'error');
+          return;
+        }
         try {
           const manifest = JSON.parse(await file.text());
+          setStatus('Проверяем manifest и локальные шрифты до записи…');
           parent.postMessage({ pluginMessage: { type: 'import', manifest } }, '*');
-          document.getElementById('status').textContent = 'Импортируем…';
         } catch (error) {
-          document.getElementById('status').textContent = `Не удалось прочитать файл: ${error.message}`;
+          setStatus(`Не удалось прочитать JSON: ${error.message}`, 'error');
         }
       });
+
       onmessage = (event) => {
         const message = event.data.pluginMessage;
-        if (message?.type === 'done') document.getElementById('status').textContent = `Создано фреймов: ${message.count}.`;
-        if (message?.type === 'error') document.getElementById('status').textContent = message.message;
+        if (message?.type === 'error') {
+          setStatus(`Импорт не выполнен.\n${message.message}`, 'error');
+          return;
+        }
+        if (message?.type === 'done') {
+          const summary = message.summary;
+          const fallback = summary.font.fallback ? `; fallback: ${summary.font.resolved} ${summary.font.style}` : '';
+          setStatus(`Готово: создано ${summary.created}, переиспользовано ${summary.reused}, конфликтов ${summary.conflicts}${fallback}.`, 'success');
+          readback.textContent = JSON.stringify(summary, null, 2);
+          details.hidden = false;
+          details.open = summary.warnings.length > 0 || summary.scenes.some((scene) => scene.textOverflow.length || scene.missingAssets.length);
+        }
       };
     </script>
   </body>
