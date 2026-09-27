@@ -7,3 +7,13 @@ In Figma Desktop choose **Plugins → Development → Import plugin from manifes
 Russian no-code instructions: [`README_RU.md`](README_RU.md).
 
 The plugin intentionally creates neutral wireframes. Final illustration style, palette, textures, lighting, and motion craft remain human work.
+
+## Panel sequences and revisions
+
+Manifest **1.1** supports a scene as an ordered cluster of panels. The importer lays out at most three full-size panels per row, labels each with its local time and continuity, and places one expanding handoff-notes card beside the whole scene. Panel node IDs are included in the import report. Native text and shapes remain editable; placeholder assets are still placeholders. These panels communicate planned motion; the importer does not create animation.
+
+Manifest **1.0** continues to render one canvas per scene. In 1.1, `sequence_mode: "panel-sequence"` uses `panels[].nodes` with panel-local coordinates and an empty scene `nodes` array; `single-frame-legacy` keeps scene nodes and an empty panels array. Each panel declares a unique ID, timestamp, optional duration/state, event references, continuity (`continuous`, `cut`, `hold`), optional transition description, native nodes, and object-instance IDs pointing to those nodes. Preflight rejects invalid IDs, unresolved state/event references, unordered/out-of-range times and excessive node counts before writing.
+
+Revision and retry behavior remains **scene-level**: repeating an identical import reuses the entire cluster; changing a panel creates a new complete scene revision beside the old one. Human edits in any panel or notes remain in the prior revision and are reported. The importer never replaces individual panels inside an existing approved or edited cluster. The compiler must change the scene content hash when panel content changes.
+
+Validation: `npm run build && npm test` checks the compiled plugin against a mocked Figma runtime, including four-panel wrapping, legacy imports, invalid-input rejection, repeated imports and human-edit preservation. Actual Figma screenshot/layout verification remains a separate acceptance step.

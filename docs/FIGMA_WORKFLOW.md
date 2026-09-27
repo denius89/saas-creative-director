@@ -2,6 +2,8 @@
 
 The Figma importer turns the compact `figma-manifest.json` contract into native, editable storyboard boards. Coordinates and repeated UI structures are compiled locally; the plugin does not call a model, download fonts, fetch assets, or use the network.
 
+For a causal scene, the storyboard output is a set of distinct panel frames grouped by narrative beat. It must not combine setup, action, transformation, and result into one simultaneous dashboard. Shared semantic object IDs preserve continuity across panel instances even when position, scale, crop, or product state changes. Each panel identifies its transition from the previous panel. Scene-level purpose, voiceover, evidence, and locked/free decisions remain shared handoff data rather than duplicated notes on every panel.
+
 ## Generate and import
 
 1. Generate a manifest with `./scd figma-manifest <project> --output <project>/artifacts/figma-manifest.json`.
@@ -9,7 +11,7 @@ The Figma importer turns the compact `figma-manifest.json` contract into native,
 3. Run **SaaS Creative Director Importer** and select the generated JSON file.
 4. Review the visible handoff cards beside every scene and open the compact import report.
 
-Storyboard 1.0 scenes select one of three versioned deterministic compositions explicitly: source convergence, horizontal flow, or focus/detail. Legacy 0.5 scenes keep the earlier composition-pattern inference path and are labelled `legacy-inferred` in the manifest. Unsupported explicit recipes or recipe versions fail before any canvas write. The output uses native text, frames, rows, pills, and connectors. Screenshot and image inputs are labelled `RASTER` and reported as missing replacement assets; unsupported object types get a visible `UNSUPPORTED` placeholder.
+Storyboard 1.1 panel-sequence scenes compile their declared panels and object presentations. Storyboard 1.0 single-frame scenes select one of three versioned deterministic compositions explicitly: source convergence, horizontal flow, or focus/detail. Legacy 0.5 scenes keep the earlier composition-pattern inference path and are labelled `legacy-inferred` in the manifest. Unsupported explicit recipes or recipe versions fail before any canvas write. The output uses native text, frames, rows, pills, and connectors. Screenshot and image inputs are labelled `RASTER` and reported as missing replacement assets; unsupported object types get a visible `UNSUPPORTED` placeholder.
 
 The scene contract carries states, timed events, transition anchors, and normalized production-object semantics into the content hash, manifest, visible handoff rail, and compact readback. Changing a recipe, motion event, transition anchor, or production object therefore creates a new scene revision instead of silently reusing an outdated board.
 
@@ -40,4 +42,4 @@ The compact readback contains receipt status, scene IDs, scene revisions and has
 
 ## Production boundary
 
-These boards are editable production wireframes and static motion-direction artifacts. They do not prove easing, timing feel, audio synchronization, or final animation quality. Those require an animatic or rendered video review and a human production approval.
+These boards are editable production wireframes and static motion-direction artifacts. A contact sheet can verify hierarchy, causal order, object continuity, and editability. It does not prove easing, timing feel, audio synchronization, or final animation quality. Those require an animatic or rendered video review and a human production approval.

@@ -23,9 +23,9 @@ A normal research pass samples A plus at least two other tiers. Explain any exce
 
 1. State the target value story/product mechanism in one sentence.
 2. Build candidates across tiers and record provenance before analysis.
-3. Watch the work, not just its thumbnail or portfolio copy. Sample opening, mechanism reveal, proof, and ending; use additional timestamps where the visual logic changes.
+3. Watch the work, not just its thumbnail or portfolio copy. Sample opening, mechanism reveal, proof, and ending; use additional timestamps where the visual logic changes. For a sequential mechanism, record the inspected interval and observable setup, action, transformation, and result boundaries.
 4. Record industry, project/video type, narrative structure, composition, hierarchy/focal point, UI and illustration use, motion, transitions, pacing, text density, strengths, weaknesses, reusable principles, and risks.
-5. Distinguish observation from interpretation. Do not infer motion, pacing, or scene order from still imagery.
+5. Distinguish observation from interpretation. Do not infer motion, pacing, panel order, or scene order from still imagery.
 6. Rank relevance to the communication problem separately from craft quality.
 7. Abstract principles only after identifying what information relationship they clarify.
 
@@ -41,9 +41,9 @@ Try the canonical page first. If ordinary retrieval fails (for example, a 403 or
 
 ## Inspiration versus copying
 
-Allowed abstraction describes relationships: “keep action and result visible together,” “preserve an object across a state transition,” or “use progressive disclosure for a dense workflow.”
+Allowed abstraction describes relationships: “keep action and result visually connected,” “preserve an object across a state transition,” or “use progressive disclosure for a dense workflow.”
 
-Do not copy a studio's colors, illustration language, proprietary UI treatment, character design, signature transition, audio identity, exact wording, or sequence of scenes. Do not use “make it like Studio X” as direction. Combine principles from multiple sources and adapt them to the client's evidence, brand, and product mechanics.
+Do not copy a studio's colors, illustration language, proprietary UI treatment, character design, signature transition, audio identity, exact wording, shot order, timing, or sequence of scenes. Do not use “make it like Studio X” as direction. Combine principles from multiple sources and adapt them to the client's evidence, brand, and product mechanics.
 
 ## Competitor research boundary
 
@@ -57,4 +57,3 @@ Competitor intelligence asks what the market claims, proves, omits, and position
 - Concrete references and abstract patterns are separate artifacts.
 - Reusable principles explain why they work and when not to use them.
 - Non-copy risks are explicit.
-

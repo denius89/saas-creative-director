@@ -312,6 +312,10 @@ class MaintenanceTests(unittest.TestCase):
             (installed / MANIFEST_PATH).unlink()
             (installed / "core" / "release-policy.json").unlink()
             shutil.rmtree(installed / "core" / "defaults")
+            (installed / "core" / "VERSION").write_text("0.6.0\n", encoding="utf-8")
+            legacy_compatibility = json.loads((installed / "core" / "COMPATIBILITY.json").read_text())
+            legacy_compatibility["release"] = "0.6.0"
+            (installed / "core" / "COMPATIBILITY.json").write_text(json.dumps(legacy_compatibility) + "\n")
             shutil.rmtree(installed / "knowledge" / "current-motion")
             shutil.rmtree(installed / "knowledge" / "anti-patterns")
             (installed / "README.md").write_text("legacy product marker\n", encoding="utf-8")

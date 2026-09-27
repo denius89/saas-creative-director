@@ -7,10 +7,18 @@ The Motion Intelligence Layer turns an approved narrative into a current, eviden
 1. `creative-reference-research` retrieves concrete, inspected work separately from competitor research.
 2. `motion-design-director` selects two treatments, explains trade-offs, and creates representative frames.
 3. A human approves the narrative revision, direction revision, and representative frames.
-4. `storyboard-composition` expands scenes with stable semantic objects, states, events, and transition anchors.
+4. `storyboard-composition` treats each scene as a narrative beat and expands causal action into the minimum readable panels while preserving stable semantic objects, states, events, and transition anchors.
 5. The deterministic compiler maps approved recipes and tokens to a typed Figma manifest.
 6. The local Figma importer creates editable nodes and returns a compact readback report.
 7. `visual-qa` checks rendered output and readback, then localizes repairs to affected scenes.
+
+## Temporal storyboard model
+
+A narrative beat is not automatically one image. A panel is a representative drawing needed to communicate an action or state boundary. Production keyframes remain a later animation concern: they specify timed property values rather than whole storyboard drawings.
+
+For a causal product mechanism, panels expose the minimum setup, action, transformation, and result. One semantic product object can appear at different sizes, positions, crops, and content states across panels. Each panel declares how it follows the previous one, distinguishing a cut or dissolve from a continuous transform or camera move. A cursor move or decorative microinteraction does not earn its own panel unless it communicates a production-critical state.
+
+A simultaneous before/after comparison can be valid when comparison is the communication job. It must not replace the causal sequence or reveal the result before its trigger. When the sequence cannot be represented as editable panels, the workflow records a blocker instead of flattening it into an infographic.
 
 The normal client workflow uses one orchestrator and composable skills. It does not launch a standing group of agents. Model work chooses meaning; deterministic code handles repeated geometry, IDs, node names, and import bookkeeping.
 
@@ -39,6 +47,10 @@ Retrieval starts from the scene's communication mechanism, audience state, produ
 3. an anti-pattern or constraint relevant to the proposed treatment.
 
 Industry and visual similarity are secondary. A reference is useful because it solves a comparable communication problem, not because it looks fashionable. The output includes adaptation rationale and a non-copy boundary.
+
+## Contact sheet and animatic review
+
+The contact sheet verifies composition, product truth, panel order, object continuity, and editability. A timed animatic verifies durations, holds, transition rhythm, and synchronization with scratch voiceover or audio. Timing and pacing remain unverified when only static boards were inspected.
 
 ## Human approval and revision binding
 

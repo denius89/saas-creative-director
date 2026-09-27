@@ -347,6 +347,102 @@ def _validate_storyboard_semantics(value: dict[str, Any], path: str, issues: lis
                 if target_scene is not None and target_scene not in scene_ids:
                     issues.append(ValidationIssue(f"{item_path}.carry_to_scene_id", f"unknown scene id: {target_scene}"))
 
+        if value.get("schema_version") != "1.1" or scene.get("render_mode") != "panel-sequence":
+            continue
+
+        event_ids = {item.get("id") for item in scene.get("events", []) if isinstance(item, dict)}
+        visual_event_ids = {
+            item.get("id") for item in scene.get("events", [])
+            if isinstance(item, dict) and item.get("type") != "hold"
+        }
+        presentations: dict[str, set[str]] = {}
+        for object_index, obj in enumerate(objects):
+            if not isinstance(obj, dict) or not isinstance(obj.get("semantic_id"), str):
+                continue
+            presentation_ids: set[str] = set()
+            for presentation_index, presentation in enumerate(obj.get("presentations", [])):
+                if not isinstance(presentation, dict):
+                    continue
+                presentation_id = presentation.get("id")
+                presentation_path = f"{scene_path}.objects[{object_index}].presentations[{presentation_index}].id"
+                if presentation_id in presentation_ids:
+                    issues.append(ValidationIssue(presentation_path, f"duplicate presentation id: {presentation_id}"))
+                if isinstance(presentation_id, str):
+                    presentation_ids.add(presentation_id)
+            presentations[obj["semantic_id"]] = presentation_ids
+
+        panels = scene.get("panels", [])
+        panel_ids: set[str] = set()
+        represented_states: set[str] = set()
+        represented_events: set[str] = set()
+        previous_at = -1.0
+        previous_objects: set[str] = set()
+        for panel_index, panel in enumerate(panels):
+            if not isinstance(panel, dict):
+                continue
+            panel_path = f"{scene_path}.panels[{panel_index}]"
+            panel_id = panel.get("id")
+            if panel_id in panel_ids:
+                issues.append(ValidationIssue(f"{panel_path}.id", f"duplicate panel id: {panel_id}"))
+            if isinstance(panel_id, str):
+                panel_ids.add(panel_id)
+            at_seconds = panel.get("at_seconds")
+            hold_seconds = panel.get("hold_seconds")
+            if isinstance(at_seconds, (int, float)) and not isinstance(at_seconds, bool):
+                if at_seconds <= previous_at:
+                    issues.append(ValidationIssue(f"{panel_path}.at_seconds", "panel times must be strictly increasing"))
+                previous_at = float(at_seconds)
+                if (
+                    isinstance(hold_seconds, (int, float)) and not isinstance(hold_seconds, bool)
+                    and isinstance(duration, (int, float)) and not isinstance(duration, bool)
+                    and at_seconds + hold_seconds > duration
+                ):
+                    issues.append(ValidationIssue(f"{panel_path}.hold_seconds", "panel must end within the scene"))
+            state_id = panel.get("state_id")
+            if state_id not in state_ids:
+                issues.append(ValidationIssue(f"{panel_path}.state_id", f"unknown state id: {state_id}"))
+            elif isinstance(state_id, str):
+                represented_states.add(state_id)
+            for event_id in panel.get("event_ids", []):
+                if event_id not in event_ids:
+                    issues.append(ValidationIssue(f"{panel_path}.event_ids", f"unknown event id: {event_id}"))
+                elif isinstance(event_id, str):
+                    represented_events.add(event_id)
+            layer_objects: set[str] = set()
+            for layer_index, layer in enumerate(panel.get("layers", [])):
+                if not isinstance(layer, dict):
+                    continue
+                layer_path = f"{panel_path}.layers[{layer_index}]"
+                object_id = layer.get("object_id")
+                presentation_id = layer.get("presentation_id")
+                if object_id not in object_ids:
+                    issues.append(ValidationIssue(f"{layer_path}.object_id", f"unknown semantic object id: {object_id}"))
+                    continue
+                if isinstance(object_id, str):
+                    layer_objects.add(object_id)
+                if presentation_id not in presentations.get(str(object_id), set()):
+                    issues.append(ValidationIssue(f"{layer_path}.presentation_id", f"unknown presentation id for {object_id}: {presentation_id}"))
+            focal_object_id = panel.get("focal_object_id")
+            if focal_object_id not in layer_objects:
+                issues.append(ValidationIssue(f"{panel_path}.focal_object_id", "focal object must be visible in panel layers"))
+            if panel_index == 0 and panel.get("transition_from_previous") is not None:
+                issues.append(ValidationIssue(f"{panel_path}.transition_from_previous", "first panel cannot transition from a previous panel"))
+            if panel_index > 0 and panel.get("continuity") == "continuous" and not previous_objects.intersection(layer_objects):
+                issues.append(ValidationIssue(f"{panel_path}.continuity", "continuous panels must share at least one logical object"))
+            previous_objects = layer_objects
+
+        missing_events = sorted(event_id for event_id in visual_event_ids if isinstance(event_id, str) and event_id not in represented_events)
+        for event_id in missing_events:
+            issues.append(ValidationIssue(f"{scene_path}.panels", f"visual event is not represented by any panel: {event_id}"))
+        endpoint_states = {
+            state_id
+            for event in scene.get("events", []) if isinstance(event, dict)
+            for state_id in (event.get("from_state_id"), event.get("to_state_id"))
+            if isinstance(state_id, str)
+        }
+        for state_id in sorted(endpoint_states - represented_states):
+            issues.append(ValidationIssue(f"{scene_path}.panels", f"event endpoint state is not represented by any panel: {state_id}"))
+
 
 def _deduplicate(issues: list[ValidationIssue]) -> list[ValidationIssue]:
     seen: set[tuple[str, str, str]] = set()

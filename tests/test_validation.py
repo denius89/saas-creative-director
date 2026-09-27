@@ -1,3 +1,4 @@
+import copy
 import json
 import shutil
 import tempfile
@@ -83,6 +84,32 @@ class ValidationTests(unittest.TestCase):
             self.assertTrue(any("must not exceed scene duration" in issue.message for issue in issues))
             self.assertTrue(any("unknown semantic object id: missing" in issue.message for issue in issues))
             self.assertTrue(any("unknown scene id: S99" in issue.message for issue in issues))
+
+    def test_v1_1_panel_sequence_validates_temporal_and_identity_references(self):
+        fixture_path = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "figma" / "TEMPORAL_PANEL_STORYBOARD.json"
+        fixture = json.loads(fixture_path.read_text())
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name) / "project"
+            initialize_project(root, "Test")
+            write_json(root / "artifacts" / "storyboard.json", fixture)
+            issues = validate_project(root)
+            self.assertFalse(any(issue.path.startswith("artifacts/storyboard.json") for issue in issues), issues)
+
+            broken = copy.deepcopy(fixture)
+            panels = broken["scenes"][0]["panels"]
+            panels[1]["id"] = panels[0]["id"]
+            panels[2]["at_seconds"] = panels[1]["at_seconds"]
+            panels[3]["layers"][0]["presentation_id"] = "missing-presentation"
+            panels[4]["event_ids"] = []
+            panels[5]["focal_object_id"] = "S03/object/missing"
+            write_json(root / "artifacts" / "storyboard.json", broken)
+            issues = validate_project(root)
+            messages = [issue.message for issue in issues if issue.path.startswith("artifacts/storyboard.json")]
+            self.assertTrue(any("duplicate panel id" in message for message in messages))
+            self.assertTrue(any("strictly increasing" in message for message in messages))
+            self.assertTrue(any("unknown presentation id" in message for message in messages))
+            self.assertTrue(any("visual event is not represented" in message for message in messages))
+            self.assertTrue(any("focal object must be visible" in message for message in messages))
 
     def test_manifest_preflight_does_not_require_manifest_output(self):
         with tempfile.TemporaryDirectory() as name:

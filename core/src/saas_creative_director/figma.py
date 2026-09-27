@@ -12,6 +12,7 @@ from .workspace import read_json
 
 
 FIGMA_MANIFEST_VERSION = "1.0"
+SUPPORTED_FIGMA_MANIFEST_VERSIONS = frozenset({"1.0", "1.1"})
 ALLOWED_NODE_TYPES = frozenset(
     {
         "annotation-card",
@@ -170,13 +171,14 @@ def _production_semantics(scene: dict[str, Any]) -> dict[str, Any]:
     return {"objects": objects}
 
 
-def _compile_scene(scene: dict[str, Any], canvas: dict[str, Any], render_context: dict[str, Any]) -> dict[str, Any]:
+def _compile_scene(scene: dict[str, Any], canvas: dict[str, Any], render_context: dict[str, Any], manifest_version: str = "1.0") -> dict[str, Any]:
     result = compose_scene(scene, canvas)
     states = scene.get("states", []) if isinstance(scene.get("states", []), list) else []
     events = scene.get("events", []) if isinstance(scene.get("events", []), list) else []
     transition_anchors = scene.get("transition_anchors", []) if isinstance(scene.get("transition_anchors", []), list) else []
     production_semantics = _production_semantics(scene)
-    scene_source = {
+    sequence_mode = "panel-sequence" if scene.get("render_mode") == "panel-sequence" else "single-frame-legacy"
+    scene_source: dict[str, Any] = {
         "id": scene.get("id"),
         "declared_revision": scene.get("revision"),
         "purpose": scene.get("purpose"),
@@ -201,22 +203,57 @@ def _compile_scene(scene: dict[str, Any], canvas: dict[str, Any], render_context
         "evidence_ids": scene.get("evidence_ids", []),
         "production_semantics": production_semantics,
     }
-    nodes = [node.as_dict() for node in result.nodes]
-    scene_hash = _digest(
-        {
-            "scene": scene_source,
-            "recipe": result.recipe,
-            "nodes": nodes,
-            "render_context": render_context,
-        }
-    )
+    if manifest_version == "1.1":
+        scene_source["sequence_mode"] = sequence_mode
+        scene_source["panels"] = scene.get("panels", [])
+    layout_nodes = [node.as_dict() for node in result.nodes]
+    compiled_panels: list[dict[str, Any]] = []
+    if sequence_mode == "panel-sequence":
+        panel_nodes = {str(node.metadata.get("panel_id")): node for node in result.nodes}
+        for panel in scene.get("panels", []):
+            panel_id = str(panel["id"])
+            panel_node = panel_nodes[panel_id]
+            children = [child.as_dict() for child in panel_node.children]
+            compiled_panels.append({
+                "semantic_id": f"scene/{scene['id']}/panel/{panel_id}",
+                "id": panel_id,
+                "name": str(panel.get("purpose", panel_id)),
+                "at_seconds": panel.get("at_seconds"),
+                "duration_seconds": panel.get("hold_seconds"),
+                "state_id": panel.get("state_id"),
+                "event_ids": list(panel.get("event_ids", [])),
+                "continuity": panel.get("continuity"),
+                "transition_from_previous": panel.get("transition_from_previous"),
+                "focal_object_id": panel.get("focal_object_id"),
+                "nodes": children,
+                "object_instance_ids": [
+                    str(node["semantic_id"])
+                    for node in _flatten_nodes(children)
+                    if isinstance(node.get("metadata"), dict) and node["metadata"].get("object_id")
+                ],
+            })
+        nodes: list[dict[str, Any]] = []
+    else:
+        nodes = layout_nodes
+    hash_source = {
+        "scene": scene_source,
+        "recipe": result.recipe,
+        "nodes": nodes,
+        "render_context": render_context,
+    }
+    if manifest_version == "1.1":
+        hash_source["panels"] = compiled_panels
+    scene_hash = _digest(hash_source)
     scene_revision = str(scene.get("revision") or f"scene-{scene_hash}")
+    rendered_nodes = nodes if sequence_mode == "single-frame-legacy" else [
+        node for panel in compiled_panels for node in panel["nodes"]
+    ]
     raster_ids = [
         node["semantic_id"]
-        for node in _flatten_nodes(nodes)
+        for node in _flatten_nodes(rendered_nodes)
         if node["type"] == "raster-placeholder"
     ]
-    return {
+    compiled: dict[str, Any] = {
         "semantic_id": f"scene/{scene['id']}",
         "id": scene["id"],
         "name": f"{scene['id']} — {scene.get('purpose', 'Untitled')}",
@@ -249,6 +286,10 @@ def _compile_scene(scene: dict[str, Any], canvas: dict[str, Any], render_context
         "assets": {"raster_semantic_ids": raster_ids, "missing": raster_ids},
         "warnings": list(result.warnings),
     }
+    if manifest_version == "1.1":
+        compiled["sequence_mode"] = sequence_mode
+        compiled["panels"] = compiled_panels
+    return compiled
 
 
 def build_manifest(project_root: Path) -> dict[str, Any]:
@@ -281,9 +322,11 @@ def build_manifest(project_root: Path) -> dict[str, Any]:
         or project.get("content_revision")
         or f"storyboard-{_digest(storyboard, 12)}"
     )
-    scenes = [_compile_scene(scene, canvas, render_context) for scene in storyboard.get("scenes", [])]
+    storyboard_version = str(storyboard.get("schema_version", "0.5"))
+    manifest_version = "1.1" if storyboard_version == "1.1" else FIGMA_MANIFEST_VERSION
+    scenes = [_compile_scene(scene, canvas, render_context, manifest_version) for scene in storyboard.get("scenes", [])]
     manifest: dict[str, Any] = {
-        "schema_version": FIGMA_MANIFEST_VERSION,
+        "schema_version": manifest_version,
         "contract": "saas-creative-director/figma-manifest",
         "project": {
             "id": _slug(str(project.get("name", project_root.name))),
@@ -321,8 +364,8 @@ def preflight_manifest(manifest: Any) -> dict[str, int]:
     issues: list[str] = []
     if not isinstance(manifest, dict):
         raise FigmaManifestError(("$: must be an object",))
-    if manifest.get("schema_version") != FIGMA_MANIFEST_VERSION:
-        issues.append(f"schema_version: expected {FIGMA_MANIFEST_VERSION}")
+    if manifest.get("schema_version") not in SUPPORTED_FIGMA_MANIFEST_VERSIONS:
+        issues.append(f"schema_version: expected one of {sorted(SUPPORTED_FIGMA_MANIFEST_VERSIONS)}")
     if manifest.get("contract") != "saas-creative-director/figma-manifest":
         issues.append("contract: unsupported contract")
     _check_string(manifest.get("target_page"), "target_page", issues)
@@ -394,6 +437,10 @@ def preflight_manifest(manifest: Any) -> dict[str, int]:
         if not isinstance(scene, dict):
             issues.append(f"{scene_path}: must be an object")
             continue
+        if manifest.get("schema_version") == "1.0" and ("sequence_mode" in scene or "panels" in scene):
+            issues.append(f"{scene_path}: manifest 1.0 must not contain panel-sequence fields")
+        if manifest.get("schema_version") == "1.1" and ("sequence_mode" not in scene or "panels" not in scene):
+            issues.append(f"{scene_path}: manifest 1.1 requires sequence_mode and panels")
         scene_id = scene.get("id")
         if not isinstance(scene_id, str) or not re.fullmatch(r"S[0-9]{2,}", scene_id):
             issues.append(f"{scene_path}.id: must match S followed by at least two digits")
@@ -413,11 +460,26 @@ def preflight_manifest(manifest: Any) -> dict[str, int]:
         duration = scene.get("duration_seconds")
         if not _is_finite_number(duration) or duration <= 0:
             issues.append(f"{scene_path}.duration_seconds: must be a positive finite number")
+        sequence_mode = scene.get("sequence_mode", "single-frame-legacy")
+        if sequence_mode not in {"single-frame-legacy", "panel-sequence"}:
+            issues.append(f"{scene_path}.sequence_mode: unsupported mode")
         nodes = scene.get("nodes")
-        if not isinstance(nodes, list) or not nodes:
-            issues.append(f"{scene_path}.nodes: must be a non-empty array")
-            continue
-        flat_nodes = list(_flatten_nodes(nodes))
+        if not isinstance(nodes, list) or (sequence_mode != "panel-sequence" and not nodes):
+            issues.append(f"{scene_path}.nodes: must be a non-empty array unless panel-sequence is used")
+            nodes = []
+        panels = scene.get("panels", [])
+        if sequence_mode == "panel-sequence":
+            if not isinstance(panels, list) or not panels or len(panels) > 24:
+                issues.append(f"{scene_path}.panels: must contain 1-24 panels")
+                panels = []
+        elif panels not in (None, []):
+            issues.append(f"{scene_path}.panels: legacy scenes must not contain panels")
+            panels = []
+        render_node_roots = list(nodes)
+        for panel in panels:
+            if isinstance(panel, dict) and isinstance(panel.get("nodes"), list):
+                render_node_roots.extend(panel["nodes"])
+        flat_nodes = list(_flatten_nodes(render_node_roots))
         total_nodes += len(flat_nodes)
         if len(flat_nodes) > HARD_LIMITS["max_nodes_per_scene"]:
             issues.append(f"{scene_path}.nodes: exceeds {HARD_LIMITS['max_nodes_per_scene']}")
@@ -511,6 +573,69 @@ def preflight_manifest(manifest: Any) -> dict[str, int]:
                 total_text_chars += sum(
                     len(value) for value in obj.values() if isinstance(value, str)
                 )
+
+        if sequence_mode == "panel-sequence":
+            state_ids = {item.get("id") for item in scene.get("states", []) if isinstance(item, dict)}
+            event_ids = {item.get("id") for item in scene.get("events", []) if isinstance(item, dict)}
+            object_ids = {
+                item.get("semantic_id")
+                for item in (production_semantics.get("objects", []) if isinstance(production_semantics, dict) else [])
+                if isinstance(item, dict)
+            }
+            prior_at = -1.0
+            panel_ids: set[str] = set()
+            panel_semantic_ids: set[str] = set()
+            for panel_index, panel in enumerate(panels):
+                panel_path = f"{scene_path}.panels[{panel_index}]"
+                if not isinstance(panel, dict):
+                    issues.append(f"{panel_path}: must be an object")
+                    continue
+                panel_id = panel.get("id")
+                if not isinstance(panel_id, str) or not re.fullmatch(r"P[0-9]{2,}", panel_id):
+                    issues.append(f"{panel_path}.id: must match P followed by at least two digits")
+                elif panel_id in panel_ids:
+                    issues.append(f"{panel_path}.id: duplicate {panel_id}")
+                else:
+                    panel_ids.add(panel_id)
+                panel_semantic_id = panel.get("semantic_id")
+                _check_string(panel_semantic_id, f"{panel_path}.semantic_id", issues)
+                if isinstance(panel_semantic_id, str):
+                    if panel_semantic_id in panel_semantic_ids:
+                        issues.append(f"{panel_path}.semantic_id: duplicate {panel_semantic_id}")
+                    panel_semantic_ids.add(panel_semantic_id)
+                _check_string(panel.get("name"), f"{panel_path}.name", issues)
+                at_seconds = panel.get("at_seconds")
+                panel_duration = panel.get("duration_seconds")
+                if not _is_finite_number(at_seconds) or at_seconds < 0:
+                    issues.append(f"{panel_path}.at_seconds: must be a non-negative finite number")
+                elif at_seconds <= prior_at:
+                    issues.append(f"{panel_path}.at_seconds: must be strictly increasing")
+                else:
+                    prior_at = float(at_seconds)
+                if not _is_finite_number(panel_duration) or panel_duration <= 0:
+                    issues.append(f"{panel_path}.duration_seconds: must be a positive finite number")
+                elif _is_finite_number(at_seconds) and _is_finite_number(duration) and at_seconds + panel_duration > duration:
+                    issues.append(f"{panel_path}.duration_seconds: panel must end within the scene")
+                if panel.get("state_id") not in state_ids:
+                    issues.append(f"{panel_path}.state_id: unknown state id: {panel.get('state_id')}")
+                represented_events = panel.get("event_ids")
+                if not isinstance(represented_events, list) or any(item not in event_ids for item in represented_events):
+                    issues.append(f"{panel_path}.event_ids: contains an unknown event id")
+                if panel.get("continuity") not in {"continuous", "cut", "hold"}:
+                    issues.append(f"{panel_path}.continuity: unsupported value")
+                transition = panel.get("transition_from_previous")
+                if transition is not None and not isinstance(transition, str):
+                    issues.append(f"{panel_path}.transition_from_previous: must be a string or null")
+                if panel.get("focal_object_id") not in object_ids:
+                    issues.append(f"{panel_path}.focal_object_id: unknown semantic object id: {panel.get('focal_object_id')}")
+                instance_ids = panel.get("object_instance_ids")
+                actual_instance_ids = {
+                    node.get("semantic_id")
+                    for node in _flatten_nodes(panel.get("nodes", []))
+                    if isinstance(node, dict) and isinstance(node.get("metadata"), dict) and node["metadata"].get("object_id")
+                }
+                if not isinstance(instance_ids, list) or set(instance_ids) != actual_instance_ids:
+                    issues.append(f"{panel_path}.object_instance_ids: must exactly list rendered object instances")
 
         annotations = scene.get("annotations")
         if not isinstance(annotations, dict):

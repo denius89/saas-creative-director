@@ -219,8 +219,8 @@ function validateAnnotations(value, path, counters) {
 function preflight(raw) {
     const manifest = requireRecord(raw, "$manifest");
     assertKeys(manifest, "$manifest", ["schema_version", "contract", "project", "source_revision", "operation", "document_pages", "target_page", "canvas", "typography", "tokens", "recipes", "limits", "scenes", "warnings"]);
-    if (manifest.schema_version !== "1.0" || manifest.contract !== "saas-creative-director/figma-manifest")
-        throw new Error("Unsupported manifest contract; expected Figma manifest 1.0");
+    if ((manifest.schema_version !== "1.0" && manifest.schema_version !== "1.1") || manifest.contract !== "saas-creative-director/figma-manifest")
+        throw new Error("Unsupported manifest contract; expected Figma manifest 1.0 or 1.1");
     const manifestBytes = utf8Bytes(raw);
     if (manifestBytes > LIMITS.maxManifestBytes)
         throw new Error(`Manifest exceeds ${LIMITS.maxManifestBytes} bytes`);
@@ -265,7 +265,8 @@ function preflight(raw) {
     const scenes = manifest.scenes.map((sceneValue, sceneIndex) => {
         const path = `scenes[${sceneIndex}]`;
         const scene = requireRecord(sceneValue, path);
-        assertKeys(scene, path, ["semantic_id", "id", "name", "source_revision", "content_hash", "duration_seconds", "composition_pattern", "pattern_version", "recipe", "recipe_version", "recipe_selection", "nodes", "states", "events", "transition_anchors", "production_semantics", "annotations", "assets", "warnings"]);
+        const sceneKeys = ["semantic_id", "id", "name", "source_revision", "content_hash", "duration_seconds", "composition_pattern", "pattern_version", "recipe", "recipe_version", "recipe_selection", "nodes", "states", "events", "transition_anchors", "production_semantics", "annotations", "assets", "warnings"];
+        assertKeys(scene, path, [...sceneKeys, ...(manifest.schema_version === "1.1" ? ["sequence_mode", "panels"] : [])], sceneKeys);
         const sceneId = requireString(scene.id, `${path}.id`);
         if (!/^S[0-9]{2,}$/.test(sceneId) || sceneIds.has(sceneId))
             throw new Error(`${path}.id: invalid or duplicate`);
@@ -277,7 +278,7 @@ function preflight(raw) {
             throw new Error(`${path}.recipe_version: unsupported`);
         if (scene.recipe_selection !== "explicit" && scene.recipe_selection !== "legacy-inferred")
             throw new Error(`${path}.recipe_selection: unsupported`);
-        if (!Array.isArray(scene.nodes) || !scene.nodes.length)
+        if (!Array.isArray(scene.nodes) || (!scene.nodes.length && scene.sequence_mode !== "panel-sequence"))
             throw new Error(`${path}.nodes: expected non-empty array`);
         const beforeNodes = counters.nodes;
         const nodes = scene.nodes.map((node, nodeIndex) => validateNode(node, `${path}.nodes[${nodeIndex}]`, semanticIds, counters));
@@ -308,8 +309,76 @@ function preflight(raw) {
         if (!Array.isArray(productionValue.objects) || !productionValue.objects.length || productionValue.objects.length > 200)
             throw new Error(`${path}.production_semantics.objects: invalid array`);
         const productionObjects = productionValue.objects.map((item, index) => validateProductionObject(item, `${path}.production_semantics.objects[${index}]`));
+        let panels;
+        let sequenceMode;
+        if (manifest.schema_version === "1.1") {
+            if (scene.sequence_mode !== "single-frame-legacy" && scene.sequence_mode !== "panel-sequence")
+                throw new Error(`${path}.sequence_mode: invalid`);
+            sequenceMode = scene.sequence_mode;
+            if (sequenceMode === "panel-sequence" && nodes.length)
+                throw new Error(`${path}.nodes: panel sequences must use panels[].nodes only`);
+            if (!Array.isArray(scene.panels) || scene.panels.length > 24 || (sequenceMode === "panel-sequence" && !scene.panels.length))
+                throw new Error(`${path}.panels: expected 1–24 panels for a sequence`);
+            if (sequenceMode === "single-frame-legacy" && scene.panels.length)
+                throw new Error(`${path}.panels: legacy scenes must have no panels`);
+            const panelIds = new Set();
+            let previousTime = -1;
+            panels = scene.panels.map((value, index) => {
+                const panelPath = `${path}.panels[${index}]`;
+                const panel = requireRecord(value, panelPath);
+                assertKeys(panel, panelPath, ["semantic_id", "id", "name", "at_seconds", "duration_seconds", "state_id", "event_ids", "continuity", "transition_from_previous", "focal_object_id", "nodes", "object_instance_ids"]);
+                const id = requireString(panel.id, `${panelPath}.id`);
+                const semanticId = requireString(panel.semantic_id, `${panelPath}.semantic_id`);
+                if (panelIds.has(id) || semanticIds.has(semanticId))
+                    throw new Error(`${panelPath}: duplicate panel id`);
+                panelIds.add(id);
+                semanticIds.add(semanticId);
+                const at = requireNumber(panel.at_seconds, `${panelPath}.at_seconds`);
+                if (at < 0 || at > durationSeconds || (index > 0 && at <= previousTime))
+                    throw new Error(`${panelPath}.at_seconds: outside scene or unordered`);
+                previousTime = at;
+                const duration = requireNumber(panel.duration_seconds, `${panelPath}.duration_seconds`, true);
+                if (at + duration > durationSeconds + 0.000001)
+                    throw new Error(`${panelPath}.duration_seconds: exceeds scene`);
+                const stateId = requireString(panel.state_id, `${panelPath}.state_id`);
+                if (!states.some((state) => state.id === stateId))
+                    throw new Error(`${panelPath}.state_id: unknown state`);
+                const eventIds = requireStringArray(panel.event_ids, `${panelPath}.event_ids`);
+                if (eventIds.some((eventId) => !events.some((event) => event.id === eventId)))
+                    throw new Error(`${panelPath}.event_ids: unknown event`);
+                if (!["continuous", "cut", "hold"].includes(String(panel.continuity)))
+                    throw new Error(`${panelPath}.continuity: invalid`);
+                if (!Array.isArray(panel.nodes) || !panel.nodes.length)
+                    throw new Error(`${panelPath}.nodes: expected non-empty array`);
+                const objectIds = requireStringArray(panel.object_instance_ids, `${panelPath}.object_instance_ids`);
+                const panelNodes = panel.nodes.map((node, nodeIndex) => validateNode(node, `${panelPath}.nodes[${nodeIndex}]`, semanticIds, counters));
+                const instanceIds = new Set();
+                const visibleObjectIds = new Set();
+                const collectIds = (node) => {
+                    if (node.metadata && typeof node.metadata.object_id === "string") {
+                        instanceIds.add(node.semantic_id);
+                        visibleObjectIds.add(node.metadata.object_id);
+                    }
+                    for (const child of node.children || [])
+                        collectIds(child);
+                };
+                panelNodes.forEach(collectIds);
+                if (objectIds.length !== instanceIds.size || objectIds.some((objectId) => !instanceIds.has(objectId)))
+                    throw new Error(`${panelPath}.object_instance_ids: must exactly list rendered object instances`);
+                const focalObjectId = requireString(panel.focal_object_id, `${panelPath}.focal_object_id`);
+                if (!productionObjects.some((object) => object.semantic_id === focalObjectId) || !visibleObjectIds.has(focalObjectId))
+                    throw new Error(`${panelPath}.focal_object_id: must reference a visible production object`);
+                const transitionFromPrevious = requireNullableString(panel.transition_from_previous, `${panelPath}.transition_from_previous`) ?? null;
+                counters.text += String(panel.name).length + (typeof panel.transition_from_previous === "string" ? panel.transition_from_previous.length : 0);
+                return { semantic_id: semanticId, id, focal_object_id: focalObjectId, name: requireString(panel.name, `${panelPath}.name`), at_seconds: at, duration_seconds: duration, state_id: stateId, event_ids: eventIds, continuity: panel.continuity, transition_from_previous: transitionFromPrevious, nodes: panelNodes, object_instance_ids: objectIds };
+            });
+            if (counters.nodes - beforeNodes > LIMITS.maxNodesPerScene)
+                throw new Error(`${path}: rendered nodes exceed ${LIMITS.maxNodesPerScene}`);
+        }
         counters.text += productionObjects.reduce((total, item) => total + item.semantic_id.length + item.name.length + item.type.length + item.role.length + (item.asset_id || "").length, 0);
         return {
+            sequence_mode: sequenceMode,
+            panels,
             semantic_id: requireString(scene.semantic_id, `${path}.semantic_id`),
             id: sceneId,
             name: requireString(scene.name, `${path}.name`),
@@ -340,7 +409,7 @@ function preflight(raw) {
         throw new Error(`text exceeds ${LIMITS.maxTotalTextChars} total characters`);
     return {
         manifest: {
-            schema_version: "1.0",
+            schema_version: manifest.schema_version,
             contract: "saas-creative-director/figma-manifest",
             project: { id: requireString(project.id, "project.id"), name: requireString(project.name, "project.name") },
             source_revision: requireString(manifest.source_revision, "source_revision"),
@@ -511,7 +580,7 @@ function annotationRows(scene) {
         ["PURPOSE", `${a.purpose}\n${a.message}`],
         ["VO / COPY", `${a.voiceover || "—"}\n${a.on_screen_copy || "—"}`],
         ["MOTION / TRANSITION", `${a.motion.join(" → ") || "—"}\nOut: ${a.transition_out || "—"}`],
-        ["STATES / EVENTS", `${states}\nEvents: ${events}`],
+        ["STATES / EVENTS", `${states}\nEvents: ${events}${scene.panels?.length ? `\nPanels: ${scene.panels.map((panel) => `${panel.id}@${panel.at_seconds}s (${panel.continuity})`).join(" → ")}` : ""}`],
         ["ANCHORS / PRODUCTION", `${anchors}\nObjects:\n${production}`],
         ["SOURCES", `Refs: ${a.reference_ids.join(", ") || "—"}\nEvidence: ${a.evidence_ids.join(", ") || "—"}`],
         ["LOCKED", a.locked.join(" · ") || "—"],
@@ -556,11 +625,12 @@ async function createAnnotationPanel(scene, manifest, font, overflows) {
             const contentNode = await createText(content, { x: 16, y: 44, width: card.width - 32, height: height - 56 }, "body", font, manifest.tokens, `${card.name}_CONTENT`);
             contentNode.node.fills = solid(manifest.tokens.colors.text_on_accent);
             card.appendChild(contentNode.node);
-            if (contentNode.overflow)
-                overflows.push(`${scene.semantic_id}/annotations/${index + 1}`);
+            const actualHeight = Math.max(height, 56 + contentNode.node.height);
+            card.resize(card.width, actualHeight);
             panel.appendChild(card);
-            y += height + 12;
+            y += card.height + 12;
         }
+        panel.resize(panel.width, Math.max(manifest.canvas.height, y + 16));
         return panel;
     }
     catch (error) {
@@ -765,21 +835,48 @@ async function createBoard(scene, manifest, font, x) {
         board.setPluginData("scd:content-hash", scene.content_hash);
         board.setPluginData("scd:operation-id", manifest.operation.id);
         board.setPluginData("scd:operation-state", "draft");
-        const sceneFrame = figma.createFrame();
-        sceneFrame.name = "00_SCENE_CANVAS";
-        sceneFrame.resize(manifest.canvas.width, manifest.canvas.height);
-        sceneFrame.x = 0;
-        sceneFrame.y = 0;
-        sceneFrame.layoutMode = "NONE";
-        sceneFrame.clipsContent = true;
-        sceneFrame.fills = solid(manifest.tokens.colors.canvas);
-        sceneFrame.setPluginData("scd:managed", "true");
-        sceneFrame.setPluginData("scd:semantic-id", `${scene.semantic_id}/canvas`);
-        board.appendChild(sceneFrame);
         const overflows = [];
-        for (const node of scene.nodes)
-            await createNativeNode(node, sceneFrame, font, manifest.tokens, overflows);
-        board.appendChild(await createAnnotationPanel(scene, manifest, font, overflows));
+        const panels = scene.sequence_mode === "panel-sequence" ? scene.panels : undefined;
+        const panelNodeIds = [];
+        const gap = manifest.canvas.annotation_gap;
+        const headerHeight = 88;
+        const columns = Math.min(3, panels?.length || 1);
+        const gridWidth = columns * manifest.canvas.width + (columns - 1) * gap;
+        const rowHeight = manifest.canvas.height + headerHeight + gap;
+        const inputs = panels || [{ semantic_id: `${scene.semantic_id}/canvas`, id: "legacy", name: "00_SCENE_CANVAS", at_seconds: 0, continuity: "hold", nodes: scene.nodes }];
+        for (let index = 0; index < inputs.length; index += 1) {
+            const input = inputs[index];
+            const sceneFrame = figma.createFrame();
+            sceneFrame.name = panels ? `${input.id} · ${input.at_seconds}s · ${input.name}` : "00_SCENE_CANVAS";
+            sceneFrame.resize(manifest.canvas.width, manifest.canvas.height);
+            sceneFrame.x = (index % 3) * (manifest.canvas.width + gap);
+            sceneFrame.y = panels ? Math.floor(index / 3) * rowHeight + headerHeight : 0;
+            sceneFrame.layoutMode = "NONE";
+            sceneFrame.clipsContent = true;
+            sceneFrame.fills = solid(manifest.tokens.colors.canvas);
+            sceneFrame.setPluginData("scd:managed", "true");
+            sceneFrame.setPluginData("scd:semantic-id", input.semantic_id);
+            if (panels) {
+                sceneFrame.setPluginData("scd:panel-id", input.id);
+                sceneFrame.setPluginData("scd:panel", JSON.stringify({ ...panels[index], nodes: undefined }));
+            }
+            board.appendChild(sceneFrame);
+            panelNodeIds.push(sceneFrame.id);
+            for (const node of input.nodes)
+                await createNativeNode(node, sceneFrame, font, manifest.tokens, overflows);
+            if (panels) {
+                const detail = panels[index];
+                const label = await createText(`${detail.id} · ${detail.at_seconds}s · ${detail.continuity}\n${detail.name}${detail.transition_from_previous ? ` · ${detail.transition_from_previous}` : ""}`, { x: sceneFrame.x, y: sceneFrame.y - headerHeight, width: manifest.canvas.width, height: headerHeight - 12 }, "body", font, manifest.tokens, `PANEL_${detail.id}_META`, `${input.semantic_id}/meta`);
+                board.appendChild(label.node);
+                if (label.overflow)
+                    overflows.push(`${input.semantic_id}/meta`);
+            }
+        }
+        const notes = await createAnnotationPanel(scene, manifest, font, overflows);
+        notes.x = gridWidth + gap;
+        board.appendChild(notes);
+        const gridHeight = panels ? Math.ceil(panels.length / 3) * rowHeight - gap : manifest.canvas.height;
+        board.resize(gridWidth + gap + notes.width, Math.max(gridHeight, notes.height));
         saveGeneratedFingerprint(board);
         return {
             board,
@@ -799,6 +896,8 @@ async function createBoard(scene, manifest, font, x) {
                 eventIds: scene.events.map((item) => item.id),
                 transitionAnchorIds: scene.transition_anchors.map((item) => item.id),
                 productionObjectIds: scene.production_semantics.objects.map((item) => item.semantic_id),
+                panelIds: panels?.map((panel) => panel.id) || [],
+                panelNodeIds: panels ? panelNodeIds : [],
             },
         };
     }
@@ -824,6 +923,8 @@ function reusedReadback(scene, existing) {
         eventIds: scene.events.map((item) => item.id),
         transitionAnchorIds: scene.transition_anchors.map((item) => item.id),
         productionObjectIds: scene.production_semantics.objects.map((item) => item.semantic_id),
+        panelIds: scene.panels?.map((panel) => panel.id) || [],
+        panelNodeIds: existing.board.findAll((node) => Boolean(node.getPluginData("scd:panel-id"))).map((node) => node.id),
     };
 }
 async function importManifest(raw) {

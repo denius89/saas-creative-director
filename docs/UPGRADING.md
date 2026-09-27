@@ -15,7 +15,7 @@ The published 0.6 updater used a hard-coded inventory and cannot copy newly intr
 For an offline or pre-release package:
 
 ```bash
-./scd update --from /absolute/path/to/scd-core-v0.6.0.tar.gz
+./scd update --from /absolute/path/to/scd-core-v0.7.0.tar.gz
 ```
 
 A checked-out release directory is also accepted by `--from`, but it must contain the same complete verified manifest as a built release.

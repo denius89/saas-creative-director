@@ -1,0 +1,119 @@
+{
+  "fixture_version": "1.0",
+  "id": "TEMPORAL-CAUSAL-001",
+  "title": "Save one item and enable an alert",
+  "purpose": "Detect whether a causal UI workflow is storyboarded as readable time or collapsed into one presentation board.",
+  "duration_seconds": 8,
+  "communication_job": "Show that one selected catalog item becomes a saved item with notifications enabled.",
+  "facts": [
+    "The user has already selected one catalog item.",
+    "The selected item can become a saved-item card.",
+    "Email and mobile notifications can be enabled.",
+    "A save action produces a visible saved confirmation."
+  ],
+  "semantic_objects": [
+    {"id": "copy/save-once", "role": "promise"},
+    {"id": "item/selected", "role": "persistent-product-object"},
+    {"id": "controls/notifications", "role": "action-surface"},
+    {"id": "cursor/primary", "role": "interaction-cue"},
+    {"id": "action/save", "role": "cause"},
+    {"id": "status/saved", "role": "result"}
+  ],
+  "expected_sequence": [
+    {
+      "panel_id": "P01",
+      "continuity": "hold",
+      "transition_from_previous": null,
+      "boundary": "setup",
+      "visible_object_ids": ["copy/save-once"],
+      "required_observation": "The promise is readable without later UI states competing with it."
+    },
+    {
+      "panel_id": "P02",
+      "continuity": "cut",
+      "transition_from_previous": "Cut from the promise to the selected item.",
+      "boundary": "establish-object",
+      "visible_object_ids": ["item/selected"],
+      "required_observation": "The selected item is the dominant object."
+    },
+    {
+      "panel_id": "P03",
+      "continuity": "continuous",
+      "transition_from_previous": "The selected item compresses into a saved-item card.",
+      "boundary": "transformation-result",
+      "visible_object_ids": ["item/selected"],
+      "required_observation": "The same semantic item is now staged as a compact saved-item card."
+    },
+    {
+      "panel_id": "P04",
+      "continuity": "cut",
+      "transition_from_previous": "Cut or motivated push to notification controls.",
+      "boundary": "action-setup",
+      "visible_object_ids": ["controls/notifications", "cursor/primary"],
+      "required_observation": "Notification controls are legible before the state change."
+    },
+    {
+      "panel_id": "P05",
+      "continuity": "continuous",
+      "transition_from_previous": "The cursor activates the notification controls.",
+      "boundary": "action-result",
+      "visible_object_ids": ["controls/notifications", "cursor/primary"],
+      "required_observation": "Enabled controls are visibly different while preserving context."
+    },
+    {
+      "panel_id": "P06",
+      "continuity": "continuous",
+      "transition_from_previous": "The save action resolves into the saved confirmation.",
+      "boundary": "final-result",
+      "visible_object_ids": ["item/selected", "action/save", "status/saved"],
+      "required_observation": "The save cause and saved confirmation are clear, and the result appears only here."
+    }
+  ],
+  "transition_expectations": [
+    {
+      "from_panel_id": "P02",
+      "to_panel_id": "P03",
+      "type": "continuous-transform",
+      "shared_object_ids": ["item/selected"]
+    },
+    {
+      "from_panel_id": "P03",
+      "to_panel_id": "P04",
+      "type": "cut-or-motivated-camera-move",
+      "shared_object_ids": []
+    },
+    {
+      "from_panel_id": "P04",
+      "to_panel_id": "P05",
+      "type": "state-change",
+      "shared_object_ids": ["controls/notifications"]
+    },
+    {
+      "from_panel_id": "P05",
+      "to_panel_id": "P06",
+      "type": "action-to-result",
+      "shared_object_ids": ["item/selected"]
+    }
+  ],
+  "acceptance": {
+    "required": [
+      "The six causal boundaries are visually inspectable in order; equivalent panel consolidation is allowed only when no boundary becomes ambiguous.",
+      "item/selected keeps one semantic identity from the hero view to the compact card.",
+      "status/saved is absent before the save action.",
+      "The viewer can understand the sequence without reading a paragraph of production notes.",
+      "Cuts and continuous transforms are distinguishable.",
+      "A timed review covers the full eight seconds before pacing is scored."
+    ],
+    "blocking_failures": [
+      "Promise, selected item, notification controls, save action, and saved result are all shown as one simultaneous dashboard.",
+      "The saved result appears before its cause.",
+      "The selected item is recreated under unrelated semantic IDs across the transform.",
+      "Production must infer the order from prose because distinct states have no visible panels."
+    ],
+    "major_failures": [
+      "Every cursor movement is expanded into a separate panel without a new communication state.",
+      "A camera cut is labelled as a continuous object transform or vice versa.",
+      "Timing is scored from a static contact sheet alone."
+    ]
+  }
+}

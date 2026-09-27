@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import hashlib
+import re
 from typing import Any, Callable
 
 
@@ -261,6 +263,116 @@ def _focus_detail(scene: dict[str, Any], width: float, height: float) -> RecipeR
     return RecipeResult("focus-detail", nodes)
 
 
+def _instance_key(value: str) -> str:
+    """Return a stable path-safe suffix without replacing the logical object id."""
+    readable = re.sub(r"[^A-Za-z0-9._-]+", "-", value).strip("-")[:72] or "object"
+    digest = hashlib.sha256(value.encode("utf-8")).hexdigest()[:8]
+    return f"{readable}-{digest}"
+
+
+def compose_panel_nodes(scene: dict[str, Any], panel: dict[str, Any]) -> tuple[LayoutNode, ...]:
+    """Compile one explicit temporal panel from object/presentation references.
+
+    Logical object identity is retained in metadata while every rendered instance
+    receives a panel-scoped semantic id. This permits the same object to continue
+    through several panels without creating duplicate manifest node ids.
+    """
+    scene_id = str(scene["id"])
+    panel_id = str(panel["id"])
+    objects = {
+        str(obj.get("semantic_id")): obj
+        for obj in scene.get("objects", [])
+        if isinstance(obj, dict) and obj.get("semantic_id")
+    }
+    nodes: list[LayoutNode] = []
+    for index, layer in enumerate(panel.get("layers", []), start=1):
+        object_id = str(layer["object_id"])
+        presentation_id = str(layer["presentation_id"])
+        obj = objects.get(object_id, {})
+        presentations = {
+            str(item.get("id")): item
+            for item in obj.get("presentations", [])
+            if isinstance(item, dict) and item.get("id")
+        }
+        presentation = presentations.get(presentation_id, {})
+        bounds = presentation.get("bounds", obj.get("bounds", {}))
+        object_type = str(obj.get("type", "frame")).casefold()
+        if object_type in {"text", "copy", "headline", "label"}:
+            node_type = "text"
+        elif object_type in {"image", "screenshot", "raster", "raster-ui"}:
+            node_type = "raster-placeholder"
+        elif object_type in {"button", "pill", "toggle"}:
+            node_type = "pill"
+        elif object_type in {"row", "ui-row"}:
+            node_type = "ui-row"
+        elif object_type in {"card", "ui-card", "ui-panel", "ui-summary", "ui-flow", "native-ui", "component", "vehicle"}:
+            node_type = "ui-card"
+        else:
+            node_type = "frame"
+        instance_key = _instance_key(object_id)
+        text = presentation.get("text")
+        if text is None and node_type in {"text", "pill", "ui-row", "ui-card", "raster-placeholder"}:
+            text = str(obj.get("name", f"Object {index}"))
+        nodes.append(
+            _node(
+                scene_id,
+                f"panel/{panel_id}/instance/{instance_key}",
+                node_type,
+                str(obj.get("role", "supporting")),
+                (
+                    float(bounds.get("x", 0)),
+                    float(bounds.get("y", 0)),
+                    float(bounds.get("width", 1)),
+                    float(bounds.get("height", 1)),
+                ),
+                f"{panel_id}_{index:02d}_{str(obj.get('name', 'OBJECT')).upper()}",
+                text=str(text) if text is not None else None,
+                style=str(presentation.get("style", "raised")),
+                metadata={
+                    "object_id": object_id,
+                    "presentation_id": presentation_id,
+                    "panel_id": panel_id,
+                    "variant": presentation.get("variant"),
+                    "editable": bool(obj.get("editable", object_type not in {"image", "screenshot", "raster", "raster-ui"})),
+                },
+            )
+        )
+    return tuple(nodes)
+
+
+def _panel_sequence(scene: dict[str, Any], width: float, height: float, recipe: str, recipe_version: str, selection: str) -> RecipeResult:
+    gap = 64.0
+    columns = 3
+    nodes: list[LayoutNode] = []
+    for index, panel in enumerate(scene.get("panels", [])):
+        panel_id = str(panel["id"])
+        column = index % columns
+        row = index // columns
+        children = compose_panel_nodes(scene, panel)
+        nodes.append(
+            _node(
+                str(scene["id"]),
+                f"panel/{panel_id}",
+                "frame",
+                "storyboard-panel",
+                (column * (width + gap), row * (height + gap), width, height),
+                f"00_PANEL_{panel_id}",
+                style="surface",
+                children=children,
+                metadata={
+                    "panel_id": panel_id,
+                    "at_seconds": panel.get("at_seconds"),
+                    "hold_seconds": panel.get("hold_seconds"),
+                    "state_id": panel.get("state_id"),
+                    "event_ids": list(panel.get("event_ids", [])),
+                    "focal_object_id": panel.get("focal_object_id"),
+                    "camera": dict(panel.get("camera", {})),
+                },
+            )
+        )
+    return RecipeResult(recipe, tuple(nodes), (), recipe_version, selection)
+
+
 _RECIPE_BUILDERS: dict[str, Callable[[dict[str, Any], float, float], RecipeResult]] = {
     "source-convergence": _source_convergence,
     "horizontal-flow": _horizontal_flow,
@@ -293,6 +405,15 @@ def compose_scene(scene: dict[str, Any], canvas: dict[str, Any]) -> RecipeResult
         recipe = select_recipe(str(scene.get("composition_pattern", "")))
         recipe_version = "1.0"
         selection = "legacy-inferred"
+    if scene.get("render_mode") == "panel-sequence":
+        return _panel_sequence(
+            scene,
+            float(canvas["width"]),
+            float(canvas["height"]),
+            recipe,
+            recipe_version,
+            selection,
+        )
     result = _RECIPE_BUILDERS[recipe](scene, float(canvas["width"]), float(canvas["height"]))
     extra_nodes: list[LayoutNode] = []
     warnings = list(result.warnings)

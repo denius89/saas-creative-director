@@ -55,6 +55,34 @@ class FigmaManifestTests(unittest.TestCase):
         schema = json.loads((ROOT / "core" / "schemas" / "figma-manifest.schema.json").read_text())
         Draft202012Validator(schema).validate(first)
 
+    def test_legacy_storyboard_keeps_manifest_1_0_shape(self):
+        manifest = example_manifest()
+        self.assertEqual(manifest["schema_version"], "1.0")
+        self.assertTrue(all("sequence_mode" not in scene and "panels" not in scene for scene in manifest["scenes"]))
+
+    def test_temporal_panel_storyboard_compiles_to_manifest_1_1(self):
+        storyboard = json.loads((ROOT / "tests" / "fixtures" / "figma" / "TEMPORAL_PANEL_STORYBOARD.json").read_text())
+        storyboard_schema = json.loads((ROOT / "core" / "schemas" / "storyboard.schema.json").read_text())
+        Draft202012Validator(storyboard_schema).validate(storyboard)
+        manifest = example_manifest(storyboard=storyboard)
+        manifest_schema = json.loads((ROOT / "core" / "schemas" / "figma-manifest.schema.json").read_text())
+        Draft202012Validator(manifest_schema).validate(manifest)
+        self.assertEqual(manifest["schema_version"], "1.1")
+        scene = manifest["scenes"][0]
+        self.assertEqual(scene["sequence_mode"], "panel-sequence")
+        self.assertEqual(scene["nodes"], [])
+        self.assertEqual([panel["id"] for panel in scene["panels"]], ["P01", "P02", "P03", "P04", "P05", "P06"])
+        self.assertEqual(scene["panels"][2]["continuity"], "continuous")
+        vehicle_instances = []
+        for panel in scene["panels"]:
+            for node in flatten(panel["nodes"]):
+                if node.get("metadata", {}).get("object_id") == "S03/object/vehicle":
+                    vehicle_instances.append(node)
+        self.assertEqual(len(vehicle_instances), 3)
+        self.assertEqual(len({node["semantic_id"] for node in vehicle_instances}), 3)
+        self.assertEqual({node["metadata"]["object_id"] for node in vehicle_instances}, {"S03/object/vehicle"})
+        preflight_manifest(manifest)
+
     def test_three_recipes_have_distinct_deterministic_compositions(self):
         manifest = example_manifest()
         scenes_by_recipe = {}

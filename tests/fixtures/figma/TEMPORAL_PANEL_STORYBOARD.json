@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.1",
+  "revision": "set-it-once-r1",
+  "title": "Set it once panel sequence",
+  "total_duration_seconds": 8,
+  "scenes": [
+    {
+      "id": "S03",
+      "semantic_id": "scene/S03",
+      "revision": "S03-r1",
+      "duration_seconds": 8,
+      "purpose": "Show how one vehicle search becomes a persistent alert",
+      "message": "Set the search once and receive alerts automatically.",
+      "voiceover": "Set it once. We will watch the market and let you know.",
+      "on_screen_copy": "SET IT ONCE",
+      "composition_pattern": "focus-detail",
+      "pattern_version": "1.1",
+      "recipe": "focus-detail",
+      "recipe_version": "1.0",
+      "render_mode": "panel-sequence",
+      "objects": [
+        {
+          "semantic_id": "S03/object/title",
+          "name": "SET IT ONCE",
+          "type": "text",
+          "role": "copy",
+          "bounds": {"x": 360, "y": 430, "width": 1200, "height": 180},
+          "presentations": [
+            {"id": "title", "bounds": {"x": 360, "y": 430, "width": 1200, "height": 180}, "text": "SET IT ONCE", "style": "headline"}
+          ]
+        },
+        {
+          "semantic_id": "S03/object/vehicle",
+          "name": "1995 BMW M3",
+          "type": "vehicle",
+          "role": "primary",
+          "bounds": {"x": 510, "y": 180, "width": 900, "height": 620},
+          "presentations": [
+            {"id": "hero", "bounds": {"x": 510, "y": 180, "width": 900, "height": 620}, "variant": "vehicle-hero", "style": "accent-surface"},
+            {"id": "listing-card", "bounds": {"x": 190, "y": 330, "width": 380, "height": 300}, "variant": "vehicle-card", "style": "raised"}
+          ]
+        },
+        {
+          "semantic_id": "S03/object/settings",
+          "name": "Alert settings",
+          "type": "ui-panel",
+          "role": "primary",
+          "bounds": {"x": 620, "y": 210, "width": 980, "height": 650},
+          "presentations": [
+            {"id": "off", "bounds": {"x": 620, "y": 210, "width": 980, "height": 650}, "variant": "alerts-off", "style": "raised"},
+            {"id": "on", "bounds": {"x": 620, "y": 210, "width": 980, "height": 650}, "variant": "alerts-on", "style": "accent-surface"}
+          ]
+        },
+        {
+          "semantic_id": "S03/object/cursor",
+          "name": "Cursor",
+          "type": "component",
+          "role": "action",
+          "bounds": {"x": 1320, "y": 520, "width": 80, "height": 100},
+          "presentations": [
+            {"id": "click", "bounds": {"x": 1320, "y": 520, "width": 80, "height": 100}, "variant": "click", "style": "accent"}
+          ]
+        },
+        {
+          "semantic_id": "S03/object/save",
+          "name": "Save search",
+          "type": "button",
+          "role": "action",
+          "bounds": {"x": 1210, "y": 760, "width": 260, "height": 76},
+          "presentations": [
+            {"id": "saved", "bounds": {"x": 1210, "y": 760, "width": 260, "height": 76}, "text": "Saved", "style": "success"}
+          ]
+        }
+      ],
+      "attention_sequence": ["promise", "vehicle", "card", "settings", "toggles", "saved"],
+      "states": [
+        {"id": "promise", "at_seconds": 0, "object_ids": ["S03/object/title"], "description": "Promise only"},
+        {"id": "vehicle-hero", "at_seconds": 1, "object_ids": ["S03/object/vehicle"], "description": "Selected vehicle established"},
+        {"id": "vehicle-card", "at_seconds": 2.2, "object_ids": ["S03/object/vehicle"], "description": "Vehicle becomes a saved-search card"},
+        {"id": "settings-off", "at_seconds": 3.4, "object_ids": ["S03/object/vehicle", "S03/object/settings"], "description": "Alert settings are visible and off"},
+        {"id": "settings-on", "at_seconds": 4.8, "object_ids": ["S03/object/settings", "S03/object/cursor"], "description": "Email and SMS alerts are enabled"},
+        {"id": "saved", "at_seconds": 6.2, "object_ids": ["S03/object/settings", "S03/object/save"], "description": "Search is saved"}
+      ],
+      "events": [
+        {"id": "shrink-to-card", "at_seconds": 2, "duration_seconds": 0.2, "type": "transform", "object_ids": ["S03/object/vehicle"], "from_state_id": "vehicle-hero", "to_state_id": "vehicle-card", "description": "Vehicle shrinks into a card"},
+        {"id": "open-settings", "at_seconds": 3.2, "duration_seconds": 0.2, "type": "state-change", "object_ids": ["S03/object/settings"], "from_state_id": "vehicle-card", "to_state_id": "settings-off", "description": "Alert settings open"},
+        {"id": "enable-alerts", "at_seconds": 4.5, "duration_seconds": 0.3, "type": "state-change", "object_ids": ["S03/object/settings", "S03/object/cursor"], "from_state_id": "settings-off", "to_state_id": "settings-on", "description": "Cursor enables Email and SMS"},
+        {"id": "save-search", "at_seconds": 6, "duration_seconds": 0.2, "type": "state-change", "object_ids": ["S03/object/save"], "from_state_id": "settings-on", "to_state_id": "saved", "description": "Save search confirms the result"}
+      ],
+      "panels": [
+        {"id": "P01", "at_seconds": 0, "hold_seconds": 0.8, "purpose": "State the promise", "state_id": "promise", "event_ids": [], "focal_object_id": "S03/object/title", "continuity": "cut", "transition_from_previous": null, "camera": {"framing": "title", "movement": "static"}, "layers": [{"object_id": "S03/object/title", "presentation_id": "title"}]},
+        {"id": "P02", "at_seconds": 1, "hold_seconds": 1, "purpose": "Establish the chosen vehicle", "state_id": "vehicle-hero", "event_ids": [], "focal_object_id": "S03/object/vehicle", "continuity": "cut", "transition_from_previous": "Title clears before the vehicle enters", "camera": {"framing": "hero", "movement": "static"}, "layers": [{"object_id": "S03/object/vehicle", "presentation_id": "hero"}]},
+        {"id": "P03", "at_seconds": 2.2, "hold_seconds": 0.8, "purpose": "Turn the vehicle into a reusable card", "state_id": "vehicle-card", "event_ids": ["shrink-to-card"], "focal_object_id": "S03/object/vehicle", "continuity": "continuous", "transition_from_previous": "Vehicle scales down without identity loss", "camera": {"framing": "medium", "movement": "pull-out"}, "layers": [{"object_id": "S03/object/vehicle", "presentation_id": "listing-card"}]},
+        {"id": "P04", "at_seconds": 3.4, "hold_seconds": 1, "purpose": "Reveal the alert controls", "state_id": "settings-off", "event_ids": ["open-settings"], "focal_object_id": "S03/object/settings", "continuity": "continuous", "transition_from_previous": "Settings expand beside the vehicle card", "camera": {"framing": "detail", "movement": "push-in"}, "layers": [{"object_id": "S03/object/vehicle", "presentation_id": "listing-card"}, {"object_id": "S03/object/settings", "presentation_id": "off"}]},
+        {"id": "P05", "at_seconds": 4.8, "hold_seconds": 1, "purpose": "Show the user enabling alerts", "state_id": "settings-on", "event_ids": ["enable-alerts"], "focal_object_id": "S03/object/settings", "continuity": "continuous", "transition_from_previous": "Cursor enters the unchanged settings panel", "camera": {"framing": "ui-closeup", "movement": "static"}, "layers": [{"object_id": "S03/object/settings", "presentation_id": "on"}, {"object_id": "S03/object/cursor", "presentation_id": "click"}]},
+        {"id": "P06", "at_seconds": 6.2, "hold_seconds": 1.5, "purpose": "Confirm the saved result", "state_id": "saved", "event_ids": ["save-search"], "focal_object_id": "S03/object/save", "continuity": "continuous", "transition_from_previous": "Settings hold while Save confirms", "camera": {"framing": "result", "movement": "static"}, "layers": [{"object_id": "S03/object/settings", "presentation_id": "on"}, {"object_id": "S03/object/save", "presentation_id": "saved"}]}
+      ],
+      "motion": ["Vehicle continues from hero to card", "Controls reveal only after the card is established"],
+      "transition_anchors": [
+        {"id": "out", "edge": "out", "at_seconds": 8, "object_id": "S03/object/save", "state_id": "saved", "description": "Carry saved confirmation"}
+      ],
+      "transition_out": "saved confirmation hold",
+      "locked": ["one dominant action per panel", "result follows user action"],
+      "creative_freedom": ["vehicle treatment", "cursor easing"],
+      "reference_ids": [],
+      "evidence_ids": []
+    }
+  ]
+}

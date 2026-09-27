@@ -20,7 +20,7 @@ from pathlib import Path, PurePosixPath
 from typing import Iterator
 
 
-INSTALLER_VERSION = "0.6.0"
+INSTALLER_VERSION = "0.7.0"
 MANIFEST_PATH = "core/release-manifest.json"
 POLICY_PATH = "core/release-policy.json"
 LEGACY_BACKUP_NAME = re.compile(r"v(?P<version>\d+\.\d+\.\d+)-(?P<stamp>\d{8}T\d{6}Z)\.tar\.gz")

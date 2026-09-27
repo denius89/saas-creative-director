@@ -4,10 +4,13 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-09-27
+
 ### Added
 
+- Temporal storyboard guidance for scene/panel decomposition, semantic-object continuity, causal-order Visual QA, timed-animatic review, and a brand-neutral saved-alert regression fixture.
 - Motion Intelligence Layer with `motion-design-director`, representative-frame approval, scene-level retrieval guidance, visual QA, dated current-motion knowledge, conditional anti-patterns, and blind A/B evaluation protocol.
-- Deterministic Figma manifest 1.0 with three composition recipes, stable semantic IDs, native editable nodes, visible handoff notes, raster/unsupported markers, compact readback, safe retries, and page-level operation receipts.
+- Deterministic Figma manifest 1.0/1.1 with three composition recipes, editable temporal panel clusters, stable semantic IDs, visible handoff notes, raster/unsupported markers, compact readback, safe retries, and page-level operation receipts.
 - Runtime JSON Schema validation, Motion Direction and Visual QA contracts, storyboard states/events/transition anchors, revision-bound approval gates, request-changes flow, context packets, dependency-aware project cache, and privacy-minimal usage ledger.
 - Strict release inventory, protected factory defaults, exact release manifest, bounded safe archive extraction, update lock/journal/recovery, transaction rollback, and private-data canary tests.
 - Russian update guide for a non-technical Pro/Max user plus security, data-handling, usage/billing, Figma workflow, and live-verification documentation.
@@ -19,9 +22,9 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 - The default workflow uses Pro/Max included usage, bounded stage context, two directions, top-three retrieval, and targeted repairs; paid Usage credits and API billing remain user-controlled.
 - `INBOX`, projects, configuration, overrides, and custom knowledge are excluded from update and release inventories.
 
-### Pending release acceptance
+### Known preview limitations
 
-- Complete the documented live Figma canvas checklist before tagging this work as a stable release.
+- Complete the documented live Figma canvas checklist before removing Preview status.
 - Promote provisional reference annotations to gold only after two full-playback reviewers reconcile timestamped labels.
 
 ## [0.6.0] - 2026-09-26
@@ -58,6 +61,7 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 - V0.4: visual grammar, storyboard composition, and Figma scaffold.
 - V0.5: production review, evals, example, onboarding, and lifecycle management.
 
-[Unreleased]: https://github.com/denius89/saas-creative-director/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/denius89/saas-creative-director/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/denius89/saas-creative-director/releases/tag/v0.7.0
 [0.6.0]: https://github.com/denius89/saas-creative-director/releases/tag/v0.6.0
 [0.5.0]: https://github.com/denius89/saas-creative-director/releases/tag/v0.5.0

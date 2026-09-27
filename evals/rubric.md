@@ -10,8 +10,7 @@ Score each dimension from 0–2. Production approval requires no blocking failur
 | Competitive usefulness | link dump/copying | patterns only | qualified gaps shape strategy |
 | Reference synthesis | moodboard | described examples | reusable principles, risks, non-copy boundary |
 | Narrative | feature sequence | coherent verbal story | verbal and visual causality progress together |
-| Composition | decorative frames | workable layouts | hierarchy and attention support scene purpose |
-| Handoff readiness | flattened/ambiguous | mostly editable | editable, timed, named, annotated, locked/free split |
+| Composition | decorative or temporally collapsed frames | workable layouts | hierarchy, panels, and attention support the beat in causal order |
+| Handoff readiness | flattened/ambiguous | mostly editable | editable, timed, named, panel-aware, annotated, locked/free split |
 
-Blocking failures: fabricated claim, hidden hypothesis, unapproved gate bypass, copied competitor expression, inaccessible critical source, invalid scene timing, or non-editable final wireframes.
-
+Blocking failures: fabricated claim, hidden hypothesis, unapproved gate bypass, copied competitor expression, inaccessible critical source, a causal sequence collapsed into one simultaneous board, invalid scene timing, or non-editable final wireframes.

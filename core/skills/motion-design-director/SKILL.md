@@ -16,6 +16,8 @@ Propose two meaningfully different treatments with trade-offs. Recommend one usi
 - production tokens, asset gaps, conditional anti-pattern checks, and explicit exceptions;
 - reference scene and evidence IDs, adaptation rationale, non-copy boundaries, locked decisions, and creative freedom.
 
-Create two or three representative composition frames that cover the densest product scene, the main transformation/proof, and an opening or ending. Do not expand the whole storyboard until a person approves the selected narrative, direction, and representative frames. Do not assign arbitrary medium ratios such as a fixed UI percentage without a defined measurement and project-specific reason.
+Create two or three representative compositions that cover the densest product beat, the main transformation/proof, and an opening or ending. A static frame is sufficient for a stable title or result. When the communication job depends on causality, make the representative composition a short sequence showing the minimum setup, action, and result panels, with the persistent semantic object and intended cut or continuous transition identified. Do not approve a single composite that displays consecutive states at once unless comparison or summary is the stated purpose.
+
+Do not expand the whole storyboard until a person approves the selected narrative, direction, and representative frames or sequences. Do not assign arbitrary medium ratios such as a fixed UI percentage without a defined measurement and project-specific reason.
 
 This is production wireframe direction, not final illustration style. A current portfolio page, a studio's marketing description, or a fashionable material is not proof of effectiveness. Unknown product behavior remains a hypothesis or blocker.

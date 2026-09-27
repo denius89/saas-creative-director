@@ -1,6 +1,6 @@
 {
   "name": "saas-creative-director-figma-importer",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.json",

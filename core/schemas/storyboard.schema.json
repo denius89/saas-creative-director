@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["title", "total_duration_seconds", "scenes"],
   "properties": {
-    "schema_version": {"enum": ["0.5", "1.0"]},
+    "schema_version": {"enum": ["0.5", "1.0", "1.1"]},
     "revision": {"type": "string", "minLength": 1, "maxLength": 200},
     "title": {"type": "string", "minLength": 1, "maxLength": 300},
     "total_duration_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 3600},
@@ -17,6 +17,13 @@
       "then": {
         "required": ["revision"],
         "properties": {"scenes": {"items": {"$ref": "#/$defs/scene-v1"}}}
+      }
+    },
+    {
+      "if": {"required": ["schema_version"], "properties": {"schema_version": {"const": "1.1"}}},
+      "then": {
+        "required": ["revision"],
+        "properties": {"scenes": {"items": {"$ref": "#/$defs/scene-v1.1"}}}
       }
     }
   ],
@@ -42,9 +49,56 @@
         "role": {"type": "string", "minLength": 1, "maxLength": 100},
         "bounds": {"$ref": "#/$defs/bounds"},
         "asset_id": {"type": ["string", "null"], "maxLength": 200},
-        "editable": {"type": "boolean"}
+        "editable": {"type": "boolean"},
+        "presentations": {"type": "array", "minItems": 1, "maxItems": 24, "items": {"$ref": "#/$defs/presentation"}}
       },
       "additionalProperties": true
+    },
+    "presentation": {
+      "type": "object",
+      "required": ["id", "bounds"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,99}$"},
+        "bounds": {"$ref": "#/$defs/bounds"},
+        "variant": {"type": "string", "minLength": 1, "maxLength": 100},
+        "text": {"type": "string", "maxLength": 4000},
+        "style": {"type": "string", "minLength": 1, "maxLength": 100}
+      },
+      "additionalProperties": false
+    },
+    "panel-layer": {
+      "type": "object",
+      "required": ["object_id", "presentation_id"],
+      "properties": {
+        "object_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$"},
+        "presentation_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]{0,99}$"}
+      },
+      "additionalProperties": false
+    },
+    "panel": {
+      "type": "object",
+      "required": ["id", "at_seconds", "hold_seconds", "purpose", "state_id", "event_ids", "focal_object_id", "continuity", "layers"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^P[0-9]{2,}$"},
+        "at_seconds": {"type": "number", "minimum": 0, "maximum": 3600},
+        "hold_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 3600},
+        "purpose": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "state_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "event_ids": {"type": "array", "uniqueItems": true, "maxItems": 24, "items": {"type": "string", "maxLength": 200}},
+        "focal_object_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "continuity": {"enum": ["continuous", "cut", "hold"]},
+        "transition_from_previous": {"type": ["string", "null"], "maxLength": 1000},
+        "camera": {
+          "type": "object",
+          "properties": {
+            "framing": {"enum": ["title", "wide", "hero", "medium", "detail", "ui-closeup", "result", "split"]},
+            "movement": {"enum": ["static", "push-in", "pull-out", "track", "pan", "none"]}
+          },
+          "additionalProperties": false
+        },
+        "layers": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"$ref": "#/$defs/panel-layer"}}
+      },
+      "additionalProperties": false
     },
     "state": {
       "type": "object",
@@ -108,6 +162,8 @@
         "events": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/event"}},
         "motion": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
         "transition_anchors": {"type": "array", "maxItems": 24, "items": {"$ref": "#/$defs/anchor"}},
+        "render_mode": {"enum": ["single-frame-legacy", "panel-sequence"]},
+        "panels": {"type": "array", "minItems": 1, "maxItems": 12, "items": {"$ref": "#/$defs/panel"}},
         "transition_out": {"type": "string", "maxLength": 1000},
         "locked": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
         "creative_freedom": {"type": "array", "items": {"type": "string", "maxLength": 1000}},
@@ -131,6 +187,26 @@
               }
             }
           }
+        }
+      ]
+    },
+    "scene-v1.1": {
+      "allOf": [
+        {"$ref": "#/$defs/scene-v1"},
+        {
+          "required": ["render_mode"],
+          "allOf": [
+            {
+              "if": {"properties": {"render_mode": {"const": "panel-sequence"}}},
+              "then": {
+                "required": ["panels"],
+                "properties": {
+                  "objects": {"items": {"required": ["presentations"]}}
+                }
+              },
+              "else": {"not": {"required": ["panels"]}}
+            }
+          ]
         }
       ]
     }

@@ -199,7 +199,72 @@ async function assertVisualEditDetected(label, mutate) {
   const legacyRetry = await send(legacyRuntime, legacyManifest);
   assert.equal(legacyRetry.conflicts, 0, "unchanged legacy boards should not be reported as edited");
 
-  console.log("receipt reimport tests passed");
+  const panelRuntime = createRuntime();
+  const panelScene = scene("S01", "panel-r1", "7777777777777777", "unused");
+  panelScene.nodes = [];
+  panelScene.sequence_mode = "panel-sequence";
+  panelScene.panels = Array.from({ length: 4 }, (_, index) => ({
+    semantic_id: `scene/S01/panel/P0${index + 1}`, id: `P0${index + 1}`, name: `State ${index + 1}`,
+    at_seconds: index, duration_seconds: 1, state_id: "hero", event_ids: ["hold"],
+    focal_object_id: "S01/hero",
+    continuity: index ? "continuous" : "cut", transition_from_previous: index ? "Carry product" : null,
+    nodes: [{ semantic_id: `S01/P0${index + 1}/headline`, type: "text", role: "copy", name: "PANEL_COPY", bounds: { x: 20, y: 20, width: 500, height: 80 }, style: "headline", text: `Panel ${index + 1}`, metadata: { object_id: "S01/hero" } }],
+    object_instance_ids: [`S01/P0${index + 1}/headline`],
+  }));
+  const panelManifest = manifest("op-panels", "ffffffffffffffffffffffff", [panelScene]);
+  panelManifest.schema_version = "1.1";
+  const panelResult = await send(panelRuntime, panelManifest);
+  assert.equal(panelResult.created, 1, "one revision container per scene");
+  assert.equal(panelResult.scenes[0].panelIds.length, 4);
+  const panels = panelRuntime.page.findAll((node) => Boolean(node.getPluginData("scd:panel-id")));
+  assert.equal(panels.length, 4);
+  assert.equal(panels[0].y, panels[2].y);
+  assert.equal(panels[3].x, panels[0].x, "fourth panel starts a second row");
+  assert.ok(panels[3].y >= panels[0].y + panels[0].height);
+  assert.ok(panels.every((panel) => panel.width === 800 && panel.height === 600));
+  assert.equal(panelRuntime.page.findAll((node) => node.name === "90_VISIBLE_HANDOFF_NOTES").length, 1);
+  const panelRetry = await send(panelRuntime, panelManifest);
+  assert.equal(panelRetry.created, 0);
+  panels[1].children[0].characters = "Human correction";
+  const editedRetry = await send(panelRuntime, panelManifest);
+  assert.equal(editedRetry.conflicts, 1);
+  assert.equal(panels[1].children[0].characters, "Human correction");
+  const changedPanels = JSON.parse(JSON.stringify(panelManifest));
+  changedPanels.operation = { ...changedPanels.operation, id: "op-panels-v2", manifest_hash: "121212121212121212121212" };
+  changedPanels.scenes[0].content_hash = "8888888888888888";
+  changedPanels.scenes[0].source_revision = "panel-r2";
+  changedPanels.scenes[0].panels[0].nodes[0].text = "Revised sequence";
+  const changedResult = await send(panelRuntime, changedPanels);
+  assert.equal(changedResult.created, 1, "panel change creates one complete scene revision");
+  assert.equal(panelRuntime.page.findAll((node) => node.getPluginData("scd:board") === "true").length, 2);
+  assert.equal(panels[1].children[0].characters, "Human correction", "old revision remains untouched");
+  for (const mutate of [
+    (value) => { value.scenes[0].panels[1].id = "P01"; },
+    (value) => { value.scenes[0].panels[0].state_id = "unknown"; },
+    (value) => { value.scenes[0].panels[0].event_ids = ["unknown"]; },
+    (value) => { value.scenes[0].panels[0].duration_seconds = 20; },
+    (value) => { value.scenes[0].panels[2].at_seconds = value.scenes[0].panels[1].at_seconds; },
+    (value) => { value.scenes[0].panels[0].object_instance_ids = []; },
+    (value) => { value.scenes[0].panels[0].focal_object_id = "S01/missing"; },
+  ]) {
+    const invalid = JSON.parse(JSON.stringify(panelManifest));
+    mutate(invalid);
+    const invalidRuntime = createRuntime();
+    await invalidRuntime.figma.ui.onmessage({ type: "import", manifest: invalid });
+    assert.equal(invalidRuntime.messages.at(-1).type, "error");
+    assert.equal(invalidRuntime.page.children.length, 0, "invalid panels fail before canvas writes");
+  }
+
+  if (process.env.SCD_FIGMA_MANIFEST) {
+    const compiled = JSON.parse(fs.readFileSync(process.env.SCD_FIGMA_MANIFEST, "utf8"));
+    const compiledRuntime = createRuntime();
+    const compiledResult = await send(compiledRuntime, compiled);
+    assert.equal(compiledResult.created, compiled.scenes.length);
+    const compiledRetry = await send(compiledRuntime, compiled);
+    assert.equal(compiledRetry.created, 0);
+    assert.equal(compiledRetry.reused, compiled.scenes.length);
+  }
+  console.log("receipt and panel-sequence importer tests passed");
 })().catch((error) => {
   console.error(error);
   process.exitCode = 1;

@@ -75,6 +75,24 @@
       "repair": "Add the minimum boundary states and semantic anchor needed to explain the change.",
       "exceptions": "A result-only scene is valid when causality was established immediately before it.",
       "severity": "major"
+    },
+    {
+      "id": "ANTI-009",
+      "name": "Temporal sequence collapsed into a presentation board",
+      "trigger": "Setup, user action, intermediate transformation, and result that occur at different times are displayed together in one storyboard image.",
+      "why_it_fails": "The viewing order is ambiguous, the result can appear before its cause, and production must invent the edit and timing.",
+      "repair": "Separate the minimum causal boundary panels, preserve semantic objects across them, and mark cuts versus continuous transforms.",
+      "exceptions": "An explicitly labelled comparison or summary may show simultaneous states after the causal sequence has already been established.",
+      "severity": "blocking"
+    },
+    {
+      "id": "ANTI-010",
+      "name": "Mechanical panel over-segmentation",
+      "trigger": "Every cursor movement, focus shift, or decorative microinteraction becomes a separate panel although no new story state or staging decision is communicated.",
+      "why_it_fails": "The storyboard becomes expensive to review, obscures the meaningful beats, and implies cuts or holds that production does not need.",
+      "repair": "Keep continuous detail in one transition and add a panel only when a new drawing is required to understand action, state, staging, or result.",
+      "exceptions": "A production-critical interaction may need extra poses when its exact choreography is the approved communication mechanism.",
+      "severity": "major"
     }
   ]
 }
